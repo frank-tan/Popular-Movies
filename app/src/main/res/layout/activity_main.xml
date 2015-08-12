@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_moviesgrid"
-        android:name="com.franktan.popularmovies.MoviesGrid"
+        android:name="com.franktan.popularmovies.MoviesGridFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
