@@ -1,2 +1,2 @@
 # Popular Movies App
-An Android app developer for Android Nanodegree
+An Android app developed for [Android Developer Nanodegree](https://www.udacity.com/course/android-developer-nanodegree--nd801).
