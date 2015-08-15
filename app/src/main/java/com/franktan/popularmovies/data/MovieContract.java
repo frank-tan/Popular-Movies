@@ -2,19 +2,17 @@ package com.franktan.popularmovies.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.Time;
-
-import com.franktan.popularmovies.R;
 
 /**
  * Defines database tables and columns names
  * Created by tan on 13/08/2015.
  */
 public class MovieContract {
-    public static final String CONTENT_AUTHORITY = Resources.getSystem().getString(R.string.content_authority);
+    public static final String CONTENT_AUTHORITY = "com.franktan.popularmovies";
+//            Resources.getSystem().getString(R.string.content_authority);
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_MOVIE = "movie";
 

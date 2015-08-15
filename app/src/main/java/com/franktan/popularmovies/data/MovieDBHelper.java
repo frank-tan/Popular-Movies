@@ -11,7 +11,7 @@ import com.franktan.popularmovies.data.MovieContract.MovieEntry;
  */
 public class MovieDBHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "popular_movie.db";
 
@@ -28,7 +28,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                 MovieEntry.COLUMN_ORIGINAL_LAN      + " TEXT NOT NULL, " +
                 MovieEntry.COLUMN_ORIGINAL_TITLE    + " TEXT NOT NULL, " +
                 MovieEntry.COLUMN_OVERVIEW          + " TEXT NOT NULL, " +
-                MovieEntry.COLUMN_RELEASE_DATE      + " REAL NOT NULL, " +
+                MovieEntry.COLUMN_RELEASE_DATE      + " INTEGER NOT NULL, " +
                 MovieEntry.COLUMN_POSTER_PATH       + " TEXT NOT NULL, " +
                 MovieEntry.COLUMN_POPULARITY        + " REAL NOT NULL, " +
                 MovieEntry.COLUMN_TITLE             + " TEXT NOT NULL, " +
