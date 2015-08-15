@@ -1,12 +1,22 @@
 package com.franktan.popularmovies.data;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.HandlerThread;
+
+import com.franktan.popularmovies.util.PollingCheck;
 
 import java.util.Map;
 import java.util.Set;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by tan on 15/08/2015.
@@ -14,7 +24,7 @@ import static junit.framework.Assert.*;
 public class TestUtilities {
     static final long TEST_DATE = 1435708800L;  // 2015-07-01
 
-    public static ContentValues createMovieEntry() {
+    static ContentValues createMovieEntry() {
         // Create a new map of values, where column names are the keys
         ContentValues testValues = new ContentValues();
         testValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH,   "/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg");
@@ -35,7 +45,22 @@ public class TestUtilities {
         return testValues;
     }
 
-    public static void validateCurrentRecord(String error, Cursor valueCursor, ContentValues expectedValues){
+    static long insertMovieTestEntry(Context context) {
+        // insert our test records into the database
+        MovieDBHelper dbHelper = new MovieDBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues testValues = TestUtilities.createMovieEntry();
+
+        long locationRowId;
+        locationRowId = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, testValues);
+
+        // Verify we got a row back.
+        assertTrue("Row Id of the movie record is returned and is not -1", locationRowId != -1);
+
+        return locationRowId;
+    }
+
+    static void validateCurrentRecord(String error, Cursor valueCursor, ContentValues expectedValues){
         Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
         for (Map.Entry<String, Object> entry : valueSet) {
             String columnName = entry.getKey();
@@ -50,6 +75,57 @@ public class TestUtilities {
             assertEquals("Value '" + entry.getValue().toString() +
                     "' should match the expected value '" +
                     expectedValue + "'. " + error, expectedValue, valueCursor.getString(idx));
+        }
+    }
+
+    static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
+        assertTrue("Cursor should have records" + error, valueCursor.moveToFirst());
+        validateCurrentRecord(error, valueCursor, expectedValues);
+        valueCursor.close();
+    }
+
+    static TestContentObserver getTestContentObserver() {
+        return TestContentObserver.getTestContentObserver();
+    }
+
+    static class TestContentObserver extends ContentObserver {
+        final HandlerThread mHT;
+        boolean mContentChanged;
+
+        static TestContentObserver getTestContentObserver() {
+            HandlerThread ht = new HandlerThread("ContentObserverThread");
+            ht.start();
+            return new TestContentObserver(ht);
+        }
+
+        private TestContentObserver(HandlerThread ht) {
+            super(new Handler(ht.getLooper()));
+            mHT = ht;
+        }
+
+        // On earlier versions of Android, this onChange method is called
+        @Override
+        public void onChange(boolean selfChange) {
+            onChange(selfChange, null);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            mContentChanged = true;
+        }
+
+        public void waitForNotificationOrFail() {
+            // Note: The PollingCheck class is taken from the Android CTS (Compatibility Test Suite).
+            // It's useful to look at the Android CTS source for ideas on how to test your Android
+            // applications.  The reason that PollingCheck works is that, by default, the JUnit
+            // testing framework is not running on the main Android application thread.
+            new PollingCheck(5000) {
+                @Override
+                protected boolean check() {
+                    return mContentChanged;
+                }
+            }.run();
+            mHT.quit();
         }
     }
 }

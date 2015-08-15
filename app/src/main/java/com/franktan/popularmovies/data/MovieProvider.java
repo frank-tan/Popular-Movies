@@ -17,7 +17,8 @@ public class MovieProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private MovieDBHelper mDbHelper;
 
-    static final int MOVIE = 100;
+    static final int MOVIE          = 100;
+    static final int MOVIE_WITH_ID  = 200;
 
     private static final SQLiteQueryBuilder queryBuilder;
 
@@ -25,7 +26,6 @@ public class MovieProvider extends ContentProvider {
         queryBuilder = new SQLiteQueryBuilder();
         queryBuilder.setTables(MovieContract.MovieEntry.TABLE_NAME);
     }
-
 
 
     @Override
@@ -58,6 +58,8 @@ public class MovieProvider extends ContentProvider {
         switch (match) {
             case MOVIE:
                 return MovieContract.MovieEntry.CONTENT_TYPE;
+            case MOVIE_WITH_ID:
+                return MovieContract.MovieEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -197,6 +199,7 @@ public class MovieProvider extends ContentProvider {
         String authority = MovieContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, MovieContract.PATH_MOVIE, MOVIE);
+        matcher.addURI(authority, MovieContract.PATH_MOVIE + "/*", MOVIE_WITH_ID);
 
         return matcher;
     }
