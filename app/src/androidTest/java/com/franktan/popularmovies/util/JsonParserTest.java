@@ -1,4 +1,4 @@
-package com.franktan.popularmovies.sync;
+package com.franktan.popularmovies.util;
 
 import android.content.res.Resources;
 import android.test.InstrumentationTestCase;
@@ -12,17 +12,7 @@ import java.util.List;
 /**
  * Created by tan on 16/08/2015.
  */
-public class MovieDbProxyTest extends InstrumentationTestCase {
-
-    /**
-     * Test API key can be retrieved from environment variable
-     * (For CI only)
-     */
-    public void testApiKey () {
-        String apiKey = MovieDbProxy.getApiKey();
-        assertTrue("API Key should not be null", (apiKey != null && apiKey != ""));
-    }
-
+public class JsonParserTest extends InstrumentationTestCase {
     /**
      * Test parseJson method can correctly parse a typical movie json string
      */
@@ -42,10 +32,9 @@ public class MovieDbProxyTest extends InstrumentationTestCase {
         }
         String movieJsonString = new String(b);
 
-        List<Movie> movies = MovieDbProxy.parseJson(movieJsonString);
+        List<Movie> movies = JsonParser.parseJson(movieJsonString);
         assertNotNull("json string should be parsed and not returns null", movies);
         assertTrue("1st movie should match", movies.get(1).equals(SyncTestUtilities.createMovieNo1()));
         assertTrue("20th movie should match", movies.get(20).equals(SyncTestUtilities.createMovieNo20()));
     }
-
 }

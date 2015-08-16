@@ -1,4 +1,4 @@
-package com.franktan.popularmovies.sync;
+package com.franktan.popularmovies.util;
 
 import com.franktan.popularmovies.model.Movie;
 

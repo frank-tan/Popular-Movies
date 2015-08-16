@@ -67,8 +67,8 @@ public class MovieProviderTest extends AndroidTestCase {
      */
     public void testProviderQuery() {
 
-        ContentValues testValues = DateTestUtilities.createMovieEntry();
-        long movieRowId = DateTestUtilities.insertMovieTestEntry(mContext);
+        ContentValues testValues = DataTestUtilities.createMovieEntry();
+        long movieRowId = DataTestUtilities.insertMovieTestEntry(mContext);
 
         // Test the basic content provider query
         Cursor movieCursor = mContext.getContentResolver().query(
@@ -80,7 +80,9 @@ public class MovieProviderTest extends AndroidTestCase {
         );
 
         // Make sure we get the correct cursor out of the database
-        DateTestUtilities.validateCursor("testBasicWeatherQuery", movieCursor, DateTestUtilities.createMovieEntry());
+        DataTestUtilities.validateCursor("testBasicWeatherQuery", movieCursor, DataTestUtilities.createMovieEntry());
+
+        movieCursor.close();
 
         //Test query by Id
         Cursor movieCursorById = mContext.getContentResolver().query(
@@ -90,16 +92,17 @@ public class MovieProviderTest extends AndroidTestCase {
                 null,
                 null
         );
+        movieCursorById.close();
     }
 
     /**
      * Test insert using content provider
      */
     public void testProviderInsert() {
-        ContentValues testValues = DateTestUtilities.createMovieEntry();
+        ContentValues testValues = DataTestUtilities.createMovieEntry();
 
         // Register a content observer for our insert.  This time, directly with the content resolver
-        DateTestUtilities.TestContentObserver tco = DateTestUtilities.getTestContentObserver();
+        DataTestUtilities.TestContentObserver tco = DataTestUtilities.getTestContentObserver();
         mContext.getContentResolver().registerContentObserver(MovieContract.MovieEntry.CONTENT_URI, true, tco);
         Uri movieUri = mContext.getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, testValues);
 
@@ -119,13 +122,15 @@ public class MovieProviderTest extends AndroidTestCase {
                 null  // sort order
         );
 
-        DateTestUtilities.validateCursor("Movie record should have been inserted in the table",
+        DataTestUtilities.validateCursor("Movie record should have been inserted in the table",
                 cursor, testValues);
+
+        cursor.close();
     }
 
     public void testProviderUpdate() {
         // Create a new map of values, where column names are the keys
-        ContentValues values = DateTestUtilities.createMovieEntry();
+        ContentValues values = DataTestUtilities.createMovieEntry();
 
         Uri movieUri = mContext.getContentResolver().
                 insert(MovieContract.MovieEntry.CONTENT_URI, values);
@@ -142,7 +147,7 @@ public class MovieProviderTest extends AndroidTestCase {
         // the observers as expected
         Cursor movieCursor = mContext.getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null, null, null, null);
 
-        DateTestUtilities.TestContentObserver tco = DateTestUtilities.getTestContentObserver();
+        DataTestUtilities.TestContentObserver tco = DataTestUtilities.getTestContentObserver();
         movieCursor.registerContentObserver(tco);
 
         int count = mContext.getContentResolver().update(
@@ -165,7 +170,7 @@ public class MovieProviderTest extends AndroidTestCase {
                 null    // sort order
         );
 
-        DateTestUtilities.validateCursor("The record in the database should have been updated",
+        DataTestUtilities.validateCursor("The record in the database should have been updated",
                 cursor, updatedValues);
 
         cursor.close();
@@ -174,7 +179,7 @@ public class MovieProviderTest extends AndroidTestCase {
     public void testProviderDelete() {
         testProviderInsert();
 
-        DateTestUtilities.TestContentObserver locationObserver = DateTestUtilities.getTestContentObserver();
+        DataTestUtilities.TestContentObserver locationObserver = DataTestUtilities.getTestContentObserver();
         mContext.getContentResolver().registerContentObserver(MovieContract.MovieEntry.CONTENT_URI, true, locationObserver);
 
         deleteAllRecordsFromProvider();
@@ -189,7 +194,7 @@ public class MovieProviderTest extends AndroidTestCase {
         ContentValues[] bulkInsertContentValues = createBulkInsertMovieValues();
 
         // Register a content observer for our bulk insert.
-        DateTestUtilities.TestContentObserver weatherObserver = DateTestUtilities.getTestContentObserver();
+        DataTestUtilities.TestContentObserver weatherObserver = DataTestUtilities.getTestContentObserver();
         mContext.getContentResolver().registerContentObserver(MovieContract.MovieEntry.CONTENT_URI, true, weatherObserver);
 
         int insertCount = mContext.getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, bulkInsertContentValues);
@@ -214,7 +219,7 @@ public class MovieProviderTest extends AndroidTestCase {
         // and let's make sure they match the ones we created
         cursor.moveToFirst();
         for ( int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++, cursor.moveToNext() ) {
-            DateTestUtilities.validateCurrentRecord("testBulkInsert.  Error validating WeatherEntry " + i,
+            DataTestUtilities.validateCurrentRecord("testBulkInsert.  Error validating WeatherEntry " + i,
                     cursor, bulkInsertContentValues[i]);
         }
         cursor.close();
@@ -223,18 +228,17 @@ public class MovieProviderTest extends AndroidTestCase {
     // helper methods
 
     static ContentValues[] createBulkInsertMovieValues() {
-        long currentTestDate = DateTestUtilities.TEST_DATE;
         long millisecondsInADay = 1000*60*60*24;
         ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
 
-        for ( int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++, currentTestDate+= millisecondsInADay ) {
+        for ( int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++ ) {
             ContentValues weatherValues = new ContentValues();
             weatherValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH,    "backdrop path "+i);
             weatherValues.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID,       i);
             weatherValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN,     "en");
             weatherValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE,   "Test "+i);
             weatherValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW,         "Test Overview "+i);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE,     DateTestUtilities.TEST_DATE);
+            weatherValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE,     DataTestUtilities.TEST_DATE);
             weatherValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH,      "path "+i);
             weatherValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY,       50);
             weatherValues.put(MovieContract.MovieEntry.COLUMN_TITLE,            "Test Title "+i);

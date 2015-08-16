@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Created by tan on 15/08/2015.
  */
-public class DateTestUtilities {
+public class DataTestUtilities {
     static final long TEST_DATE = 1435708800L;  // 2015-07-01
 
     static ContentValues createMovieEntry() {
@@ -49,7 +49,7 @@ public class DateTestUtilities {
         // insert our test records into the database
         MovieDBHelper dbHelper = new MovieDBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = DateTestUtilities.createMovieEntry();
+        ContentValues testValues = DataTestUtilities.createMovieEntry();
 
         long locationRowId;
         locationRowId = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, testValues);
@@ -78,7 +78,7 @@ public class DateTestUtilities {
         }
     }
 
-    static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
+    public static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
         assertTrue("Cursor should have records" + error, valueCursor.moveToFirst());
         validateCurrentRecord(error, valueCursor, expectedValues);
         valueCursor.close();
