@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Created by tan on 15/08/2015.
  */
-public class TestUtilities {
+public class DateTestUtilities {
     static final long TEST_DATE = 1435708800L;  // 2015-07-01
 
     static ContentValues createMovieEntry() {
@@ -49,7 +49,7 @@ public class TestUtilities {
         // insert our test records into the database
         MovieDBHelper dbHelper = new MovieDBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createMovieEntry();
+        ContentValues testValues = DateTestUtilities.createMovieEntry();
 
         long locationRowId;
         locationRowId = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, testValues);

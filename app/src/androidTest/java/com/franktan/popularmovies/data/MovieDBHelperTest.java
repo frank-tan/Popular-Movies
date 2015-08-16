@@ -99,12 +99,12 @@ public class MovieDBHelperTest extends AndroidTestCase {
         mContext.deleteDatabase(MovieDBHelper.DATABASE_NAME);
     }
     private Long insertMovie(SQLiteDatabase db){
-        ContentValues movieEntry = TestUtilities.createMovieEntry();
+        ContentValues movieEntry = DateTestUtilities.createMovieEntry();
         Long rowId = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, movieEntry);
         assertTrue("Insertion should return row id",rowId != -1);
         Cursor cursor = db.query(MovieContract.MovieEntry.TABLE_NAME,null,null,null,null,null,null);
         assertTrue("The inserted record should be available", cursor.moveToFirst());
-        TestUtilities.validateCurrentRecord("Verifying inserted value failed",cursor, movieEntry);
+        DateTestUtilities.validateCurrentRecord("Verifying inserted value failed", cursor, movieEntry);
         assertFalse("Should be only one row", cursor.moveToNext());
         cursor.close();
         return rowId;
