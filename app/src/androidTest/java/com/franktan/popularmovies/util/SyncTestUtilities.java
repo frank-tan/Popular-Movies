@@ -1,6 +1,12 @@
 package com.franktan.popularmovies.util;
 
+import android.content.res.Resources;
+import android.test.AndroidTestCase;
+
 import com.franktan.popularmovies.model.Movie;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by tan on 16/08/2015.
@@ -38,4 +44,5 @@ public class SyncTestUtilities {
 
         return  movie;
     }
+
 }

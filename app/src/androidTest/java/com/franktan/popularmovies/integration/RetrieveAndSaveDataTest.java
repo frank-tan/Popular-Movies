@@ -1,20 +1,34 @@
 package com.franktan.popularmovies.integration;
 
+import android.content.res.Resources;
 import android.database.Cursor;
-import android.test.AndroidTestCase;
+import android.test.InstrumentationTestCase;
 
 import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.sync.MovieDbAPISyncService;
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
 
-import org.mockito.Mockito;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by tan on 16/08/2015.
  */
-public class RetrieveAndSaveDataTest extends AndroidTestCase {
+public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        System.setProperty(
+                "dexmaker.dexcache",
+                getInstrumentation().getTargetContext().getCacheDir().getPath());
+    }
+
     // Test Retrieving data from Real Movie DB API
-    public void testAPIReturn () {
+    public void testMovieDBAPIReturn () {
         MovieDbAPISyncService movieDbAPISyncService = MovieDbAPISyncService.getDbSyncService();
         String jsonReturn = movieDbAPISyncService.getMovieInfoFromAPI("popularity", 1435708800L);
         assertNotNull("API should return something", jsonReturn);
@@ -22,12 +36,14 @@ public class RetrieveAndSaveDataTest extends AndroidTestCase {
     }
 
     // Test retrieving fake json from a mock service, parsing it and save to DB
-    public void testParsingAndSaving () {
+    public void testParsingAndSaving () throws IOException {
         deleteAllRecordsFromProvider();
-        MovieDbAPISyncService mockService = Mockito.mock(MovieDbAPISyncService.class);
-        MovieSyncAdapter.syncMovieList();
 
-        Cursor movieCursor = mContext.getContentResolver().query(
+        MovieDbAPISyncService mockService = mock(MovieDbAPISyncService.class);
+        when(mockService.getMovieInfoFromAPI("popularity", 1435708800L)).thenReturn(getTestingMovieJson());
+        MovieSyncAdapter.syncMovieList(mockService);
+
+        Cursor movieCursor = getInstrumentation().getContext().getContentResolver().query(
                 MovieContract.MovieEntry.CONTENT_URI,
                 null,
                 null,
@@ -46,13 +62,13 @@ public class RetrieveAndSaveDataTest extends AndroidTestCase {
     }
 
     public void deleteAllRecordsFromProvider() {
-        mContext.getContentResolver().delete(
+        getInstrumentation().getContext().getContentResolver().delete(
                 MovieContract.MovieEntry.CONTENT_URI,
                 null,
                 null
         );
 
-        Cursor cursor = mContext.getContentResolver().query(
+        Cursor cursor = getInstrumentation().getContext().getContentResolver().query(
                 MovieContract.MovieEntry.CONTENT_URI,
                 null,
                 null,
@@ -62,5 +78,22 @@ public class RetrieveAndSaveDataTest extends AndroidTestCase {
         assertEquals("Should be 0 record in table after delete", 0, cursor.getCount());
         cursor.close();
 
+    }
+
+    public String getTestingMovieJson() throws IOException {
+        Resources res = getInstrumentation().getContext().getResources();
+        InputStream in = res.getAssets().open("mock_movies.json");
+        byte[] b  = new byte[(int) in.available()];
+        int len = b.length;
+        int total = 0;
+
+        while (total < len) {
+            int result = in.read(b, total, len - total);
+            if (result == -1) {
+                break;
+            }
+            total += result;
+        }
+        return new String(b);
     }
 }
