@@ -22,7 +22,7 @@ import static junit.framework.Assert.assertTrue;
  * Created by tan on 15/08/2015.
  */
 public class DataTestUtilities {
-    static final long TEST_DATE = 1435708800L;  // 2015-07-01
+    static final long TEST_DATE = 1435680000000L;  // 2015-07-01
 
     static ContentValues createMovieEntry() {
         // Create a new map of values, where column names are the keys
