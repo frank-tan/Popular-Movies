@@ -12,7 +12,7 @@ public class MovieDbSyncServiceTest extends AndroidTestCase {
      * (For CI only)
      */
     public void testApiKey () {
-        String apiKey = MovieDbAPISyncService.getApiKey();
+        String apiKey = MovieDbAPISyncService.getApiKey(mContext);
         assertTrue("API Key should not be null", (apiKey != null && apiKey != ""));
     }
 }
