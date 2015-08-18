@@ -16,12 +16,12 @@ import java.util.List;
 /**
  * Created by tan on 16/08/2015.
  */
-public class JsonParserTest extends InstrumentationTestCase {
+public class ParserTest extends InstrumentationTestCase {
     /**
      * Test parseJson method can correctly parse a typical movie json string
      */
     public void testParsingMovieJson () throws IOException, JSONException, ParseException {
-        List<Movie> movies = JsonParser.parseJson(getTestingMovieJson());
+        List<Movie> movies = Parser.parseJson(getTestingMovieJson());
         assertNotNull("json string should be parsed and not returns null", movies);
         Log.i("popularmovies", movies.get(0).toString());
         Log.i("popularmovies", SyncTestUtilities.createMovieNo1().toString());

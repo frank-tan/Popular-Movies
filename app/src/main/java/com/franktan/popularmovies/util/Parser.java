@@ -17,7 +17,7 @@ import java.util.TimeZone;
 /**
  * Created by tan on 16/08/2015.
  */
-public class JsonParser {
+public class Parser {
     public static List<Movie> parseJson(String movieJsonString) throws JSONException, ParseException {
         JSONObject forecastJson = new JSONObject(movieJsonString);
         JSONArray movieArray = forecastJson.getJSONArray("results");
