@@ -29,6 +29,8 @@ public class ParserTest extends InstrumentationTestCase {
         assertTrue("20th movie should match", movies.get(19).equals(SyncTestUtilities.createMovieNo20()));
     }
 
+    //TODO write test for contentValuesFromMovieList method
+
     public String getTestingMovieJson() throws IOException {
 
         Resources res = getInstrumentation().getContext().getResources();

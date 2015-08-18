@@ -1,5 +1,8 @@
 package com.franktan.popularmovies.util;
 
+import android.content.ContentValues;
+
+import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.model.Movie;
 
 import org.json.JSONArray;
@@ -69,5 +72,29 @@ public class Parser {
         }
 
         return movieList;
+    }
+
+    // TODO: write unit test
+    public static ContentValues[] contentValuesFromMovieList(List<Movie> movieList) {
+        ContentValues[] movieContentValues = new ContentValues[movieList.size()];
+
+        for (int i = 0; i < movieList.size(); i++) {
+            Movie movie = movieList.get(i);
+            ContentValues movieContentValue = new ContentValues();
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH,    movie.getBackdropPath());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID,       movie.getMovieDbId());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN,     movie.getOriginalLan());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE,   movie.getOriginalTitle());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_OVERVIEW,         movie.getOverview());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE,     movie.getReleaseDate());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH,      movie.getPosterPath());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_POPULARITY,       movie.getPopularity());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_TITLE,            movie.getTitle());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_VIDEO,            movie.isHasVideo());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,     movie.getVoteAverage());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT,       movie.getVoteCount());
+            movieContentValues[i] = movieContentValue;
+        }
+        return movieContentValues;
     }
 }
