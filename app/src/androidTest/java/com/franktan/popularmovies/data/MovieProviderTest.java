@@ -229,25 +229,25 @@ public class MovieProviderTest extends AndroidTestCase {
 
     static ContentValues[] createBulkInsertMovieValues() {
         long millisecondsInADay = 1000*60*60*24;
-        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+        ContentValues[] movieList = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
 
         for ( int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++ ) {
-            ContentValues weatherValues = new ContentValues();
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH,    "backdrop path "+i);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID,       i);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN,     "en");
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE,   "Test "+i);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW,         "Test Overview "+i);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE,     DataTestUtilities.TEST_DATE);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH,      "path "+i);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY,       50);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_TITLE,            "Test Title "+i);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_VIDEO,            false);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,     50);
-            weatherValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT,       50);
-            returnContentValues[i] = weatherValues;
+            ContentValues movie = new ContentValues();
+            movie.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, "backdrop path " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID, i);
+            movie.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN, "en");
+            movie.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, "Test " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, "Test Overview " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, DataTestUtilities.TEST_DATE);
+            movie.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, "path " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_POPULARITY, 50);
+            movie.put(MovieContract.MovieEntry.COLUMN_TITLE, "Test Title " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_VIDEO, false);
+            movie.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, 50);
+            movie.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT, 50);
+            movieList[i] = movie;
         }
-        return returnContentValues;
+        return movieList;
     }
 
     public void deleteAllRecords() {
