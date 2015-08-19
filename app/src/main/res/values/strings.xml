@@ -1,8 +1,12 @@
 <resources>
-    <string name="app_name">PopularMovies</string>
+    <string name="app_name">Popular Movies</string>
+
+    <string name="account_type">franktan.com</string>
+    <string name="sync_account_type">popularmovies.franktan.com</string>
+    <string name="content_authority">com.franktan.popularmovies</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="content_authority">com.franktan.popularmovies</string>
+
 </resources>

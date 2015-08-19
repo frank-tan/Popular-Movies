@@ -20,7 +20,7 @@ import java.util.TimeZone;
 /**
  * Created by tan on 16/08/2015.
  */
-public class MovieDbAPISyncService {
+public class MovieDbRESTAPIService {
     public static String getApiKey(Context context) {
         return context.getString(R.string.moviedb_api_key);
     }
@@ -45,7 +45,7 @@ public class MovieDbAPISyncService {
 
         try {
             Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
-                    .appendQueryParameter(API_KEY, MovieDbAPISyncService.getApiKey(context))
+                    .appendQueryParameter(API_KEY, MovieDbRESTAPIService.getApiKey(context))
                     .appendQueryParameter(SORT_BY, sortBy)
                     .appendQueryParameter(PAGE, "1")
                     .appendQueryParameter(RELEASE_BEFORE, formattedDateFrom)
@@ -83,7 +83,7 @@ public class MovieDbAPISyncService {
 
     }
 
-    public static MovieDbAPISyncService getDbSyncService() {
-        return new MovieDbAPISyncService();
+    public static MovieDbRESTAPIService getDbSyncService() {
+        return new MovieDbRESTAPIService();
     }
 }

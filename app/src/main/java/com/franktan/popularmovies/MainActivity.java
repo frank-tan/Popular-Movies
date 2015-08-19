@@ -1,10 +1,12 @@
 package com.franktan.popularmovies;
 
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.franktan.popularmovies.sync.MovieSyncAdapter;
 
 public class MainActivity extends AppCompatActivity implements MoviesGridFragment.OnFragmentInteractionListener {
 
@@ -12,6 +14,8 @@ public class MainActivity extends AppCompatActivity implements MoviesGridFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MovieSyncAdapter.initialize(this);
     }
 
     @Override
@@ -40,6 +44,4 @@ public class MainActivity extends AppCompatActivity implements MoviesGridFragmen
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-
 }

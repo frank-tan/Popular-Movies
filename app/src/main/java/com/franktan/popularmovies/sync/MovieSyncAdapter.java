@@ -1,13 +1,19 @@
 package com.franktan.popularmovies.sync;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.model.Movie;
 import com.franktan.popularmovies.util.Parser;
@@ -21,8 +27,52 @@ import java.util.List;
  * Created by tan on 16/08/2015.
  */
 public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
-    public static int syncMovieList(Context context, MovieDbAPISyncService movieDbAPISyncService, String sortBy, Long releaseDateFrom) {
-        String movieJsonString = movieDbAPISyncService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom);
+
+    // Sync every 24 hours
+    private static final long SYNC_INTERVAL = (long) 24 * 60 * 60;
+
+    // With 2 hours flexible time
+    private static final long SYNC_FLEXTIME = (long) 4 * 60 * 60;
+
+    ContentResolver mContentResolver;
+
+    /**
+     * Create or get existing sync account and schedule a periodic sync
+     * @param context
+     */
+    public static void initialize(Context context) {
+        Account account = getSyncAccount(context);
+
+        // Get an instance of the Android account manager
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(
+                        Context.ACCOUNT_SERVICE);
+
+        // if the account type does not exist, add a new account
+        if (accountManager.getAccountsByType(context.getString(R.string.sync_account_type)).length == 0) {
+            Log.i("popularmovies","account does not exist. Add new account ");
+            /*
+             * Add the account and account type, no password or user data
+             * If successful, return the Account object, otherwise report an error.
+             */
+            if (!accountManager.addAccountExplicitly(account, null, null)) {
+                /*
+                 * If you don't set android:syncable="true" in
+                 * in your <provider> element in the manifest,
+                 * then call context.setIsSyncable(account, AUTHORITY, 1)
+                 * here.
+                 */
+                Log.e("popularmovies","failed to add new account");
+            }
+            //account added successfully, set periodical sync
+            Log.i("popularmovies", "add new account successful");
+            setPeriodicSync(context, account);
+            syncMovieDataNow(context);
+        }
+    }
+
+    public static int syncMovieList(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom) {
+        String movieJsonString = movieDbRESTAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom);
         List<Movie> movieList;
         try {
             movieList = Parser.parseJson(movieJsonString);
@@ -39,10 +89,85 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public MovieSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        mContentResolver = context.getContentResolver();
+    }
+
+    public MovieSyncAdapter(
+            Context context,
+            boolean autoInitialize,
+            boolean allowParallelSyncs) {
+        super(context, autoInitialize, allowParallelSyncs);
+        /*
+         * If your app uses a content resolver, get an instance of it
+         * from the incoming Context
+         */
+        mContentResolver = context.getContentResolver();
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        // TODO: create MovieDBAPISyncService
 
+        // TODO: Get SortBy from user setting
+
+        // TODO: Get current date and calculate a date of two years ago from today
+
+        // TODO: call syncMovieList method
+
+    }
+
+    public static void syncMovieDataNow (Context context) {
+    // Pass the settings flags by inserting them in a bundle
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        /*
+         * Request the sync for the default account, authority, and
+         * manual sync settings
+         */
+        Log.i("popularmovies", "Request sync");
+        ContentResolver.requestSync(getSyncAccount(context), context.getString(R.string.content_authority), settingsBundle);
+        Log.i("popularmovies", "sync requested");
+    }
+
+    /**
+     * Create an account for sync adapter
+     * @param context
+     * @return
+     */
+    private static Account getSyncAccount(Context context) {
+        // Create the account type and default account
+        Account newAccount = new Account(
+                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
+
+        return newAccount;
+    }
+
+    /**
+     * Set synchronisation everyday with 4 hours flexible time
+     * @param context
+     * @param account
+     */
+    private static void setPeriodicSync(Context context, Account account) {
+        String authority = context.getResources().getString(R.string.content_authority);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // we can enable inexact timers in our periodic sync
+            SyncRequest request = new SyncRequest.Builder().
+                    syncPeriodic(SYNC_INTERVAL, SYNC_FLEXTIME).
+                    setSyncAdapter(account, authority).
+                    setExtras(Bundle.EMPTY).build();
+            ContentResolver.requestSync(request);
+        } else {
+            ContentResolver.addPeriodicSync(
+                    account,
+                    authority,
+                    Bundle.EMPTY,
+                    SYNC_INTERVAL);
+        }
+
+        ContentResolver.setSyncAutomatically(account, context.getString(R.string.content_authority), true);
     }
 }
