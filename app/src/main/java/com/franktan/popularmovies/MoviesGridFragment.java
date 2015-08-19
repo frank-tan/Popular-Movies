@@ -1,15 +1,23 @@
 package com.franktan.popularmovies;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import com.franktan.popularmovies.data.MovieContract;
+import com.franktan.popularmovies.util.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +27,16 @@ import android.widget.Toast;
  * Use the {@link MoviesGridFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MoviesGridFragment extends Fragment {
+public class MoviesGridFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final String[] MOVIE_COLUMNS = {
+            MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry._ID,
+            MovieContract.MovieEntry.COLUMN_POSTER_PATH
+    };
+    static final int COL_MOVIE_ID = 0;
+    static final int COL_POSTER_PATH = 1;
+    private static final int MOVIE_LOADER_ID = 0;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +47,7 @@ public class MoviesGridFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private MovieGridAdapter mMovieGridAdapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -55,6 +73,7 @@ public class MoviesGridFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i(Constants.APP_NAME, "MoviesGridFragment onCreate");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -63,12 +82,21 @@ public class MoviesGridFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        Log.i(Constants.APP_NAME, "onActivityCreated: to initLoader");
+        getLoaderManager().initLoader(MOVIE_LOADER_ID, null, this);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies_grid, container, false);
 
         GridView gridview = (GridView) view.findViewById(R.id.moviesgridview);
-        gridview.setAdapter(new ImageAdapter(this.getActivity()));
+        mMovieGridAdapter = new MovieGridAdapter(getActivity(), null, 0);
+
+        gridview.setAdapter(mMovieGridAdapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -103,6 +131,35 @@ public class MoviesGridFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.i(Constants.APP_NAME, "onCreateLoader");
+
+        Uri movieUri = MovieContract.MovieEntry.CONTENT_URI;
+        String sortOrder = MovieContract.MovieEntry.COLUMN_POPULARITY + " DESC";
+        return new CursorLoader(
+                getActivity(),
+                movieUri,
+                MOVIE_COLUMNS,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.i(Constants.APP_NAME, "onLoadFinished");
+        mMovieGridAdapter.swapCursor(cursor);
+        //TODO: to keep scrolling position, add code here
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        Log.i(Constants.APP_NAME, "onLoaderReset");
+        mMovieGridAdapter.swapCursor(null);
     }
 
     /**

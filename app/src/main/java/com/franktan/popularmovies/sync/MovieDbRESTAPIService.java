@@ -47,7 +47,7 @@ public class MovieDbRESTAPIService {
             Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
                     .appendQueryParameter(API_KEY, MovieDbRESTAPIService.getApiKey(context))
                     .appendQueryParameter(SORT_BY, sortBy)
-                    .appendQueryParameter(PAGE, "1")
+                    .appendQueryParameter(PAGE, "1")//TODO: do we need to sync more pages?
                     .appendQueryParameter(RELEASE_BEFORE, formattedDateFrom)
                     .build();
 

@@ -16,6 +16,7 @@ import android.util.Log;
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.model.Movie;
+import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 
 import org.json.JSONException;
@@ -43,6 +44,8 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param context
      */
     public static void initialize(Context context) {
+        Log.i(Constants.APP_NAME,"initializing sync adapter");
+
         Account account = getSyncAccount(context);
 
         // Get an instance of the Android account manager
@@ -52,7 +55,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
         // if the account type does not exist, add a new account
         if (accountManager.getAccountsByType(context.getString(R.string.sync_account_type)).length == 0) {
-            Log.i("popularmovies","account does not exist. Add new account ");
+            Log.i(Constants.APP_NAME,"account does not exist. Add new account ");
             /*
              * Add the account and account type, no password or user data
              * If successful, return the Account object, otherwise report an error.
@@ -64,10 +67,10 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
                  * then call context.setIsSyncable(account, AUTHORITY, 1)
                  * here.
                  */
-                Log.e("popularmovies","failed to add new account");
+                Log.i(Constants.APP_NAME,"failed to add new account");
             }
             //account added successfully, set periodical sync
-            Log.i("popularmovies", "add new account successful");
+            Log.i(Constants.APP_NAME, "add new account successful");
             setPeriodicSync(context, account);
             syncMovieDataNow(context);
         }
@@ -75,6 +78,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static int retrieveAndSaveMovieData(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom) {
         String movieJsonString = movieDbRESTAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom);
+        Log.i(Constants.APP_NAME,movieJsonString);
         List<Movie> movieList;
         try {
             movieList = Parser.parseJson(movieJsonString);
@@ -134,9 +138,9 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
          * Request the sync for the default account, authority, and
          * manual sync settings
          */
-        Log.i("popularmovies", "Request sync");
+        Log.i(Constants.APP_NAME, "Request sync");
         ContentResolver.requestSync(getSyncAccount(context), context.getString(R.string.content_authority), settingsBundle);
-        Log.i("popularmovies", "sync requested");
+        Log.i(Constants.APP_NAME, "sync requested");
     }
 
     /**

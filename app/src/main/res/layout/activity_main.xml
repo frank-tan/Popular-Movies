@@ -10,6 +10,8 @@
         android:name="com.franktan.popularmovies.MoviesGridFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context="com.franktan.popularmovies.MoviesGridFragment"
+        tools:layout="@android:layout/list_content"
         />
 
 </RelativeLayout>
