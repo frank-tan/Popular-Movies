@@ -42,7 +42,7 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
 
         MovieDbRESTAPIService mockService = mock(MovieDbRESTAPIService.class);
         when(mockService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), "popularity", 1435708800000L)).thenReturn(getTestingMovieJson());
-        assertEquals("syncMovieList should return 20", 20, MovieSyncAdapter.syncMovieList(getInstrumentation().getTargetContext(), mockService, "popularity", 1435708800000L));
+        assertEquals("retrieveAndSaveMovieData should return 20", 20, MovieSyncAdapter.retrieveAndSaveMovieData(getInstrumentation().getTargetContext(), mockService, "popularity", 1435708800000L));
 
         Cursor movieCursor = getInstrumentation().getContext().getContentResolver().query(
                 MovieContract.MovieEntry.CONTENT_URI,

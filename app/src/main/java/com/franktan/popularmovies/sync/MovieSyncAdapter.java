@@ -21,6 +21,8 @@ import com.franktan.popularmovies.util.Parser;
 import org.json.JSONException;
 
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,7 +73,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    public static int syncMovieList(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom) {
+    public static int retrieveAndSaveMovieData(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom) {
         String movieJsonString = movieDbRESTAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom);
         List<Movie> movieList;
         try {
@@ -106,14 +108,19 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        // TODO: create MovieDBAPISyncService
+        MovieDbRESTAPIService movieDbRESTAPIService = MovieDbRESTAPIService.getDbSyncService();
 
         // TODO: Get SortBy from user setting
+        String sortBy = "popularity";
 
-        // TODO: Get current date and calculate a date of two years ago from today
+        // get movies from within 2 years ago
+        Calendar cal = Calendar.getInstance();
+        Date today = cal.getTime();
+        cal.add(Calendar.YEAR, -2);
+        Date twoYearsAgo = cal.getTime();
+        long dateFrom = twoYearsAgo.getTime();
 
-        // TODO: call syncMovieList method
-
+        retrieveAndSaveMovieData(getContext(),movieDbRESTAPIService,sortBy,dateFrom);
     }
 
     public static void syncMovieDataNow (Context context) {
