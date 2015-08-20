@@ -191,7 +191,7 @@ public class MovieProviderTest extends AndroidTestCase {
 
     public void testProviderBulkInsert() {
 
-        ContentValues[] bulkInsertContentValues = createBulkInsertMovieValues();
+        ContentValues[] bulkInsertContentValues = createBulkInsertMovieValues(0);
 
         // Register a content observer for our bulk insert.
         DataTestUtilities.TestContentObserver weatherObserver = DataTestUtilities.getTestContentObserver();
@@ -225,23 +225,73 @@ public class MovieProviderTest extends AndroidTestCase {
         cursor.close();
     }
 
+    public void testProviderBulkUpsert() {
+
+        testProviderBulkInsert();
+
+        // A cursor is your primary interface to the query results.
+        Cursor cursor = mContext.getContentResolver().query(
+                MovieContract.MovieEntry.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Should already have " + BULK_INSERT_RECORDS_TO_INSERT + "records", BULK_INSERT_RECORDS_TO_INSERT, cursor.getCount());
+
+        ContentValues[] bulkUpsertContentValues = createBulkInsertMovieValues(1);
+
+        // Register a content observer for our bulk insert.
+        DataTestUtilities.TestContentObserver weatherObserver = DataTestUtilities.getTestContentObserver();
+        mContext.getContentResolver().registerContentObserver(MovieContract.MovieEntry.CONTENT_URI, true, weatherObserver);
+
+        int insertCount = mContext.getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, bulkUpsertContentValues);
+
+        weatherObserver.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(weatherObserver);
+
+        assertEquals("Should insert " + BULK_INSERT_RECORDS_TO_INSERT + "records", BULK_INSERT_RECORDS_TO_INSERT, insertCount);
+
+        // A cursor is your primary interface to the query results.
+        cursor = mContext.getContentResolver().query(
+                MovieContract.MovieEntry.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Should still have " + BULK_INSERT_RECORDS_TO_INSERT + " records", BULK_INSERT_RECORDS_TO_INSERT, cursor.getCount());
+
+        // and let's make sure they match the ones we created
+        cursor.moveToFirst();
+        for ( int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++, cursor.moveToNext() ) {
+            DataTestUtilities.validateCurrentRecord("testBulkInsert.  Error validating WeatherEntry " + i,
+                    cursor, bulkUpsertContentValues[i]);
+        }
+        cursor.close();
+    }
+
     // helper methods
 
-    static ContentValues[] createBulkInsertMovieValues() {
+    static ContentValues[] createBulkInsertMovieValues(int offset) {
         long millisecondsInADay = 1000*60*60*24;
         ContentValues[] movieList = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
 
         for ( int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++ ) {
             ContentValues movie = new ContentValues();
-            movie.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, "backdrop path " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, "backdrop path " + i + offset);
             movie.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID, i);
             movie.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN, "en");
-            movie.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, "Test " + i);
-            movie.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, "Test Overview " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, "Test " + i + offset);
+            movie.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, "Test Overview " + i + offset);
             movie.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, DataTestUtilities.TEST_DATE);
-            movie.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, "path " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, "path " + i + offset);
             movie.put(MovieContract.MovieEntry.COLUMN_POPULARITY, 50);
-            movie.put(MovieContract.MovieEntry.COLUMN_TITLE, "Test Title " + i);
+            movie.put(MovieContract.MovieEntry.COLUMN_TITLE, "Test Title " + i + offset);
             movie.put(MovieContract.MovieEntry.COLUMN_VIDEO, false);
             movie.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, 50);
             movie.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT, 50);
