@@ -115,7 +115,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         MovieDbRESTAPIService movieDbRESTAPIService = MovieDbRESTAPIService.getDbSyncService();
 
         // TODO: Get SortBy from user setting
-        String sortBy = "popularity";
+        String sortBy = "popularity.desc";
 
         // get movies from within 2 years ago
         Calendar cal = Calendar.getInstance();

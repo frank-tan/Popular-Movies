@@ -29,7 +29,6 @@ public class MovieGridAdapter extends CursorAdapter {
         view = LayoutInflater.from(context).inflate(R.layout.grid_element, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         view.setTag(viewHolder);
-        bindView(view,context,cursor);
         return view;
     }
 
@@ -64,19 +63,4 @@ public class MovieGridAdapter extends CursorAdapter {
         return 0;
     }
 
-    // create a new ImageView for each item referenced by the Adapter
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        ImageView imageView;
-//        if (convertView == null) {
-//            // if it's not recycled, initialize some attributes
-//            imageView = new ImageView(mContext);
-//            imageView.setLayoutParams(new GridView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.MATCH_PARENT));
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//        } else {
-//            imageView = (ImageView) convertView;
-//        }
-//
-//        //imageView.setImageResource(mThumbIds[position]);
-//        return imageView;
-//    }
 }

@@ -151,7 +151,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.i(Constants.APP_NAME, "onLoadFinished");
+        Log.i(Constants.APP_NAME, "onLoadFinished count: "+cursor.getCount());
         mMovieGridAdapter.swapCursor(cursor);
         //TODO: to keep scrolling position, add code here
     }
