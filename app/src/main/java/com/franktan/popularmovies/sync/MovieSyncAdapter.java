@@ -76,8 +76,8 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    public static int retrieveAndSaveMovieData(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom) {
-        String movieJsonString = movieDbRESTAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom);
+    public static int retrieveAndSaveMovieData(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom, int page) {
+        String movieJsonString = movieDbRESTAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, page);
         Log.i(Constants.APP_NAME,movieJsonString);
         List<Movie> movieList;
         try {
@@ -124,7 +124,9 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         Date twoYearsAgo = cal.getTime();
         long dateFrom = twoYearsAgo.getTime();
 
-        retrieveAndSaveMovieData(getContext(),movieDbRESTAPIService,sortBy,dateFrom);
+        for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
+            retrieveAndSaveMovieData(getContext(), movieDbRESTAPIService, sortBy, dateFrom, page);
+        }
     }
 
     public static void syncMovieDataNow (Context context) {

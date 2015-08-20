@@ -26,7 +26,7 @@ public class MovieDbRESTAPIService {
     }
 
     //TODO: use Enum for sort by parameter
-    public String getMovieInfoFromAPI(Context context, String sortBy, long releaseDateFrom) {
+    public String getMovieInfoFromAPI(Context context, String sortBy, long releaseDateFrom, int page) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
@@ -47,7 +47,7 @@ public class MovieDbRESTAPIService {
             Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
                     .appendQueryParameter(API_KEY, MovieDbRESTAPIService.getApiKey(context))
                     .appendQueryParameter(SORT_BY, sortBy)
-                    .appendQueryParameter(PAGE, "1")//TODO: do we need to sync more pages?
+                    .appendQueryParameter(PAGE, String.valueOf(page))
                     .appendQueryParameter(RELEASE_BEFORE, formattedDateFrom)
                     .build();
 
