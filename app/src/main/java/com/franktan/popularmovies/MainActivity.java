@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
 import com.franktan.popularmovies.util.Constants;
 
-public class MainActivity extends AppCompatActivity implements MoviesGridFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity
+        implements MoviesGridFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements MoviesGridFragmen
         setContentView(R.layout.activity_main);
 
         MovieSyncAdapter.initialize(this);
+
+        //setStatusBarTranslucent(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Log.i(Constants.APP_NAME, "MainActivity onCreate");
     }
@@ -47,5 +52,13 @@ public class MainActivity extends AppCompatActivity implements MoviesGridFragmen
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    protected void setStatusBarTranslucent(boolean makeTranslucent) {
+        if (makeTranslucent) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 }
