@@ -120,17 +120,19 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor != null && !cursor.moveToFirst()){
-            Log.i(Constants.APP_NAME,"Cursor is nulll");
+            Log.i(Constants.APP_NAME,"Cursor is null");
             return;
         }
         String backdropPath = Constants.BACKDROP_BASE_PATH + cursor.getString(COL_MOVIE_BACKDROP_PATH);
         String posterPath   = Constants.POSTER_BASE_PATH + cursor.getString(COL_MOVIE_POSTER_PATH);
         String title        = cursor.getString(COL_MOVIE_TITLE);
-        int releaseDate     = cursor.getInt(COL_MOVIE_RELEASE_DATE);
+        long releaseDate     = cursor.getLong(COL_MOVIE_RELEASE_DATE);
         String language     = cursor.getString(COL_MOVIE_ORIGINAL_LAN);
         Double voteAverage  = cursor.getDouble(COL_MOVIE_VOTE_AVERAGE);
         int voteCount       = cursor.getInt(COL_MOVIE_VOTE_COUNT);
         String overview     = cursor.getString(COL_MOVIE_OVERVIEW);
+
+        Log.i(Constants.APP_NAME,"release date epoch is " + releaseDate);
 
         Picasso.with(getActivity())
                 .load(backdropPath)
@@ -143,10 +145,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                 .load(posterPath)
                 .placeholder(R.drawable.poster_loading)
 //                .error(R.drawable.poster_error)
+                .fit()
+                .centerCrop()
                 .into(mMoviePoster);
         mMovieTitle.setText(title);
-        mMovieReleaseDate.setText(Parser.ausDateStringFromMiliseconds(releaseDate));
-        mOriginalLanguage.setText(language);
+        mMovieReleaseDate.setText("Release Date: " + Parser.humanDateStringFromMiliseconds(releaseDate));
+        mOriginalLanguage.setText("Original Language: " + language);
 //        mRatingBar;
         mRatingText.setText(String.valueOf(voteAverage));
         mVoteCount.setText(String.valueOf(voteCount));

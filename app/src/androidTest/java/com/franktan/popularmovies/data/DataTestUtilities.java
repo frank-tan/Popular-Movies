@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 
+import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.PollingCheck;
 
 import java.util.Map;
@@ -22,7 +24,7 @@ import static junit.framework.Assert.assertTrue;
  * Created by tan on 15/08/2015.
  */
 public class DataTestUtilities {
-    static final long TEST_DATE = 1435680000000L;  // 2015-07-01
+    static final long TEST_DATE = 1435680000000L;  // 2015-07-01 GMT+8:00
 
     static ContentValues createMovieEntry() {
         // Create a new map of values, where column names are the keys
@@ -72,6 +74,8 @@ public class DataTestUtilities {
             } else if(expectedValue.equals("true")){
                 expectedValue = "1";
             }
+            Log.i(Constants.APP_NAME,"expected: "+expectedValue);
+            Log.i(Constants.APP_NAME,"actual: "+valueCursor.getString(idx));
             assertEquals("Value '" + entry.getValue().toString() +
                     "' should match the expected value '" +
                     expectedValue + "'. " + error, expectedValue, valueCursor.getString(idx));

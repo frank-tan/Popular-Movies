@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.franktan.popularmovies.R;
+import com.franktan.popularmovies.util.Parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,10 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by tan on 16/08/2015.
@@ -30,10 +27,7 @@ public class MovieDbRESTAPIService {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
-        Date date = new Date(releaseDateFrom);
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
-        String formattedDateFrom = format.format(date);
+        String formattedDateFrom = Parser.movieDbDateStringFromMiliseconds(releaseDateFrom);
         Log.i("popularmovies",formattedDateFrom);
 
         final String MOVIEDB_BASE_URL =

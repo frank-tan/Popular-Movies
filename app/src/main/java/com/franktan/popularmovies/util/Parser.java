@@ -45,10 +45,7 @@ public class Parser {
             int voteCount = movieJsonObj.getInt("vote_count");
 
             // convert date to epoch
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            Date date = dateFormat.parse(releaseDateString);
-            Long releaseDate = date.getTime();
+            Long releaseDate = epochFromMovieDbDateString(releaseDateString);
 
             // convert popularity string to double with two decimal places
             double rawPopularity = Double.parseDouble(popularityString);
@@ -99,11 +96,24 @@ public class Parser {
         return movieContentValues;
     }
 
-    // TODO: write unit test
-    public static String ausDateStringFromMiliseconds (int miliseconds) {
+    public static String humanDateStringFromMiliseconds(long miliseconds) {
         Date date = new Date(miliseconds);
-        DateFormat format = new SimpleDateFormat("dd MMM yyyy");
-        //format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+        DateFormat format = new SimpleDateFormat("d MMM yyyy");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
         return format.format(date);
+    }
+
+    public static String movieDbDateStringFromMiliseconds(long miliseconds) {
+        Date date = new Date(miliseconds);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return format.format(date);
+    }
+
+    public static long epochFromMovieDbDateString (String movieDbDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date date = dateFormat.parse(movieDbDate);
+        return date.getTime();
     }
 }

@@ -17,10 +17,12 @@ import java.util.List;
  * Created by tan on 16/08/2015.
  */
 public class ParserTest extends InstrumentationTestCase {
+    static final long TEST_DATE = 1435708800000L;  // 2015-07-01 GMT
+
     /**
      * Test parseJson method can correctly parse a typical movie json string
      */
-    public void testParsingMovieJson () throws IOException, JSONException, ParseException {
+    public void testParseJson () throws IOException, JSONException, ParseException {
         List<Movie> movies = Parser.parseJson(getTestingMovieJson());
         assertNotNull("json string should be parsed and not returns null", movies);
         Log.i("popularmovies", movies.get(0).toString());
@@ -30,6 +32,21 @@ public class ParserTest extends InstrumentationTestCase {
     }
 
     //TODO write test for contentValuesFromMovieList method
+
+    public void testHumanDateStringFromMiliseconds() throws Exception {
+        String result = Parser.humanDateStringFromMiliseconds(TEST_DATE);
+        assertTrue("Should be able to parse epoch miliseconds to human friendly format: result "+ result, result.equals("1 Jul 2015"));
+    }
+
+    public void testEpochFromMovieDbDateString() throws Exception {
+        long result = Parser.epochFromMovieDbDateString("2015-07-01");
+        assertEquals("Should be able to parse moviedb date", TEST_DATE, result);
+    }
+
+    public void testMovieDbDateStringFromMiliseconds() throws Exception {
+        String result = Parser.movieDbDateStringFromMiliseconds(TEST_DATE);
+        assertTrue("Should be able to parse epoch miliseconds to moviedb format: result "+ result, result.equals("2015-07-01"));
+    }
 
     public String getTestingMovieJson() throws IOException {
 
@@ -48,4 +65,5 @@ public class ParserTest extends InstrumentationTestCase {
         }
         return new String(b);
     }
+
 }

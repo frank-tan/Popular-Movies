@@ -117,10 +117,10 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         // TODO: Get SortBy from user setting
         String sortBy = "popularity.desc";
 
-        // get movies from within 2 years ago
+        // get movies from within 6 months ago
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
-        cal.add(Calendar.YEAR, -2);
+        cal.add(Calendar.MONTH, -6);
         Date twoYearsAgo = cal.getTime();
         long dateFrom = twoYearsAgo.getTime();
 
