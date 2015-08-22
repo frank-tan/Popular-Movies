@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="popularmovies_primary">#455A64</color>
-    <color name="popularmovies_primary_dark">#263238</color>
+    <color name="popularmovies_primary_dark">#37474F</color>
 </resources>

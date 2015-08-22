@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity
         MovieSyncAdapter.initialize(this);
 
         //setStatusBarTranslucent(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Log.i(Constants.APP_NAME, "MainActivity onCreate");
     }
