@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,5 +97,13 @@ public class Parser {
             movieContentValues[i] = movieContentValue;
         }
         return movieContentValues;
+    }
+
+    // TODO: write unit test
+    public static String ausDateStringFromMiliseconds (int miliseconds) {
+        Date date = new Date(miliseconds);
+        DateFormat format = new SimpleDateFormat("dd MMM yyyy");
+        //format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+        return format.format(date);
     }
 }

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
 import com.franktan.popularmovies.util.Constants;
@@ -21,7 +20,6 @@ public class MainActivity extends AppCompatActivity
 
         MovieSyncAdapter.initialize(this);
 
-        //setStatusBarTranslucent(true);
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Log.i(Constants.APP_NAME, "MainActivity onCreate");
@@ -54,11 +52,5 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    protected void setStatusBarTranslucent(boolean makeTranslucent) {
-        if (makeTranslucent) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        } else {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-    }
+
 }

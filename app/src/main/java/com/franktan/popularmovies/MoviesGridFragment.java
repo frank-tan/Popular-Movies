@@ -1,6 +1,7 @@
 package com.franktan.popularmovies;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.util.Constants;
@@ -101,8 +101,16 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(MoviesGridFragment.this.getActivity(), "" + position,
-                        Toast.LENGTH_SHORT).show();
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                // CursorAdapter returns a cursor at the correct position for getItem(), or null
+                // if it cannot seek to that position.
+                if (cursor == null) {
+                    Log.i(Constants.APP_NAME,"item clicked, but cursor is null");
+                    return;
+                }
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                intent.putExtra("Id", cursor.getInt(COL_MOVIE_ID));
+                startActivity(intent);
             }
         });
 

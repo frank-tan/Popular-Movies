@@ -21,6 +21,9 @@ public class MovieProvider extends ContentProvider {
     static final int MOVIE_WITH_ID  = 200;
 
     private static final SQLiteQueryBuilder queryBuilder;
+    private static final String SELECTION_BY_ID = MovieContract.MovieEntry.TABLE_NAME +
+            "." + MovieContract.MovieEntry._ID +
+            " = ?";
 
     static{
         queryBuilder = new SQLiteQueryBuilder();
@@ -42,6 +45,12 @@ public class MovieProvider extends ContentProvider {
             case MOVIE:
             {
                 cursor = getMovies(uri, projection, sortOrder);
+                break;
+            }
+
+            case MOVIE_WITH_ID:
+            {
+                cursor = getMovieById(uri, projection, sortOrder);
                 break;
             }
 
@@ -215,7 +224,19 @@ public class MovieProvider extends ContentProvider {
         return queryBuilder.query(mDbHelper.getReadableDatabase(),
                 projection,
                 null,
+                new String[] {},
                 null,
+                null,
+                sortOrder
+        );
+    }
+
+    private Cursor getMovieById(Uri uri, String[] projection, String sortOrder) {
+        String movieId = MovieContract.MovieEntry.getMovieIdFromURI(uri);
+        return queryBuilder.query(mDbHelper.getReadableDatabase(),
+                projection,
+                SELECTION_BY_ID,
+                new String[]{movieId},
                 null,
                 null,
                 sortOrder

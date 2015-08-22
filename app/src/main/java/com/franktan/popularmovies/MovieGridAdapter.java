@@ -32,11 +32,6 @@ public class MovieGridAdapter extends CursorAdapter {
         return view;
     }
 
-//    public int getCount() {
-//        //TODO;
-//        return 10;
-//    }
-
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
@@ -55,12 +50,17 @@ public class MovieGridAdapter extends CursorAdapter {
         }
     }
 
-    public Object getItem(int position) {
-        return null;
-    }
+    //    public int getCount() {
+//        //TODO;
+//        return 10;
+//    }
 
-    public long getItemId(int position) {
-        return 0;
-    }
+//    public Object getItem(int position) {
+//        return ;
+//    }
+
+//    public long getItemId(int position) {
+//        return 0;
+//    }
 
 }
