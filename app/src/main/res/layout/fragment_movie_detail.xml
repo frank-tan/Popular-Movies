@@ -8,7 +8,7 @@
     tools:context="com.franktan.popularmovies.MovieDetailFragment">
 
     <RelativeLayout  android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
 
     <ImageView
@@ -18,113 +18,150 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/backdrop_loading"/>
+        android:src="@drawable/ic_sync_black_48dp"/>
 
     <ImageView
         android:layout_width="123dp"
         android:layout_height="184dp"
         android:id="@+id/movie_poster"
-        android:layout_below="@+id/movie_trailer"
+        android:layout_below="@id/movie_trailer"
         android:layout_marginTop="-20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:src="@drawable/poster_loading"/>
+        android:src="@drawable/ic_sync_black_48dp"
+        android:contentDescription="@string/movie_trailer_text" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Title"
+        android:text="@string/movie_title"
         android:id="@+id/movie_title"
         android:layout_centerVertical="true"
-        android:layout_below="@+id/movie_trailer"
-        android:layout_toRightOf="@+id/movie_poster"
+        android:layout_below="@id/movie_trailer"
+        android:layout_toRightOf="@id/movie_poster"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="15dp"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="7.8/10"
-        android:id="@+id/rating_text"
-        android:layout_below="@+id/movie_title"
-        android:layout_toRightOf="@+id/rate_indicator"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_centerVertical="true" />
+        android:id="@+id/rating_section"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/movie_poster"
+        android:layout_below="@id/movie_title"
+        android:gravity="center_vertical">
 
     <ImageView
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:id="@+id/rate_indicator"
-        android:layout_toRightOf="@id/movie_poster"
-        android:layout_alignBottom="@+id/rating_text"
-        android:src="@drawable/ic_star_black_18dp"/>
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="3dp"
+        android:src="@drawable/ic_star_black_18dp"
+        android:contentDescription="@string/rating" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="100 votes"
-        android:id="@+id/vote_count"
-        android:layout_below="@+id/rating_text"
-        android:layout_toRightOf="@+id/count_indicator"
-        android:layout_marginLeft="5dp" />
+        android:text="@string/rating_example"
+        android:id="@+id/rating_text"
+        android:gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/count_section"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/movie_poster"
+        android:layout_below="@id/rating_section"
+        android:gravity="center_vertical">
 
     <ImageView
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:id="@+id/count_indicator"
-        android:layout_toRightOf="@+id/movie_poster"
-        android:layout_below="@id/rate_indicator"
-        android:layout_alignBottom="@+id/vote_count"
-        android:src="@drawable/ic_supervisor_account_black_18dp" />
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="3dp"
+        android:src="@drawable/ic_supervisor_account_black_18dp"
+        android:contentDescription="@string/vote_count" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Release Date"
-        android:id="@+id/release_date"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/date_indicator"
-        android:layout_below="@id/vote_count"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="5dp"/>
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/vote_count_example"
+        android:id="@+id/vote_count"
+        android:gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_section"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/movie_poster"
+        android:layout_below="@id/count_section"
+        android:gravity="center_vertical">
 
     <ImageView
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:id="@+id/date_indicator"
-        android:layout_toRightOf="@+id/movie_poster"
-        android:layout_below="@id/count_indicator"
-        android:layout_alignBottom="@+id/release_date"
-        android:src="@drawable/ic_event_black_18dp" />
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="3dp"
+        android:src="@drawable/ic_event_black_18dp"
+        android:contentDescription="@string/release_date" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Original Language"
-        android:id="@+id/original_language"
-        android:layout_below="@+id/release_date"
-        android:layout_alignLeft="@+id/rating_text"
-        android:layout_alignStart="@+id/rating_text" />
+        android:text="@string/release_date_example"
+        android:id="@+id/release_date"
+        android:layout_centerVertical="true"
+        android:gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/language_section"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/movie_poster"
+        android:layout_below="@id/date_section"
+        android:gravity="center_vertical">
 
     <ImageView
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:id="@+id/language_indicator"
-        android:layout_toRightOf="@+id/movie_poster"
-        android:layout_below="@id/date_indicator"
-        android:layout_alignBottom="@+id/original_language"
-        android:src="@drawable/ic_language_black_18dp" />
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="3dp"
+        android:src="@drawable/ic_language_black_18dp"
+        android:contentDescription="@string/original_language" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="en"
+        android:id="@+id/original_language"
+        android:gravity="center" />
+
+    </LinearLayout>
 
     <View style="@style/Divider"
         android:id="@+id/divider1"
-        android:layout_below="@+id/movie_poster"
+        android:layout_below="@id/movie_poster"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
 
@@ -135,7 +172,7 @@
         android:text="Overview"
         android:id="@+id/overview_title"
         android:layout_centerVertical="true"
-        android:layout_below="@+id/divider1"
+        android:layout_below="@id/divider1"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -147,7 +184,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Movie's overview"
         android:id="@+id/overview"
-        android:layout_below="@+id/overview_title"
+        android:layout_below="@id/overview_title"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="30dp"/>
