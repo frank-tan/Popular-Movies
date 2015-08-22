@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.franktan.popularmovies.data.MovieContract;
@@ -34,7 +33,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     TextView mMovieTitle;
     TextView mMovieReleaseDate;
     TextView mOriginalLanguage;
-    RatingBar mRatingBar;
     TextView mRatingText;
     TextView mVoteCount;
     TextView mOverview;
@@ -76,7 +74,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mMovieTitle         = (TextView)    view.findViewById(R.id.movie_title);
         mMovieReleaseDate   = (TextView)    view.findViewById(R.id.release_date);
         mOriginalLanguage   = (TextView)    view.findViewById(R.id.original_language);
-        mRatingBar          = (RatingBar)   view.findViewById(R.id.rating_bar);
         mRatingText         = (TextView)    view.findViewById(R.id.rating_text);
         mVoteCount          = (TextView)    view.findViewById(R.id.vote_count);
         mOverview           = (TextView)    view.findViewById(R.id.overview);
@@ -137,22 +134,22 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Picasso.with(getActivity())
                 .load(backdropPath)
                 .placeholder(R.drawable.backdrop_loading)
-//                .error(R.drawable.backdrop_error)
+//TODO                .error(R.drawable.backdrop_error)
                 .fit()
                 .centerCrop()
                 .into(mMovieTrailer);
         Picasso.with(getActivity())
                 .load(posterPath)
                 .placeholder(R.drawable.poster_loading)
-//                .error(R.drawable.poster_error)
+//TODO                .error(R.drawable.poster_error)
                 .fit()
                 .centerCrop()
                 .into(mMoviePoster);
         mMovieTitle.setText(title);
-        mMovieReleaseDate.setText("Release Date: " + Parser.humanDateStringFromMiliseconds(releaseDate));
-        mOriginalLanguage.setText("Original Language: " + language);
+        mMovieReleaseDate.setText(Parser.humanDateStringFromMiliseconds(releaseDate));
+        mOriginalLanguage.setText(language);
 //        mRatingBar;
-        mRatingText.setText(String.valueOf(voteAverage));
+        mRatingText.setText(String.valueOf(voteAverage) + "/10");
         mVoteCount.setText(String.valueOf(voteCount));
         mOverview.setText(overview);
     }
