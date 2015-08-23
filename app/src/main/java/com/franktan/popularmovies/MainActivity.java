@@ -1,7 +1,6 @@
 package com.franktan.popularmovies;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +13,8 @@ import com.franktan.popularmovies.util.Constants;
 public class MainActivity extends AppCompatActivity
         implements MoviesGridFragment.OnFragmentInteractionListener{
 
+    private boolean mTwoPaneMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +22,11 @@ public class MainActivity extends AppCompatActivity
 
         MovieSyncAdapter.initialize(this);
 
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(findViewById(R.id.fragment_movie_details) != null) {
+            mTwoPaneMode = true;
+        } else {
+            mTwoPaneMode = false;
+        }
 
         Log.i(Constants.APP_NAME, "MainActivity onCreate");
     }
@@ -51,9 +56,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    public boolean isInTwoPaneMode() {
+        return mTwoPaneMode;
     }
 
-
+    @Override
+    public void onMovieItemSelected(int movieId) {
+        Log.i(Constants.APP_NAME,"MainActivity: movie selected is "+movieId);
+        MovieDetailFragment fragment = (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_movie_details);
+        fragment.showDetailsbyMovieId(movieId);
+    }
 }

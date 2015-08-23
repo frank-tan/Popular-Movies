@@ -39,32 +39,26 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     private static final int MOVIE_LOADER_ID = 0;
     private static String mSortOrderPreference;
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String SELECTION = "selection";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int mSelection;
 
     private OnFragmentInteractionListener mListener;
     private MovieGridAdapter mMovieGridAdapter;
+    GridView mGridView;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param selection the active selection.
      * @return A new instance of fragment MoviesGridFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static MoviesGridFragment newInstance(String param1, String param2) {
+    public static MoviesGridFragment newInstance(int selection) {
         MoviesGridFragment fragment = new MoviesGridFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(SELECTION, selection);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,12 +69,18 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(Constants.APP_NAME, "MoviesGridFragment onCreate");
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//        if (getArguments() != null) {
+//            mSelection = getArguments().getInt(SELECTION);
+//            Log.i(Constants.APP_NAME, "MoviesGridFragment onCreate: selection is "+mSelection);
+//        }
+        if(savedInstanceState != null && savedInstanceState.containsKey(SELECTION)) {
+            int savedPosition = savedInstanceState.getInt(SELECTION);
+            if(savedPosition >= 0) {
+                mSelection = savedPosition;
+            }
         }
+
     }
 
     @Override
@@ -89,8 +89,8 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
         String newSortOrderPref = Utilities.getSortOrderPreference(getActivity());
         if(!newSortOrderPref.equals(mSortOrderPreference)) {
-            getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
             mSortOrderPreference = newSortOrderPref;
+            getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
         }
     }
 
@@ -98,6 +98,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(Constants.APP_NAME, "onActivityCreated: to initLoader");
         getLoaderManager().initLoader(MOVIE_LOADER_ID, null, this);
+
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -106,35 +107,35 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies_grid, container, false);
 
-        GridView gridview = (GridView) view.findViewById(R.id.moviesgridview);
+        mGridView = (GridView) view.findViewById(R.id.moviesgridview);
         mMovieGridAdapter = new MovieGridAdapter(getActivity(), null, 0);
 
-        gridview.setAdapter(mMovieGridAdapter);
+        mGridView.setAdapter(mMovieGridAdapter);
 
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                mSelection = position;
+                Log.i(Constants.APP_NAME, "MoviesGridFragment setOnItemClickListener: selection is "+mSelection);
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
                 // if it cannot seek to that position.
                 if (cursor == null) {
-                    Log.i(Constants.APP_NAME,"item clicked, but cursor is null");
+                    Log.i(Constants.APP_NAME, "item clicked, but cursor is null");
                     return;
                 }
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-                intent.putExtra("Id", cursor.getInt(COL_MOVIE_ID));
-                startActivity(intent);
+                int movieId = cursor.getInt(COL_MOVIE_ID);
+                if (mListener.isInTwoPaneMode()) {
+                    mListener.onMovieItemSelected(movieId);
+                } else {
+                    Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                    intent.putExtra("Id", movieId);
+                    startActivity(intent);
+                }
             }
         });
 
         return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -152,6 +153,15 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // save the current active selection
+        if(mSelection != GridView.INVALID_POSITION) {
+            outState.putInt(SELECTION,mSelection);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -178,9 +188,19 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.i(Constants.APP_NAME, "onLoadFinished count: "+cursor.getCount());
         mMovieGridAdapter.swapCursor(cursor);
-        //TODO: to keep scrolling position, add code here
+
+        Log.i(Constants.APP_NAME, "MoviesGridFragment onLoadFinished: selection is " + mSelection);
+        //keep scrolling position, add code here
+        if(mSelection != GridView.INVALID_POSITION) {
+            mGridView.setSelection(mSelection);
+            mGridView.setItemChecked(mSelection, true);
+            if(mListener.isInTwoPaneMode()) {
+                int movieId = (int) mMovieGridAdapter.getItemId(mSelection);
+                Log.i(Constants.APP_NAME,"movieId is "+movieId);
+                mListener.onMovieItemSelected(movieId);
+            }
+        }
     }
 
     @Override
@@ -200,8 +220,9 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public boolean isInTwoPaneMode();
+
+        void onMovieItemSelected(int movieId);
     }
 
 }

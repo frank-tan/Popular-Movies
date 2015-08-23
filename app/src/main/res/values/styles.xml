@@ -11,11 +11,21 @@
     <style name="AppTheme.ActionBar" parent="AppTheme">
         <item name="colorPrimaryDark">@color/popularmovies_primary_dark</item>
         <item name="colorPrimary">@color/popularmovies_primary</item>
+        <!--<item name="actionBarStyle">@style/ActionBar.Solid.PopularMovies</item>-->
+    </style>
+
+    <!-- Style of using logos on the action bar. Commented out as it is ugly -->
+    <style name="ActionBar.Solid.PopularMovies" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="displayOptions">useLogo|showHome</item>
+        <item name="logo">@mipmap/ic_launcher</item>
     </style>
 
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="MovieGridStyle">
     </style>
 </resources>

@@ -128,9 +128,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Double voteAverage  = cursor.getDouble(COL_MOVIE_VOTE_AVERAGE);
         int voteCount       = cursor.getInt(COL_MOVIE_VOTE_COUNT);
         String overview     = cursor.getString(COL_MOVIE_OVERVIEW);
-
-        Log.i(Constants.APP_NAME,"release date epoch is " + releaseDate);
-
+        
         Picasso.with(getActivity())
                 .load(backdropPath)
                 .placeholder(R.drawable.backdrop_loading_placeholder)
@@ -152,5 +150,11 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mRatingText.setText(String.valueOf(voteAverage) + "/10");
         mVoteCount.setText(String.valueOf(voteCount) + " votes");
         mOverview.setText(overview);
+    }
+
+    public void showDetailsbyMovieId (int movieId) {
+        mMovieId = movieId;
+        Log.i(Constants.APP_NAME,"MovieDetailFragment: show movieId "+movieId);
+        getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
     }
 }

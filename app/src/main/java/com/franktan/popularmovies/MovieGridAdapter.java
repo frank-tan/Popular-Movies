@@ -63,8 +63,13 @@ public class MovieGridAdapter extends CursorAdapter {
 //        return ;
 //    }
 
-//    public long getItemId(int position) {
-//        return 0;
-//    }
+    public long getItemId(int position) {
+        if(mCursor != null) {
+            if(mCursor.moveToPosition(position)) {
+                return mCursor.getInt(MoviesGridFragment.COL_MOVIE_ID);
+            }
+        }
+        return 0;
+    }
 
 }
