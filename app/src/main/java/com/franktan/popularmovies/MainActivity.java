@@ -3,12 +3,10 @@ package com.franktan.popularmovies;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
-import com.franktan.popularmovies.util.Constants;
 
 public class MainActivity extends AppCompatActivity
         implements MoviesGridFragment.OnFragmentInteractionListener{
@@ -28,7 +26,6 @@ public class MainActivity extends AppCompatActivity
             mTwoPaneMode = false;
         }
 
-        Log.i(Constants.APP_NAME, "MainActivity onCreate");
     }
 
     @Override
@@ -62,7 +59,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMovieItemSelected(int movieId) {
-        Log.i(Constants.APP_NAME,"MainActivity: movie selected is "+movieId);
         MovieDetailFragment fragment = (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_movie_details);
         fragment.showDetailsbyMovieId(movieId);
     }

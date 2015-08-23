@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +116,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor != null && !cursor.moveToFirst()){
-            Log.i(Constants.APP_NAME,"Cursor is null");
             return;
         }
         String backdropPath = Constants.BACKDROP_BASE_PATH + cursor.getString(COL_MOVIE_BACKDROP_PATH);
@@ -154,7 +152,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     public void showDetailsbyMovieId (int movieId) {
         mMovieId = movieId;
-        Log.i(Constants.APP_NAME,"MovieDetailFragment: show movieId "+movieId);
         getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
     }
 }

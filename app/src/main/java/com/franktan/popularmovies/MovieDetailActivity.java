@@ -2,11 +2,8 @@ package com.franktan.popularmovies;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.WindowManager;
-
-import com.franktan.popularmovies.util.Constants;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -18,7 +15,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         setStatusBarTranslucent(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        Log.i(Constants.APP_NAME, "MovieDetailActivity onCreate");
     }
 
     @Override

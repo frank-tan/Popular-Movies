@@ -2,7 +2,6 @@ package com.franktan.popularmovies.sync;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.util.Parser;
@@ -28,7 +27,6 @@ public class MovieDbRESTAPIService {
         BufferedReader reader = null;
 
         String formattedDateFrom = Parser.movieDbDateStringFromMiliseconds(releaseDateFrom);
-        Log.i("popularmovies",formattedDateFrom);
 
         final String MOVIEDB_BASE_URL =
                 "http://api.themoviedb.org/3/discover/movie?";

@@ -87,7 +87,6 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
      */
     public static int retrieveAndSaveMovieData(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom, int page) {
         String movieJsonString = movieDbRESTAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, page);
-        Log.i(Constants.APP_NAME,movieJsonString);
         List<Movie> movieList;
         try {
             movieList = Parser.parseJson(movieJsonString);
