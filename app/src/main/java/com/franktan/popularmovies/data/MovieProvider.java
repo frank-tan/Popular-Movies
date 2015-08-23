@@ -82,7 +82,6 @@ public class MovieProvider extends ContentProvider {
 
         switch (match) {
             case MOVIE: {
-                normalizeDate(values);
                 long _id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
                 if ( _id >= 0 )
                     returnUri = MovieContract.MovieEntry.buildMovieUri(_id);
@@ -139,7 +138,6 @@ public class MovieProvider extends ContentProvider {
 
         switch (match) {
             case MOVIE: {
-                normalizeDate(values);
                 rowsUpdated = db.update(MovieContract.MovieEntry.TABLE_NAME, values, selection, selectionArgs);
                 if(rowsUpdated < 0) {
                     throw new android.database.SQLException("Failed to update row from " + uri);
@@ -172,7 +170,6 @@ public class MovieProvider extends ContentProvider {
                 int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        normalizeDate(value);
                         long _id = db.insertWithOnConflict(MovieContract.MovieEntry.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_REPLACE);
                         if (_id != -1) {
                             returnCount++;
@@ -241,17 +238,5 @@ public class MovieProvider extends ContentProvider {
                 null,
                 sortOrder
         );
-    }
-
-    /**
-     * A helper method to change the data into Julian number
-     * @param values
-     */
-    private void normalizeDate(ContentValues values) {
-        // normalize the date value
-        if (values.containsKey(MovieContract.MovieEntry.COLUMN_RELEASE_DATE)) {
-            long dateValue = values.getAsLong(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
-            values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, MovieContract.normalizeDate(dateValue));
-        }
     }
 }
