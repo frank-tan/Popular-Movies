@@ -18,5 +18,17 @@
     <string name="release_date_example">1 Jan 2015</string>
     <string name="original_language">Original Language</string>
 
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="sort_order_key">sort_order</string>
+    <string name="sort_order_label">Sort by</string>
+    <string name="sort_order_summary">The sorting order used in movie grid screen</string>
+    <string name="sort_by_popularity">Popularity</string>
+    <string-array name="sort_order_array">
+        <item>Popularity</item>
+        <item>Rating</item>
+    </string-array>
+
 
 </resources>
