@@ -13,6 +13,6 @@ public class MovieDbRESTAPIServiceTest extends AndroidTestCase {
      */
     public void testApiKey () {
         String apiKey = MovieDbRESTAPIService.getApiKey(mContext);
-        assertTrue("API Key should not be null", (apiKey != null && apiKey != ""));
+        assertTrue("API Key should not be null", (apiKey != null && !apiKey.equals("")));
     }
 }

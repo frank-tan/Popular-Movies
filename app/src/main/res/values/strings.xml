@@ -5,7 +5,6 @@
     <string name="sync_account_type">popularmovies.franktan.com</string>
     <string name="content_authority">com.franktan.popularmovies</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="movie_title">Title</string>
@@ -25,6 +24,10 @@
     <string name="sort_order_label">Sort by</string>
     <string name="sort_order_summary">The sorting order used in movie grid screen</string>
     <string name="sort_by_popularity">Popularity</string>
+    <string name="original_language_example">en</string>
+    <string name="overview_title">Overview</string>
+    <string name="overview_example">Movie\'s overview</string>
+    <string name="movie_poster_image">Movie poster image</string>
     <string-array name="sort_order_array">
         <item>Popularity</item>
         <item>Rating</item>

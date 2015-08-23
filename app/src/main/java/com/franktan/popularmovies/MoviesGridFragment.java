@@ -217,7 +217,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public boolean isInTwoPaneMode();
+        boolean isInTwoPaneMode();
 
         void onMovieItemSelected(int movieId);
     }

@@ -17,7 +17,8 @@
         android:id="@+id/movie_trailer"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/movie_trailer_text"/>
 
     <ImageView
         android:layout_width="123dp"
@@ -27,7 +28,7 @@
         android:layout_marginTop="-20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:contentDescription="@string/movie_trailer_text" />
+        android:contentDescription="@string/movie_poster_image" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -151,7 +152,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="en"
+        android:text="@string/original_language_example"
         android:id="@+id/original_language"
         android:gravity="center" />
 
@@ -167,7 +168,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Overview"
+        android:text="@string/overview_title"
         android:id="@+id/overview_title"
         android:layout_centerVertical="true"
         android:layout_below="@id/divider1"
@@ -180,7 +181,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Movie's overview"
+        android:text="@string/overview_example"
         android:id="@+id/overview"
         android:layout_below="@id/overview_title"
         android:layout_marginLeft="15dp"

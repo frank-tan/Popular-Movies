@@ -67,7 +67,6 @@ public class MovieProviderTest extends AndroidTestCase {
      */
     public void testProviderQuery() {
 
-        ContentValues testValues = DataTestUtilities.createMovieEntry();
         long movieRowId = DataTestUtilities.insertMovieTestEntry(mContext);
 
         // Test the basic content provider query
@@ -278,7 +277,6 @@ public class MovieProviderTest extends AndroidTestCase {
     // helper methods
 
     static ContentValues[] createBulkInsertMovieValues(int offset) {
-        long millisecondsInADay = 1000*60*60*24;
         ContentValues[] movieList = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
 
         for ( int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++ ) {

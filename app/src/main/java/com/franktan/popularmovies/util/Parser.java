@@ -72,7 +72,6 @@ public class Parser {
         return movieList;
     }
 
-    // TODO: write unit test
     public static ContentValues[] contentValuesFromMovieList(List<Movie> movieList) {
         ContentValues[] movieContentValues = new ContentValues[movieList.size()];
 

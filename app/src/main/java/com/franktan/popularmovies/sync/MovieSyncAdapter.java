@@ -135,7 +135,6 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
         // get movies from within 6 months ago
         Calendar cal = Calendar.getInstance();
-        Date today = cal.getTime();
         cal.add(Calendar.MONTH, -6);
         Date halfYearAgo = cal.getTime();
         long dateFrom = halfYearAgo.getTime();
@@ -178,10 +177,8 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
      */
     private static Account getSyncAccount(Context context) {
         // Create the account type and default account
-        Account newAccount = new Account(
+        return new Account(
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
-
-        return newAccount;
     }
 
     /**

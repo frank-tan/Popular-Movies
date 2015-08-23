@@ -46,6 +46,8 @@ public class MovieDBHelperTest extends AndroidTestCase {
         assertTrue("Our tables should have been created in the database",
                 tableNameHashSet.isEmpty());
 
+        c.close();
+
         // now, do our tables contain the correct columns?
         c = db.rawQuery("PRAGMA table_info(" + MovieContract.MovieEntry.TABLE_NAME + ")",
                 null);
@@ -78,6 +80,7 @@ public class MovieDBHelperTest extends AndroidTestCase {
         // entry columns
         assertTrue("Movie table should contains all columns we defined",
                 movieColumnSet.isEmpty());
+        c.close();
         db.close();
     }
 
