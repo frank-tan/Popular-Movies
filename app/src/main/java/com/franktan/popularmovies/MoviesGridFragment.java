@@ -70,10 +70,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mSelection = getArguments().getInt(SELECTION);
-//            Log.i(Constants.APP_NAME, "MoviesGridFragment onCreate: selection is "+mSelection);
-//        }
+
         if(savedInstanceState != null && savedInstanceState.containsKey(SELECTION)) {
             int savedPosition = savedInstanceState.getInt(SELECTION);
             if(savedPosition >= 0) {
@@ -91,12 +88,12 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         if(!newSortOrderPref.equals(mSortOrderPreference)) {
             mSortOrderPreference = newSortOrderPref;
             getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
+            goToSelectedMovie(0);
         }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.i(Constants.APP_NAME, "onActivityCreated: to initLoader");
         getLoaderManager().initLoader(MOVIE_LOADER_ID, null, this);
 
         super.onActivityCreated(savedInstanceState);
@@ -116,7 +113,6 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 mSelection = position;
-                Log.i(Constants.APP_NAME, "MoviesGridFragment setOnItemClickListener: selection is "+mSelection);
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
                 // if it cannot seek to that position.
@@ -166,7 +162,6 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.i(Constants.APP_NAME, "onCreateLoader");
         mSortOrderPreference = Utilities.getSortOrderPreference(getActivity());
 
         Uri movieUri = MovieContract.MovieEntry.CONTENT_URI;
@@ -190,23 +185,25 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mMovieGridAdapter.swapCursor(cursor);
 
-        Log.i(Constants.APP_NAME, "MoviesGridFragment onLoadFinished: selection is " + mSelection);
         //keep scrolling position, add code here
+        goToSelectedMovie(mSelection);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mMovieGridAdapter.swapCursor(null);
+    }
+
+    private void goToSelectedMovie (int selection) {
+        mSelection = selection;
         if(mSelection != GridView.INVALID_POSITION) {
             mGridView.setSelection(mSelection);
             mGridView.setItemChecked(mSelection, true);
             if(mListener.isInTwoPaneMode()) {
                 int movieId = (int) mMovieGridAdapter.getItemId(mSelection);
-                Log.i(Constants.APP_NAME,"movieId is "+movieId);
                 mListener.onMovieItemSelected(movieId);
             }
         }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        Log.i(Constants.APP_NAME, "onLoaderReset");
-        mMovieGridAdapter.swapCursor(null);
     }
 
     /**
