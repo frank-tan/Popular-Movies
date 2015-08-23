@@ -114,7 +114,8 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         MovieDbRESTAPIService movieDbRESTAPIService = MovieDbRESTAPIService.getDbSyncService();
 
-        // TODO: Get SortBy from user setting
+        //TODO: find a suitable way to retrieve movie data
+
         String sortBy = "popularity.desc";
 
         // get movies from within 6 months ago

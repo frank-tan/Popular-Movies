@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.franktan.popularmovies.util.Constants;
 
 /**
  * This fragment shows general preferences only. It is used when the
@@ -21,7 +18,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
-        setPrefSummary(getString(R.string.sort_order_key));
+        setPrefSummaryToValue(getString(R.string.sort_order_key));
     }
     @Override
     public void onResume() {
@@ -38,15 +35,14 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
     {
-        Log.i(Constants.APP_NAME, "onSharedPreferenceChanged called: key:" + key);
         if (key.equals(getString(R.string.sort_order_key)))
         {
             // Set summary to be the user-description for the selected value
-            setPrefSummary(key);
+            setPrefSummaryToValue(key);
         }
     }
 
-    private void setPrefSummary (String key) {
+    private void setPrefSummaryToValue(String key) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Preference sortOrderPref = findPreference(key);
         sortOrderPref.setSummary(sharedPreferences.getString(key, ""));

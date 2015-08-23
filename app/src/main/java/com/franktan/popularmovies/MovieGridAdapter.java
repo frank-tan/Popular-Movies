@@ -3,7 +3,6 @@ package com.franktan.popularmovies;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +35,15 @@ public class MovieGridAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         String posterPath = cursor.getString(MoviesGridFragment.COL_POSTER_PATH);
-        String postFullPath = Constants.POSTER_BASE_PATH + posterPath;
-        Log.i(Constants.APP_NAME,postFullPath);
+        String posterFullPath = Constants.POSTER_BASE_PATH + posterPath;
 
-        Picasso.with(context).load(postFullPath).into(viewHolder.posterImage);
+        Picasso.with(context)
+                .load(posterFullPath)
+                .placeholder(R.drawable.poster_loading_placeholder)
+                .error(R.drawable.poster_failed_placeholder)
+                .fit()
+                .centerCrop()
+                .into(viewHolder.posterImage);
     }
 
     public static class ViewHolder {

@@ -18,6 +18,7 @@ import android.widget.GridView;
 
 import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.util.Constants;
+import com.franktan.popularmovies.util.Utilities;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +37,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     static final int COL_MOVIE_ID = 0;
     static final int COL_POSTER_PATH = 1;
     private static final int MOVIE_LOADER_ID = 0;
+    private static String mSortOrderPreference;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,6 +80,17 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String newSortOrderPref = Utilities.getSortOrderPreference(getActivity());
+        if(!newSortOrderPref.equals(mSortOrderPreference)) {
+            getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
+            mSortOrderPreference = newSortOrderPref;
         }
     }
 
@@ -144,9 +157,15 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.i(Constants.APP_NAME, "onCreateLoader");
+        mSortOrderPreference = Utilities.getSortOrderPreference(getActivity());
 
         Uri movieUri = MovieContract.MovieEntry.CONTENT_URI;
-        String sortOrder = MovieContract.MovieEntry.COLUMN_POPULARITY + " DESC";
+        String sortOrder;
+        if(mSortOrderPreference.equals("Rating")){
+            sortOrder = MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE + " DESC";
+        } else {
+            sortOrder = MovieContract.MovieEntry.COLUMN_POPULARITY + " DESC";
+        }
         return new CursorLoader(
                 getActivity(),
                 movieUri,

@@ -13,12 +13,11 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="230dp"
         android:id="@+id/movie_trailer"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_sync_black_48dp"/>
+        android:layout_alignParentRight="true"/>
 
     <ImageView
         android:layout_width="123dp"
@@ -28,7 +27,6 @@
         android:layout_marginTop="-20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:src="@drawable/ic_sync_black_48dp"
         android:contentDescription="@string/movie_trailer_text" />
 
     <TextView
@@ -162,7 +160,7 @@
     <View style="@style/Divider"
         android:id="@+id/divider1"
         android:layout_below="@id/movie_poster"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"/>
 
     <TextView

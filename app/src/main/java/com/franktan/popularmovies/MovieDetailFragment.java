@@ -133,15 +133,15 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         Picasso.with(getActivity())
                 .load(backdropPath)
-                .placeholder(R.drawable.ic_sync_black_48dp)
-                .error(R.drawable.ic_cloud_off_black_48dp)
+                .placeholder(R.drawable.backdrop_loading_placeholder)
+                .error(R.drawable.backdrop_failed_placeholder)
                 .fit()
                 .centerCrop()
                 .into(mMovieTrailer);
         Picasso.with(getActivity())
                 .load(posterPath)
-                .placeholder(R.drawable.ic_sync_black_48dp)
-                .error(R.drawable.ic_cloud_off_black_48dp)
+                .placeholder(R.drawable.poster_loading_placeholder)
+                .error(R.drawable.poster_failed_placeholder)
                 .fit()
                 .centerCrop()
                 .into(mMoviePoster);
