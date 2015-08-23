@@ -76,6 +76,15 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
+    /**
+     * Get movie data from MovieDB, parse the json return and save it into local database
+     * @param context
+     * @param movieDbRESTAPIService
+     * @param sortBy
+     * @param releaseDateFrom
+     * @param page
+     * @return
+     */
     public static int retrieveAndSaveMovieData(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom, int page) {
         String movieJsonString = movieDbRESTAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, page);
         Log.i(Constants.APP_NAME,movieJsonString);
@@ -83,10 +92,10 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         try {
             movieList = Parser.parseJson(movieJsonString);
         } catch (JSONException e) {
-            // TODO: need to notify developer
+            // TODO
             return 0;
         } catch (ParseException e) {
-            // TODO: need to notify developer
+            // TODO
             return 0;
         }
         ContentValues[] movieContentValues = Parser.contentValuesFromMovieList(movieList);
@@ -103,18 +112,24 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
             boolean autoInitialize,
             boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
-        /*
-         * If your app uses a content resolver, get an instance of it
-         * from the incoming Context
-         */
+
         mContentResolver = context.getContentResolver();
     }
 
+    /**
+     * The logic for performing sync
+     * @param account
+     * @param extras
+     * @param authority
+     * @param provider
+     * @param syncResult
+     */
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         MovieDbRESTAPIService movieDbRESTAPIService = MovieDbRESTAPIService.getDbSyncService();
 
-        //TODO: find a suitable way to retrieve movie data
+        // Here, we retrieve movies release 6 months ago onwards sort by both popularity and vote_average
+        // We leave to the cursor adapter to sort all movies from database
 
         String sortBy = "popularity.desc";
 
@@ -122,14 +137,24 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
         cal.add(Calendar.MONTH, -6);
-        Date twoYearsAgo = cal.getTime();
-        long dateFrom = twoYearsAgo.getTime();
+        Date halfYearAgo = cal.getTime();
+        long dateFrom = halfYearAgo.getTime();
+
+        for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
+            retrieveAndSaveMovieData(getContext(), movieDbRESTAPIService, sortBy, dateFrom, page);
+        }
+
+        sortBy = "vote_average.desc";
 
         for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
             retrieveAndSaveMovieData(getContext(), movieDbRESTAPIService, sortBy, dateFrom, page);
         }
     }
 
+    /**
+     * Do a synchronise from moviedb now
+     * @param context
+     */
     public static void syncMovieDataNow (Context context) {
     // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();
