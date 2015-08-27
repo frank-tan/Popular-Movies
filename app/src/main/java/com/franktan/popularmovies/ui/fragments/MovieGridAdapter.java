@@ -1,4 +1,4 @@
-package com.franktan.popularmovies;
+package com.franktan.popularmovies.ui.fragments;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.franktan.popularmovies.R;
+import com.franktan.popularmovies.ui.fragments.MoviesGridFragment;
 import com.franktan.popularmovies.util.Constants;
 import com.squareup.picasso.Picasso;
 

@@ -16,6 +16,7 @@ import android.util.Log;
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.model.Movie;
+import com.franktan.popularmovies.rest.MovieDbRESTAPIService;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 

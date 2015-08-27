@@ -1,9 +1,11 @@
-package com.franktan.popularmovies;
+package com.franktan.popularmovies.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.WindowManager;
+
+import com.franktan.popularmovies.R;
 
 public class MovieDetailActivity extends AppCompatActivity {
 

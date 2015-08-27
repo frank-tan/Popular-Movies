@@ -1,4 +1,4 @@
-package com.franktan.popularmovies;
+package com.franktan.popularmovies.ui.views;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

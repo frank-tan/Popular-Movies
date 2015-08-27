@@ -1,4 +1,4 @@
-package com.franktan.popularmovies;
+package com.franktan.popularmovies.ui.fragments;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+
+import com.franktan.popularmovies.R;
 
 /**
  * This fragment shows general preferences only. It is used when the

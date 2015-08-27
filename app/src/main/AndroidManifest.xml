@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme.ActionBar" >
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
@@ -24,21 +24,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MovieDetailActivity"
+            android:name=".ui.activities.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.franktan.popularmovies.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".ui.activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.franktan.popularmovies.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
 
         <provider

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_moviesgrid"
-        android:name="com.franktan.popularmovies.MoviesGridFragment"
+        android:name="com.franktan.popularmovies.ui.fragments.MoviesGridFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/fragment_movie_details"
-        android:name="com.franktan.popularmovies.MovieDetailFragment"
+        android:name="com.franktan.popularmovies.ui.fragments.MovieDetailFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

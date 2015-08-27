@@ -2,6 +2,8 @@ package com.franktan.popularmovies.sync;
 
 import android.test.AndroidTestCase;
 
+import com.franktan.popularmovies.rest.MovieDbRESTAPIService;
+
 /**
  * Created by tan on 16/08/2015.
  */

@@ -1,4 +1,4 @@
-package com.franktan.popularmovies;
+package com.franktan.popularmovies.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
+import com.franktan.popularmovies.ui.fragments.MovieDetailFragment;
+import com.franktan.popularmovies.ui.fragments.MoviesGridFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements MoviesGridFragment.OnFragmentInteractionListener{
+        implements MoviesGridFragment.OnFragmentInteractionListener {
 
     private boolean mTwoPaneMode;
 

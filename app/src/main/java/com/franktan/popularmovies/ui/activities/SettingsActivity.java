@@ -1,8 +1,10 @@
-package com.franktan.popularmovies;
+package com.franktan.popularmovies.ui.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
+
+import com.franktan.popularmovies.ui.fragments.GeneralPreferenceFragment;
 
 
 /**

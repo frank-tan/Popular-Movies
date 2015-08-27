@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.test.InstrumentationTestCase;
 
 import com.franktan.popularmovies.data.MovieContract;
-import com.franktan.popularmovies.sync.MovieDbRESTAPIService;
+import com.franktan.popularmovies.rest.MovieDbRESTAPIService;
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
 
 import java.io.IOException;

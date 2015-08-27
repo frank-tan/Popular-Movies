@@ -1,4 +1,4 @@
-package com.franktan.popularmovies.sync;
+package com.franktan.popularmovies.rest;
 
 import android.content.Context;
 import android.net.Uri;

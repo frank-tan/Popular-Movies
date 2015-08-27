@@ -1,4 +1,4 @@
-package com.franktan.popularmovies;
+package com.franktan.popularmovies.ui.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
