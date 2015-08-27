@@ -66,7 +66,6 @@ public class MovieDBHelperTest extends AndroidTestCase {
         movieColumnSet.add(MovieContract.MovieEntry.COLUMN_POSTER_PATH);
         movieColumnSet.add(MovieContract.MovieEntry.COLUMN_POPULARITY);
         movieColumnSet.add(MovieContract.MovieEntry.COLUMN_TITLE);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_VIDEO);
         movieColumnSet.add(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
         movieColumnSet.add(MovieContract.MovieEntry.COLUMN_VOTE_COUNT);
 

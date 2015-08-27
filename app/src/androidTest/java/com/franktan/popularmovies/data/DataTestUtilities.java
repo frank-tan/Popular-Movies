@@ -40,7 +40,6 @@ public class DataTestUtilities {
         testValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH,     "/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg");
         testValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY,      53.68);
         testValues.put(MovieContract.MovieEntry.COLUMN_TITLE,           "Terminator Genisys");
-        testValues.put(MovieContract.MovieEntry.COLUMN_VIDEO,           false);
         testValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,    6.3);
         testValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT,      713);
 

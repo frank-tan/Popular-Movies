@@ -290,7 +290,6 @@ public class MovieProviderTest extends AndroidTestCase {
             movie.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, "path " + i + offset);
             movie.put(MovieContract.MovieEntry.COLUMN_POPULARITY, 50);
             movie.put(MovieContract.MovieEntry.COLUMN_TITLE, "Test Title " + i + offset);
-            movie.put(MovieContract.MovieEntry.COLUMN_VIDEO, false);
             movie.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, 50);
             movie.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT, 50);
             movieList[i] = movie;

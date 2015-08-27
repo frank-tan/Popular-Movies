@@ -1,21 +1,60 @@
 package com.franktan.popularmovies.model;
 
+import java.util.List;
+
 /**
  * Created by tan on 16/08/2015.
  */
 public class Movie {
     private String backdropPath;
-    private int movieDbId;
-    private String originalLan;
+    private int id;
+    private String originalLanguage;
     private String originalTitle;
     private String overview;
     private long releaseDate;
     private String posterPath;
     private double popularity;
     private String title;
-    private boolean hasVideo;
     private double voteAverage;
     private int voteCount;
+    private List<Review> reviews;
+    private List<Genre> genres;
+    private List<Trailer> trailers;
+
+    public Movie() {
+    }
+
+    public Movie(int id, String title, List<Review> reviews, List<Genre> genres, List<Trailer> trailers) {
+        this.id = id;
+        this.title = title;
+        this.reviews = reviews;
+        this.genres = genres;
+        this.trailers = trailers;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Trailer> getTrailers() {
+        return trailers;
+    }
+
+    public void setTrailers(List<Trailer> trailers) {
+        this.trailers = trailers;
+    }
 
     public String getBackdropPath() {
         return backdropPath;
@@ -25,28 +64,20 @@ public class Movie {
         this.backdropPath = backdropPath;
     }
 
-    public boolean isHasVideo() {
-        return hasVideo;
+    public int getId() {
+        return id;
     }
 
-    public void setHasVideo(boolean hasVideo) {
-        this.hasVideo = hasVideo;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getMovieDbId() {
-        return movieDbId;
+    public String getOriginalLanguage() {
+        return originalLanguage;
     }
 
-    public void setMovieDbId(int movieDbId) {
-        this.movieDbId = movieDbId;
-    }
-
-    public String getOriginalLan() {
-        return originalLan;
-    }
-
-    public void setOriginalLan(String originalLan) {
-        this.originalLan = originalLan;
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
 
     public String getOriginalTitle() {
@@ -120,15 +151,14 @@ public class Movie {
 
         Movie movie = (Movie) o;
 
-        if (movieDbId != movie.movieDbId) return false;
+        if (id != movie.id) return false;
         if (releaseDate != movie.releaseDate) return false;
         if (Double.compare(movie.popularity, popularity) != 0) return false;
-        if (hasVideo != movie.hasVideo) return false;
         if (Double.compare(movie.voteAverage, voteAverage) != 0) return false;
         if (voteCount != movie.voteCount) return false;
         if (backdropPath != null ? !backdropPath.equals(movie.backdropPath) : movie.backdropPath != null)
             return false;
-        if (originalLan != null ? !originalLan.equals(movie.originalLan) : movie.originalLan != null)
+        if (originalLanguage != null ? !originalLanguage.equals(movie.originalLanguage) : movie.originalLanguage != null)
             return false;
         if (originalTitle != null ? !originalTitle.equals(movie.originalTitle) : movie.originalTitle != null)
             return false;
@@ -145,8 +175,8 @@ public class Movie {
         int result;
         long temp;
         result = backdropPath != null ? backdropPath.hashCode() : 0;
-        result = 31 * result + movieDbId;
-        result = 31 * result + (originalLan != null ? originalLan.hashCode() : 0);
+        result = 31 * result + id;
+        result = 31 * result + (originalLanguage != null ? originalLanguage.hashCode() : 0);
         result = 31 * result + (originalTitle != null ? originalTitle.hashCode() : 0);
         result = 31 * result + (overview != null ? overview.hashCode() : 0);
         result = 31 * result + (int) (releaseDate ^ (releaseDate >>> 32));
@@ -154,7 +184,6 @@ public class Movie {
         temp = Double.doubleToLongBits(popularity);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + title.hashCode();
-        result = 31 * result + (hasVideo ? 1 : 0);
         temp = Double.doubleToLongBits(voteAverage);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + voteCount;
@@ -165,15 +194,14 @@ public class Movie {
     public String toString() {
         return "Movie{" +
                 "backdropPath='" + backdropPath + '\'' +
-                ", movieDbId=" + movieDbId +
-                ", originalLan='" + originalLan + '\'' +
+                ", id=" + id +
+                ", originalLanguage='" + originalLanguage + '\'' +
                 ", originalTitle='" + originalTitle + '\'' +
                 ", overview='" + overview + '\'' +
                 ", releaseDate=" + releaseDate +
                 ", posterPath='" + posterPath + '\'' +
                 ", popularity=" + popularity +
                 ", title='" + title + '\'' +
-                ", hasVideo=" + hasVideo +
                 ", voteAverage=" + voteAverage +
                 ", voteCount=" + voteCount +
                 '}';

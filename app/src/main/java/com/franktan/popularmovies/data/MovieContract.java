@@ -37,7 +37,6 @@ public class MovieContract {
         public static final String COLUMN_POSTER_PATH       = "column_poster_path";
         public static final String COLUMN_POPULARITY        = "column_popularity";
         public static final String COLUMN_TITLE             = "column_title";
-        public static final String COLUMN_VIDEO             = "column_video";
         public static final String COLUMN_VOTE_AVERAGE      = "column_vote_average";
         public static final String COLUMN_VOTE_COUNT        = "column_vote_count";
 

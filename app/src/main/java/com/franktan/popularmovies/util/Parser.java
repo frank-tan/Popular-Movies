@@ -54,15 +54,14 @@ public class Parser {
 
             Movie movie = new Movie();
             movie.setBackdropPath(backdropPath);
-            movie.setMovieDbId(movieDbId);
-            movie.setOriginalLan(originalLan);
+            movie.setId(movieDbId);
+            movie.setOriginalLanguage(originalLan);
             movie.setOriginalTitle(originalTitle);
             movie.setOverview(overview);
             movie.setReleaseDate(releaseDate);
             movie.setPosterPath(posterPath);
             movie.setPopularity(popularity);
             movie.setTitle(title);
-            movie.setHasVideo(video);
             movie.setVoteAverage(voteAverage);
             movie.setVoteCount(voteCount);
 
@@ -79,15 +78,14 @@ public class Parser {
             Movie movie = movieList.get(i);
             ContentValues movieContentValue = new ContentValues();
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH,    movie.getBackdropPath());
-            movieContentValue.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID,       movie.getMovieDbId());
-            movieContentValue.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN,     movie.getOriginalLan());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID,       movie.getId());
+            movieContentValue.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN,     movie.getOriginalLanguage());
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE,   movie.getOriginalTitle());
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_OVERVIEW,         movie.getOverview());
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE,     movie.getReleaseDate());
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH,      movie.getPosterPath());
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_POPULARITY,       movie.getPopularity());
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_TITLE,            movie.getTitle());
-            movieContentValue.put(MovieContract.MovieEntry.COLUMN_VIDEO,            movie.isHasVideo());
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,     movie.getVoteAverage());
             movieContentValue.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT,       movie.getVoteCount());
             movieContentValues[i] = movieContentValue;
