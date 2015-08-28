@@ -9,6 +9,15 @@ public class Trailer {
     private String source;
     private String type;
 
+    public Trailer () {}
+
+    public Trailer (String name, String size, String source, String type) {
+        this.name = name;
+        this.size = size;
+        this.source = source;
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }

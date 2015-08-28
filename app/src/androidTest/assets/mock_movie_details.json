@@ -1,0 +1,114 @@
+{
+  "adult": false,
+  "backdrop_path": "/tbhdm8UJAb4ViCTsulYFL3lxMCd.jpg",
+  "belongs_to_collection": {
+    "id": 8945,
+    "name": "Mad Max Collection",
+    "poster_path": "/uuvSvLb3ntGA9B0wx2JskVDSuWi.jpg",
+    "backdrop_path": "/zI0q2ENcQOLECbe0gAEGlncVh2j.jpg"
+  },
+  "budget": 150000000,
+  "genres": [
+    {
+      "id": 53,
+      "name": "Thriller"
+    },
+    {
+      "id": 28,
+      "name": "Action"
+    },
+    {
+      "id": 12,
+      "name": "Adventure"
+    }
+  ],
+  "homepage": "http://www.madmaxmovie.com/",
+  "id": 76341,
+  "imdb_id": "tt1392190",
+  "original_language": "en",
+  "original_title": "Mad Max: Fury Road",
+  "overview": "An apocalyptic story set in the furthest reaches of our planet, in a stark desert landscape where humanity is broken, and most everyone is crazed fighting for the necessities of life. Within this world exist two rebels on the run who just might be able to restore order. There's Max, a man of action and a man of few words, who seeks peace of mind following the loss of his wife and child in the aftermath of the chaos. And Furiosa, a woman of action and a woman who believes her path to survival may be achieved if she can make it across the desert back to her childhood homeland.",
+  "popularity": 46.974667,
+  "poster_path": "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+  "production_companies": [
+    {
+      "name": "Village Roadshow Pictures",
+      "id": 79
+    },
+    {
+      "name": "Warner Bros. Pictures",
+      "id": 174
+    },
+    {
+      "name": "Kennedy Miller Productions",
+      "id": 2537
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "AU",
+      "name": "Australia"
+    },
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2015-05-15",
+  "revenue": 356894972,
+  "runtime": 120,
+  "spoken_languages": [
+    {
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "What a Lovely Day.",
+  "title": "Mad Max: Fury Road",
+  "video": false,
+  "vote_average": 7.7,
+  "vote_count": 1924,
+  "reviews": {
+    "page": 1,
+    "results": [
+      {
+        "id": "55660928c3a3687ad7001db1",
+        "author": "Phileas Fogg",
+        "content": "Fabulous action movie. Lots of interesting characters. They don't make many movies like this. The whole movie from start to finish was entertaining I'm looking forward to seeing it again. I definitely recommend seeing it.",
+        "url": "http://j.mp/1HLTNzT"
+      },
+      {
+        "id": "55732a53925141456e000639",
+        "author": "Andres Gomez",
+        "content": "Good action movie with a decent script for the genre. The photography is really good too but, in the end, it is quite repeating itself from beginning to end and the stormy OST is exhausting.",
+        "url": "http://j.mp/1dUnvpG"
+      }
+    ],
+    "total_pages": 1,
+    "total_results": 2
+  },
+  "trailers": {
+    "quicktime": [],
+    "youtube": [
+      {
+        "name": "Trailers From Hell",
+        "size": "HD",
+        "source": "FRDdRto_3SA",
+        "type": "Featurette"
+      },
+      {
+        "name": "Trailer 2",
+        "size": "HD",
+        "source": "jnsgdqppAYA",
+        "type": "Trailer"
+      },
+      {
+        "name": "Official Trailer #1",
+        "size": "HD",
+        "source": "YWNWi-ZWL3c",
+        "type": "Trailer"
+      }
+    ]
+  }
+}

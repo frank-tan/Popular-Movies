@@ -1,6 +1,12 @@
 package com.franktan.popularmovies.util;
 
+import com.franktan.popularmovies.model.Genre;
 import com.franktan.popularmovies.model.Movie;
+import com.franktan.popularmovies.model.Review;
+import com.franktan.popularmovies.model.Trailer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tan on 16/08/2015.
@@ -39,4 +45,46 @@ public class SyncTestUtilities {
         return  movie;
     }
 
+    public static Movie createMovieDetails () {
+        return new Movie(76341,"Mad Max: Fury Road",createReviews(),createGenres(),createTrailers());
+    }
+
+    public static List<Review> createReviews () {
+        List<Review> reviews = new ArrayList<Review>();
+        Review review1 = new Review("55660928c3a3687ad7001db1", "Phileas Fogg", "Fabulous action movie. Lots of interesting characters. They don't make many movies like this. The whole movie from start to finish was entertaining I'm looking forward to seeing it again. I definitely recommend seeing it.", "http://j.mp/1HLTNzT");
+        Review review2 = new Review("55732a53925141456e000639", "Andres Gomez", "Good action movie with a decent script for the genre. The photography is really good too but, in the end, it is quite repeating itself from beginning to end and the stormy OST is exhausting.", "http://j.mp/1dUnvpG");
+
+        reviews.add(review1);
+        reviews.add(review2);
+
+        return reviews;
+    }
+
+    public static List<Genre> createGenres () {
+        List<Genre> genres = new ArrayList<Genre>();
+
+        Genre genre1 = new Genre(53, "Thriller");
+        Genre genre2 = new Genre(28, "Action");
+        Genre genre3 = new Genre(12, "Adventure");
+
+        genres.add(genre1);
+        genres.add(genre2);
+        genres.add(genre3);
+
+        return genres;
+    }
+
+    public static List<Trailer> createTrailers () {
+        List<Trailer> trailers = new ArrayList<Trailer>();
+
+        Trailer trailer1 = new Trailer("Trailers From Hell", "HD", "FRDdRto_3SA", "Featurette");
+        Trailer trailer2 = new Trailer("Trailer 2", "HD", "jnsgdqppAYA", "Trailer");
+        Trailer trailer3 = new Trailer("Official Trailer #1", "HD", "YWNWi-ZWL3c", "Trailer");
+
+        trailers.add(trailer1);
+        trailers.add(trailer2);
+        trailers.add(trailer3);
+
+        return trailers;
+    }
 }

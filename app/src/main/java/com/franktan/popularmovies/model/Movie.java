@@ -166,7 +166,10 @@ public class Movie {
             return false;
         if (posterPath != null ? !posterPath.equals(movie.posterPath) : movie.posterPath != null)
             return false;
-        return title.equals(movie.title);
+        if (!title.equals(movie.title)) return false;
+        if (reviews != null ? !reviews.equals(movie.reviews) : movie.reviews != null) return false;
+        if (genres != null ? !genres.equals(movie.genres) : movie.genres != null) return false;
+        return !(trailers != null ? !trailers.equals(movie.trailers) : movie.trailers != null);
 
     }
 
@@ -187,6 +190,9 @@ public class Movie {
         temp = Double.doubleToLongBits(voteAverage);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + voteCount;
+        result = 31 * result + (reviews != null ? reviews.hashCode() : 0);
+        result = 31 * result + (genres != null ? genres.hashCode() : 0);
+        result = 31 * result + (trailers != null ? trailers.hashCode() : 0);
         return result;
     }
 
