@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.test.InstrumentationTestCase;
 
 import com.franktan.popularmovies.data.MovieContract;
-import com.franktan.popularmovies.rest.MovieDbRESTAPIService;
+import com.franktan.popularmovies.rest.MovieListAPIService;
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
 
 import java.io.IOException;
@@ -29,9 +29,9 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
 
     // Test Retrieving data from Real Movie DB API
     public void testMovieDBAPIReturn () {
-        MovieDbRESTAPIService movieDbRESTAPIService = MovieDbRESTAPIService.getDbSyncService();
+        MovieListAPIService movieListAPIService = MovieListAPIService.getDbSyncService();
         //retrieve movies released after 1/1/2015 order by popularity
-        String jsonReturn = movieDbRESTAPIService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), "popularity", 1420070400000L,1);
+        String jsonReturn = movieListAPIService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), "popularity", 1420070400000L,1);
         assertNotNull("API should return something", jsonReturn);
         assertFalse("Returned Json should not be an empty string", jsonReturn.equals(""));
     }
@@ -40,7 +40,7 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
     public void testParsingAndSaving () throws IOException {
         deleteAllRecordsFromProvider();
 
-        MovieDbRESTAPIService mockService = mock(MovieDbRESTAPIService.class);
+        MovieListAPIService mockService = mock(MovieListAPIService.class);
         when(mockService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), "popularity", 1435708800000L,1)).thenReturn(getTestingMovieJson());
         assertEquals("retrieveAndSaveMovieData should return 20", 20, MovieSyncAdapter.retrieveAndSaveMovieData(getInstrumentation().getTargetContext(), mockService, "popularity", 1435708800000L,1));
 

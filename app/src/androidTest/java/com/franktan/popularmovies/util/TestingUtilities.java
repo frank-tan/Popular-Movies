@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by tan on 16/08/2015.
  */
-public class SyncTestUtilities {
+public class TestingUtilities {
     public static Movie createMovieNo1 () {
         Movie movie = new Movie();
         movie.setBackdropPath("/kvXLZqY0Ngl1XSw7EaMQO0C1CCj.jpg");

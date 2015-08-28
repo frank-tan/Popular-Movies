@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.franktan.popularmovies.model.Movie;
 import com.franktan.popularmovies.util.Constants;
-import com.franktan.popularmovies.util.SyncTestUtilities;
+import com.franktan.popularmovies.util.TestingUtilities;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +47,7 @@ public class MovieDetailsAPIServiceTest extends InstrumentationTestCase {
         // call the api
         Movie movie = service.retrieveMovieDetails(76341);
 
-        assertTrue("Should be able to parse mock movie details json", movie.equals(SyncTestUtilities.createMovieDetails()));
+        assertTrue("Should be able to parse mock movie details json", movie.equals(TestingUtilities.createMovieDetails()));
 
     }
 

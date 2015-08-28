@@ -16,4 +16,8 @@ public class Utilities {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(sortPrefKey, "popularity");
     }
+
+    public static String getApiKey(Context context) {
+        return context.getString(R.string.moviedb_api_key);
+    }
 }

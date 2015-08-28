@@ -16,7 +16,7 @@ import android.util.Log;
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.model.Movie;
-import com.franktan.popularmovies.rest.MovieDbRESTAPIService;
+import com.franktan.popularmovies.rest.MovieListAPIService;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 
@@ -80,14 +80,14 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Get movie data from MovieDB, parse the json return and save it into local database
      * @param context
-     * @param movieDbRESTAPIService
+     * @param movieListAPIService
      * @param sortBy
      * @param releaseDateFrom
      * @param page
      * @return
      */
-    public static int retrieveAndSaveMovieData(Context context, MovieDbRESTAPIService movieDbRESTAPIService, String sortBy, Long releaseDateFrom, int page) {
-        String movieJsonString = movieDbRESTAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, page);
+    public static int retrieveAndSaveMovieData(Context context, MovieListAPIService movieListAPIService, String sortBy, Long releaseDateFrom, int page) {
+        String movieJsonString = movieListAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, page);
         List<Movie> movieList;
         try {
             movieList = Parser.parseJson(movieJsonString);
@@ -126,7 +126,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
      */
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        MovieDbRESTAPIService movieDbRESTAPIService = MovieDbRESTAPIService.getDbSyncService();
+        MovieListAPIService movieListAPIService = MovieListAPIService.getDbSyncService();
 
         // Here, we retrieve movies release 6 months ago onwards sort by both popularity and vote_average
         // We leave to the cursor adapter to sort all movies from database
@@ -140,13 +140,13 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         long dateFrom = halfYearAgo.getTime();
 
         for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
-            retrieveAndSaveMovieData(getContext(), movieDbRESTAPIService, sortBy, dateFrom, page);
+            retrieveAndSaveMovieData(getContext(), movieListAPIService, sortBy, dateFrom, page);
         }
 
         sortBy = "vote_average.desc";
 
         for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
-            retrieveAndSaveMovieData(getContext(), movieDbRESTAPIService, sortBy, dateFrom, page);
+            retrieveAndSaveMovieData(getContext(), movieListAPIService, sortBy, dateFrom, page);
         }
     }
 

@@ -26,9 +26,9 @@ public class ParserTest extends InstrumentationTestCase {
         List<Movie> movies = Parser.parseJson(getTestingMovieJson());
         assertNotNull("json string should be parsed and not returns null", movies);
         Log.i("popularmovies", movies.get(0).toString());
-        Log.i("popularmovies", SyncTestUtilities.createMovieNo1().toString());
-        assertTrue("1st movie should match", movies.get(0).equals(SyncTestUtilities.createMovieNo1()));
-        assertTrue("20th movie should match", movies.get(19).equals(SyncTestUtilities.createMovieNo20()));
+        Log.i("popularmovies", TestingUtilities.createMovieNo1().toString());
+        assertTrue("1st movie should match", movies.get(0).equals(TestingUtilities.createMovieNo1()));
+        assertTrue("20th movie should match", movies.get(19).equals(TestingUtilities.createMovieNo20()));
     }
 
     //TODO write test for contentValuesFromMovieList method

@@ -3,8 +3,8 @@ package com.franktan.popularmovies.rest;
 import android.content.Context;
 import android.net.Uri;
 
-import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.util.Parser;
+import com.franktan.popularmovies.util.Utilities;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,10 +16,7 @@ import java.net.URL;
 /**
  * Created by tan on 16/08/2015.
  */
-public class MovieDbRESTAPIService {
-    public static String getApiKey(Context context) {
-        return context.getString(R.string.moviedb_api_key);
-    }
+public class MovieListAPIService {
 
     //TODO: use Enum for sort by parameter
     public String getMovieInfoFromAPI(Context context, String sortBy, long releaseDateFrom, int page) {
@@ -37,7 +34,7 @@ public class MovieDbRESTAPIService {
 
         try {
             Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
-                    .appendQueryParameter(API_KEY, MovieDbRESTAPIService.getApiKey(context))
+                    .appendQueryParameter(API_KEY, Utilities.getApiKey(context))
                     .appendQueryParameter(SORT_BY, sortBy)
                     .appendQueryParameter(PAGE, String.valueOf(page))
                     .appendQueryParameter(RELEASE_BEFORE, formattedDateFrom)
@@ -75,7 +72,7 @@ public class MovieDbRESTAPIService {
 
     }
 
-    public static MovieDbRESTAPIService getDbSyncService() {
-        return new MovieDbRESTAPIService();
+    public static MovieListAPIService getDbSyncService() {
+        return new MovieListAPIService();
     }
 }
