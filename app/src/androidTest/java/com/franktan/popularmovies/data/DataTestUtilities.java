@@ -23,8 +23,12 @@ import static junit.framework.Assert.assertTrue;
  * Created by tan on 15/08/2015.
  */
 public class DataTestUtilities {
-    static final long TEST_DATE = 1435680000000L;  // 2015-07-01 GMT+8:00
+    static final long TEST_DATE = 1435680000000L;  //  30 Jun 2015 16:00:00 GMT
 
+    /**
+     * Create a reference movie entry
+     * @return a ContentValues with the movie entry data
+     */
     static ContentValues createMovieEntry() {
         // Create a new map of values, where column names are the keys
         ContentValues testValues = new ContentValues();
@@ -45,6 +49,11 @@ public class DataTestUtilities {
         return testValues;
     }
 
+    /**
+     * Use SQLiteOpenHelper to insert a movie record
+     * @param context
+     * @return
+     */
     static long insertMovieTestEntry(Context context) {
         // insert our test records into the database
         MovieSQLiteOpenHelper dbHelper = MovieSQLiteOpenHelper.getInstance(context);
@@ -60,7 +69,13 @@ public class DataTestUtilities {
         return locationRowId;
     }
 
-    static void validateCurrentRecord(String error, Cursor valueCursor, ContentValues expectedValues){
+    /**
+     * Compare the movie record from cursor with the reference data
+     * @param error
+     * @param valueCursor
+     * @param expectedValues
+     */
+    static void validateMovieRecordUnderCursor(String error, Cursor valueCursor, ContentValues expectedValues){
         Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
         for (Map.Entry<String, Object> entry : valueSet) {
             String columnName = entry.getKey();
@@ -80,9 +95,9 @@ public class DataTestUtilities {
         }
     }
 
-    public static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
+    public static void validateMovieCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
         assertTrue("Cursor should have records" + error, valueCursor.moveToFirst());
-        validateCurrentRecord(error, valueCursor, expectedValues);
+        validateMovieRecordUnderCursor(error, valueCursor, expectedValues);
         valueCursor.close();
     }
 

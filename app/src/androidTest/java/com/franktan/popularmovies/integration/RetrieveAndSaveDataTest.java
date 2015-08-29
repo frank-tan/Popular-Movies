@@ -25,7 +25,7 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
         assertNotNull("API should return something", jsonReturn);
         assertFalse("Returned Json should not be an empty string", jsonReturn.equals(""));
     }
-//// TODO: 29/08/2015 fix it 
+//// TODO: 29/08/2015 fix it
     // Test retrieving fake json from a mock service, parsing it and save to DB
 //    public void testParsingAndSaving () throws IOException {
 //        deleteAllRecordsFromProvider();
