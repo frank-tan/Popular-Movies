@@ -7,16 +7,12 @@ import android.util.Log;
 import com.franktan.popularmovies.model.Movie;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.TestingUtilities;
-import com.franktan.popularmovies.util.Utilities;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
-import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.client.Request;
 import retrofit.client.Response;
@@ -37,30 +33,8 @@ public class MovieDetailsAPIServiceTest extends InstrumentationTestCase {
      * Test retrieveMovieDetails returns correct Movie object providing a mock json string
      */
     public void testRetrieveMovieDetails () {
-        // Prepare query parameters
-        Map<String, String> parameters = new HashMap<String, String>(2);
-        parameters.put("api_key", Utilities.getApiKey(getInstrumentation().getTargetContext()));
-        parameters.put("append_to_response", "reviews,trailers");
-
-        // create a RestAdapter Builder using static method
-        RestAdapter.Builder restAdapterBuilder = MovieDetailsAPIService.createRestAdapterBuilder(MovieDetailsAPIService.getGson());
-
-        // set the mock client and create RestAdapter from the builder
-        RestAdapter restAdapter = restAdapterBuilder.setClient(new MockClient())
-//                .setLogLevel(RestAdapter.LogLevel.BASIC)
-//                .setLog(new RestAdapter.Log() {
-//                    @Override
-//                    public void log(String msg) {
-//                        Log.i(Constants.APP_NAME, msg);
-//                    }
-//                })
-                .build();
-
-        // create service from RestAdapter
-        MovieDetailsAPIService.MovieDetailsAPI service = restAdapter.create(MovieDetailsAPIService.MovieDetailsAPI.class);
-
-        // call the api
-        Movie movie = service.retrieveMovieDetails(76341,parameters);
+        // call the api with a mock client
+        Movie movie = MovieDetailsAPIService.retrieveMovieDetails(getInstrumentation().getTargetContext(), 76341, new MockClient());
 
         assertTrue("Should be able to parse mock movie details json", movie.equals(TestingUtilities.createMovieDetails()));
 
