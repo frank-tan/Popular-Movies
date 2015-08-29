@@ -9,7 +9,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 
+import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
 import com.franktan.popularmovies.util.PollingCheck;
 
 import java.util.Map;
@@ -33,7 +35,7 @@ public class DataTestUtilities {
         // Create a new map of values, where column names are the keys
         ContentValues testValues = new ContentValues();
         testValues.put(MovieColumns.BACKDROP_PATH,   "/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg");
-        testValues.put(MovieColumns.MOVIE_MOVIEDB_ID,      "87101");
+        testValues.put(MovieColumns.MOVIE_MOVIEDB_ID,      87101);
         testValues.put(MovieColumns.ORIGINAL_LAN,    "en");
         testValues.put(MovieColumns.ORIGINAL_TITLE,  "Terminator Genisys");
         testValues.put(MovieColumns.OVERVIEW,        "The year is 2029. John Connor, leader of the resistance " +
@@ -45,6 +47,23 @@ public class DataTestUtilities {
         testValues.put(MovieColumns.TITLE,           "Terminator Genisys");
         testValues.put(MovieColumns.VOTE_AVERAGE,    6.3);
         testValues.put(MovieColumns.VOTE_COUNT,      713);
+
+        return testValues;
+    }
+
+    static ContentValues createGenreEntry() {
+        // Create a new map of values, where column names are the keys
+        ContentValues testValues = new ContentValues();
+        testValues.put(GenreColumns.GENRE_MOVIEDB_ID,   28);
+        testValues.put(GenreColumns.NAME,               "Action");
+
+        return testValues;
+    }
+
+    static ContentValues createMovieGenreEntry(long movieId, long genreId) {
+        ContentValues testValues = new ContentValues();
+        testValues.put(MovieGenreColumns.MOVIE_ID,   movieId);
+        testValues.put(MovieGenreColumns.GENRE_ID,   genreId);
 
         return testValues;
     }

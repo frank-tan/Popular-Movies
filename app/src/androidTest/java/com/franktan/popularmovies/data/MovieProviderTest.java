@@ -1,6 +1,7 @@
 package com.franktan.popularmovies.data;
 
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
@@ -13,6 +14,8 @@ import android.util.Log;
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
+import com.franktan.popularmovies.data.moviegenre.MovieGenreCursor;
+import com.franktan.popularmovies.data.moviegenre.MovieGenreSelection;
 import com.franktan.popularmovies.data.review.ReviewColumns;
 import com.franktan.popularmovies.data.trailer.TrailerColumns;
 import com.franktan.popularmovies.util.Constants;
@@ -31,6 +34,10 @@ public class MovieProviderTest extends AndroidTestCase {
         super.setUp();
         deleteAllRecords();
     }
+
+    /**
+     * Test content provider is registered properly
+     */
     public void testProviderRegistry() {
         PackageManager pm = mContext.getPackageManager();
 
@@ -54,23 +61,93 @@ public class MovieProviderTest extends AndroidTestCase {
         }
     }
 
-    public void testProviderGetType() {
-        // content://com.example.android.sunshine.app/weather/
+    /**
+     * Test getType on movie uri
+     */
+    public void testProviderGetTypeMovie() {
+        // content://com.franktan.popularmovies/movie/
         String type = mContext.getContentResolver().getType(MovieColumns.CONTENT_URI);
 
-        // vnd.android.cursor.dir/com.example.android.sunshine.app/weather
-        assertTrue("the MovieEntry CONTENT_URI should return correct CONTENT_TYPE",
+        // vnd.android.cursor.dir/movie
+        assertTrue("the Movie CONTENT_URI should return correct CONTENT_TYPE",
                 type.equals(TYPE_CURSOR_DIR + MovieColumns.TABLE_NAME));
 
         int id = 1;
         // content://com.franktan.popularmovie/movie/1
         type = mContext.getContentResolver().getType(
                 ContentUris.withAppendedId(MovieColumns.CONTENT_URI,id));
-        Log.d(Constants.APP_NAME,type);
-        // vnd.android.cursor.item/com.franktan.popularmovie/movie/1
-        assertTrue("Movie uri content type should be MovieEntry.CONTENT_TYPE",
+        Log.d(Constants.APP_NAME, type);
+        // vnd.android.cursor.item/movie/1
+        assertTrue("Movie uri content type should be parsed",
                 type.equals(TYPE_CURSOR_ITEM+MovieColumns.TABLE_NAME));
+    }
 
+    /**
+     * Test getType on trailer uri
+     */
+    public void testProviderGetTypeTrailer() {
+        String type = mContext.getContentResolver().getType(TrailerColumns.CONTENT_URI);
+
+        assertTrue("the Trailer CONTENT_URI should return correct CONTENT_TYPE",
+                type.equals(TYPE_CURSOR_DIR + TrailerColumns.TABLE_NAME));
+
+        int id = 1;
+        type = mContext.getContentResolver().getType(
+                ContentUris.withAppendedId(TrailerColumns.CONTENT_URI,id));
+        Log.d(Constants.APP_NAME,type);
+        assertTrue("Trailer uri content type should be parsed",
+                type.equals(TYPE_CURSOR_ITEM+TrailerColumns.TABLE_NAME));
+    }
+
+    /**
+     * Test getType on review uri
+     */
+    public void testProviderGetTypeReview() {
+        String type = mContext.getContentResolver().getType(ReviewColumns.CONTENT_URI);
+
+        assertTrue("the Review CONTENT_URI should return correct CONTENT_TYPE",
+                type.equals(TYPE_CURSOR_DIR + ReviewColumns.TABLE_NAME));
+
+        int id = 1;
+        type = mContext.getContentResolver().getType(
+                ContentUris.withAppendedId(ReviewColumns.CONTENT_URI,id));
+        Log.d(Constants.APP_NAME,type);
+        assertTrue("Review uri content type should be parsed",
+                type.equals(TYPE_CURSOR_ITEM+ReviewColumns.TABLE_NAME));
+    }
+
+    /**
+     * Test getType on Genre uri
+     */
+    public void testProviderGetTypeGenre() {
+        String type = mContext.getContentResolver().getType(GenreColumns.CONTENT_URI);
+
+        assertTrue("the Genre CONTENT_URI should return correct CONTENT_TYPE",
+                type.equals(TYPE_CURSOR_DIR + GenreColumns.TABLE_NAME));
+
+        int id = 1;
+        type = mContext.getContentResolver().getType(
+                ContentUris.withAppendedId(GenreColumns.CONTENT_URI,id));
+        Log.d(Constants.APP_NAME, type);
+        assertTrue("Genre uri content type should be parsed",
+                type.equals(TYPE_CURSOR_ITEM + GenreColumns.TABLE_NAME));
+    }
+
+    /**
+     * Test getType on movie_genre uri
+     */
+    public void testProviderGetTypeMovieGenre() {
+        String type = mContext.getContentResolver().getType(MovieGenreColumns.CONTENT_URI);
+
+        assertTrue("the MovieGenre CONTENT_URI should return correct CONTENT_TYPE",
+                type.equals(TYPE_CURSOR_DIR + MovieGenreColumns.TABLE_NAME));
+
+        int id = 1;
+        type = mContext.getContentResolver().getType(
+                ContentUris.withAppendedId(MovieGenreColumns.CONTENT_URI,id));
+        Log.d(Constants.APP_NAME,type);
+        assertTrue("MovieGenre uri content type should be parsed",
+                type.equals(TYPE_CURSOR_ITEM+MovieGenreColumns.TABLE_NAME));
     }
 
     /**
@@ -90,7 +167,7 @@ public class MovieProviderTest extends AndroidTestCase {
         );
 
         // Make sure we get the correct cursor out of the database
-        DataTestUtilities.validateMovieCursor("testBasicWeatherQuery", movieCursor, DataTestUtilities.createMovieEntry());
+        DataTestUtilities.validateMovieCursor("basic movie query", movieCursor, DataTestUtilities.createMovieEntry());
 
         movieCursor.close();
 
@@ -109,35 +186,72 @@ public class MovieProviderTest extends AndroidTestCase {
      * Test insert using content provider
      */
     public void testProviderInsert() {
-        ContentValues testValues = DataTestUtilities.createMovieEntry();
+        ContentValues movieTestValues = DataTestUtilities.createMovieEntry();
+        ContentValues genreTestValues = DataTestUtilities.createGenreEntry();
 
         // Register a content observer for our insert.  This time, directly with the content resolver
         DataTestUtilities.TestContentObserver tco = DataTestUtilities.getTestContentObserver();
-        mContext.getContentResolver().registerContentObserver(MovieColumns.CONTENT_URI, true, tco);
-        Uri movieUri = mContext.getContentResolver().insert(MovieColumns.CONTENT_URI, testValues);
 
+        ContentResolver contentResolver = mContext.getContentResolver();
+
+        // insert movie record
+        contentResolver.registerContentObserver(MovieColumns.CONTENT_URI, true, tco);
+        Uri movieUri = contentResolver.insert(MovieColumns.CONTENT_URI, movieTestValues);
         tco.waitForNotificationOrFail();
-        mContext.getContentResolver().unregisterContentObserver(tco);
+        contentResolver.unregisterContentObserver(tco);
+
+        // insert genre record
+        contentResolver.registerContentObserver(GenreColumns.CONTENT_URI, true, tco);
+        Uri genreUri = contentResolver.insert(GenreColumns.CONTENT_URI, genreTestValues);
+        tco.waitForNotificationOrFail();
+        contentResolver.unregisterContentObserver(tco);
 
         long movieRowId = ContentUris.parseId(movieUri);
+        long genreRowId = ContentUris.parseId(genreUri);
+
+        ContentValues movieGenreTestValues = DataTestUtilities.createMovieGenreEntry(movieRowId, genreRowId);
+
+        // insert movie_genre intersection record
+        contentResolver.registerContentObserver(MovieGenreColumns.CONTENT_URI, true, tco);
+        Uri movieGenreUri = contentResolver.insert(MovieGenreColumns.CONTENT_URI, movieGenreTestValues);
+        tco.waitForNotificationOrFail();
+        contentResolver.unregisterContentObserver(tco);
+
+        long movieGenreRowId = ContentUris.parseId(movieGenreUri);
 
         // Verify we got a row back.
-        assertTrue("Valid row id should be returned from content provider insert", movieRowId != -1);
+        assertTrue("Valid row id should be returned from content provider movie insert", movieRowId != -1);
+        assertTrue("Valid row id should be returned from content provider genre insert", genreRowId != -1);
+        assertTrue("Valid row id should be returned from content provider movie_genre insert", movieGenreRowId != -1);
 
-        Cursor cursor = mContext.getContentResolver().query(
-                MovieColumns.CONTENT_URI,
-                null, // leaving "columns" null just returns all the columns.
-                null, // cols for "where" clause
-                null, // values for "where" clause
-                null  // sort order
-        );
+        String[] projection = {
+                MovieColumns._ID,
+                MovieColumns.TITLE,
+                MovieColumns.BACKDROP_PATH,
+                MovieGenreColumns._ID,
+                MovieGenreColumns.MOVIE_ID,
+                MovieGenreColumns.GENRE_ID,
+                GenreColumns._ID,
+                GenreColumns.GENRE_MOVIEDB_ID,
+                GenreColumns.NAME
+        };
 
-        DataTestUtilities.validateMovieCursor("Movie record should have been inserted in the table",
-                cursor, testValues);
+        MovieGenreSelection movieGenreSelection = new MovieGenreSelection();
+        MovieGenreCursor cursor = movieGenreSelection.query(mContext.getContentResolver(),projection);
+
+        assertTrue("Should return one record", cursor.moveToNext());
+
+        assertTrue("movie record title should be correct", cursor.getMovieTitle().equals("Terminator Genisys"));
+        assertTrue("movie record backdroppath should be correct", cursor.getMovieBackdropPath().equals("/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg"));
+        assertEquals("intersection record movie id should be movie record's row id", movieRowId, cursor.getMovieId());
+        assertEquals("intersection record genre id should be genre record's row id", genreRowId, cursor.getGenreId());
+        assertTrue("genre name should be correct", cursor.getGenreName().equals("Action"));
+        assertEquals("genre moviedb id should be correct", 28, cursor.getGenreGenreMoviedbId());
 
         cursor.close();
     }
 
+    //// TODO: 29/08/2015 Test using library's way
     public void testProviderUpdate() {
         // Create a new map of values, where column names are the keys
         ContentValues values = DataTestUtilities.createMovieEntry();
@@ -186,6 +300,7 @@ public class MovieProviderTest extends AndroidTestCase {
         cursor.close();
     }
 
+    //// TODO: 29/08/2015 Test using library's way
     public void testProviderDelete() {
         testProviderInsert();
 
@@ -199,6 +314,7 @@ public class MovieProviderTest extends AndroidTestCase {
         mContext.getContentResolver().unregisterContentObserver(locationObserver);
     }
 
+    //// TODO: 29/08/2015 Test using library's way
     public void testProviderBulkInsert() {
 
         ContentValues[] bulkInsertContentValues = createBulkInsertMovieValues(0);
@@ -235,6 +351,7 @@ public class MovieProviderTest extends AndroidTestCase {
         cursor.close();
     }
 
+    //// TODO: 29/08/2015 Test using library's way 
     public void testProviderBulkUpsert() {
 
         testProviderBulkInsert();
@@ -285,7 +402,9 @@ public class MovieProviderTest extends AndroidTestCase {
         cursor.close();
     }
 
-    // helper methods
+    /*
+     * helper methods
+     */
 
     static ContentValues[] createBulkInsertMovieValues(int offset) {
         ContentValues[] movieList = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
