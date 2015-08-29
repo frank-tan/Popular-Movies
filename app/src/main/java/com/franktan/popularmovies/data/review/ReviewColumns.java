@@ -4,11 +4,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.franktan.popularmovies.data.MovieProvider;
-import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
-import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
-import com.franktan.popularmovies.data.review.ReviewColumns;
-import com.franktan.popularmovies.data.trailer.TrailerColumns;
 
 /**
  * movie reviews
@@ -48,7 +44,7 @@ public class ReviewColumns implements BaseColumns {
     public static final String MOVIE_ID = "movie_id";
 
 
-    public static final String DEFAULT_ORDER = TABLE_NAME + "build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res" +_ID;
+    public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
     // @formatter:off
     public static final String[] ALL_COLUMNS = new String[] {
@@ -64,11 +60,11 @@ public class ReviewColumns implements BaseColumns {
     public static boolean hasColumns(String[] projection) {
         if (projection == null) return true;
         for (String c : projection) {
-            if (c.equals(REVIEW_MOVIEDB_ID) || c.contains("build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res" + REVIEW_MOVIEDB_ID)) return true;
-            if (c.equals(AUTHOR) || c.contains("build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res" + AUTHOR)) return true;
-            if (c.equals(CONTENT) || c.contains("build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res" + CONTENT)) return true;
-            if (c.equals(URL) || c.contains("build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res" + URL)) return true;
-            if (c.equals(MOVIE_ID) || c.contains("build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res" + MOVIE_ID)) return true;
+            if (c.equals(REVIEW_MOVIEDB_ID) || c.contains("." + REVIEW_MOVIEDB_ID)) return true;
+            if (c.equals(AUTHOR) || c.contains("." + AUTHOR)) return true;
+            if (c.equals(CONTENT) || c.contains("." + CONTENT)) return true;
+            if (c.equals(URL) || c.contains("." + URL)) return true;
+            if (c.equals(MOVIE_ID) || c.contains("." + MOVIE_ID)) return true;
         }
         return false;
     }

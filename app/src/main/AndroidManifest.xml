@@ -41,6 +41,11 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
 
+        <provider
+            android:name="com.franktan.popularmovies.data.MovieProvider"
+            android:authorities="com.franktan.popularmovies"
+            android:exported="false" />
+
         <service android:name=".sync.AuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />

@@ -1,13 +1,10 @@
 package com.franktan.popularmovies.data;
 
-import java.util.Arrays;
-
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.franktan.popularmovies.BuildConfig;
@@ -17,6 +14,9 @@ import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
 import com.franktan.popularmovies.data.review.ReviewColumns;
 import com.franktan.popularmovies.data.trailer.TrailerColumns;
+import com.franktan.popularmovies.util.Constants;
+
+import java.util.Arrays;
 
 public class MovieProvider extends BaseContentProvider {
     private static final String TAG = MovieProvider.class.getSimpleName();
@@ -74,6 +74,7 @@ public class MovieProvider extends BaseContentProvider {
     @Override
     public String getType(Uri uri) {
         int match = URI_MATCHER.match(uri);
+        Log.i(Constants.APP_NAME,"match number is "+ match);
         switch (match) {
             case URI_TYPE_GENRE:
                 return TYPE_CURSOR_DIR + GenreColumns.TABLE_NAME;

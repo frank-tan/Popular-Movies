@@ -1,9 +1,5 @@
 package com.franktan.popularmovies.data.base;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -14,8 +10,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public abstract class BaseContentProvider extends ContentProvider {
     public static final String QUERY_NOTIFY = "QUERY_NOTIFY";
@@ -140,7 +139,7 @@ public abstract class BaseContentProvider extends ContentProvider {
         String[] res = new String[projection.length];
         for (int i = 0; i < projection.length; i++) {
             if (projection[i].equals(idColumn)) {
-                res[i] = tableName + "build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res" + idColumn + " AS " + BaseColumns._ID;
+                res[i] = tableName + "." + idColumn + " AS " + BaseColumns._ID;
             } else {
                 res[i] = projection[i];
             }
