@@ -2,7 +2,6 @@ package com.franktan.popularmovies.util;
 
 import android.content.res.Resources;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.franktan.popularmovies.model.Movie;
 
@@ -25,8 +24,8 @@ public class ParserTest extends InstrumentationTestCase {
     public void testParseJson () throws IOException, JSONException, ParseException {
         List<Movie> movies = Parser.parseJson(getTestingMovieJson());
         assertNotNull("json string should be parsed and not returns null", movies);
-        Log.i("popularmovies", movies.get(0).toString());
-        Log.i("popularmovies", TestingUtilities.createMovieNo1().toString());
+//        Log.i("popularmovies", movies.get(0).toString());
+//        Log.i("popularmovies", TestingUtilities.createMovieNo1().toString());
         assertTrue("1st movie should match", movies.get(0).equals(TestingUtilities.createMovieNo1()));
         assertTrue("20th movie should match", movies.get(19).equals(TestingUtilities.createMovieNo20()));
     }

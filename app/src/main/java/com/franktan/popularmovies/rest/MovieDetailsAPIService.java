@@ -18,11 +18,13 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.http.GET;
 import retrofit.http.Path;
+import retrofit.http.QueryMap;
 
 /**
  * Created by tan on 28/08/2015.
@@ -34,7 +36,7 @@ public class MovieDetailsAPIService {
      */
     public interface MovieDetailsAPI {
         @GET("/3/movie/{id}")
-        public Movie retrieveMovieDetails(@Path("id")int id);
+        public Movie retrieveMovieDetails(@Path("id")int id, @QueryMap Map<String, String> options);
     }
 
     /**

@@ -1,17 +1,20 @@
 package com.franktan.popularmovies.rest;
 
 import android.content.res.Resources;
-import android.net.Uri;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import com.franktan.popularmovies.model.Movie;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.TestingUtilities;
+import com.franktan.popularmovies.util.Utilities;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit.RestAdapter;
 import retrofit.client.Client;
@@ -23,6 +26,8 @@ import retrofit.mime.TypedByteArray;
  * Created by tan on 28/08/2015.
  */
 public class MovieDetailsAPIServiceTest extends InstrumentationTestCase {
+    private static final String MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie/76341?api_key=7c3904f53f503110b7c4be7fe34fd416&append_to_response=reviews,trailers";
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -32,20 +37,30 @@ public class MovieDetailsAPIServiceTest extends InstrumentationTestCase {
      * Test retrieveMovieDetails returns correct Movie object providing a mock json string
      */
     public void testRetrieveMovieDetails () {
+        // Prepare query parameters
+        Map<String, String> parameters = new HashMap<String, String>(2);
+        parameters.put("api_key", Utilities.getApiKey(getInstrumentation().getTargetContext()));
+        parameters.put("append_to_response", "reviews,trailers");
+
         // create a RestAdapter Builder using static method
         RestAdapter.Builder restAdapterBuilder = MovieDetailsAPIService.createRestAdapterBuilder(MovieDetailsAPIService.getGson());
 
-        // set the mock client
-        restAdapterBuilder.setClient(new MockClient());
-
-        // create RestAdapter from the builder
-        RestAdapter restAdapter = restAdapterBuilder.build();
+        // set the mock client and create RestAdapter from the builder
+        RestAdapter restAdapter = restAdapterBuilder.setClient(new MockClient())
+//                .setLogLevel(RestAdapter.LogLevel.BASIC)
+//                .setLog(new RestAdapter.Log() {
+//                    @Override
+//                    public void log(String msg) {
+//                        Log.i(Constants.APP_NAME, msg);
+//                    }
+//                })
+                .build();
 
         // create service from RestAdapter
         MovieDetailsAPIService.MovieDetailsAPI service = restAdapter.create(MovieDetailsAPIService.MovieDetailsAPI.class);
 
         // call the api
-        Movie movie = service.retrieveMovieDetails(76341);
+        Movie movie = service.retrieveMovieDetails(76341,parameters);
 
         assertTrue("Should be able to parse mock movie details json", movie.equals(TestingUtilities.createMovieDetails()));
 
@@ -80,9 +95,9 @@ public class MovieDetailsAPIServiceTest extends InstrumentationTestCase {
 
         @Override
         public Response execute(Request request) throws IOException {
-            Uri uri = Uri.parse(request.getUrl());
+            URL url = new URL(request.getUrl());
 
-            Log.d(Constants.APP_NAME, "Mock server fetching uri: " + uri.toString());
+            Log.d(Constants.APP_NAME, "Mock server fetching URL: " + url.getPath());
 
             String responseString = getTestingMovieDetailsJson();
 
