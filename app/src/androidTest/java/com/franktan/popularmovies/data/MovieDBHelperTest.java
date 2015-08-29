@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.franktan.popularmovies.data.movie.MovieColumns;
+
 import java.util.HashSet;
 
 /**
@@ -21,12 +23,12 @@ public class MovieDBHelperTest extends AndroidTestCase {
         // Note that there will be another table in the DB that stores the
         // Android metadata (db version information)
         final HashSet<String> tableNameHashSet = new HashSet<String>();
-        tableNameHashSet.add(MovieContract.MovieEntry.TABLE_NAME);
+        tableNameHashSet.add(MovieColumns.TABLE_NAME);
 
         // Delete existing database
         deleteTheDatabase();
         // Create an open a new database
-        SQLiteDatabase db = new MovieDBHelper(
+        SQLiteDatabase db = MovieSQLiteOpenHelper.getInstance(
                 this.mContext).getWritableDatabase();
         assertEquals(true, db.isOpen());
 
@@ -49,25 +51,25 @@ public class MovieDBHelperTest extends AndroidTestCase {
         c.close();
 
         // now, do our tables contain the correct columns?
-        c = db.rawQuery("PRAGMA table_info(" + MovieContract.MovieEntry.TABLE_NAME + ")",
+        c = db.rawQuery("PRAGMA table_info(" + MovieColumns.TABLE_NAME + ")",
                 null);
 
         assertTrue("Our movie table should have columns", c.moveToFirst());
 
         // Build a HashSet of all of the column names we want to look for
         final HashSet<String> movieColumnSet = new HashSet<String>();
-        movieColumnSet.add(MovieContract.MovieEntry._ID);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_OVERVIEW);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_POSTER_PATH);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_POPULARITY);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_TITLE);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
-        movieColumnSet.add(MovieContract.MovieEntry.COLUMN_VOTE_COUNT);
+        movieColumnSet.add(MovieColumns._ID);
+        movieColumnSet.add(MovieColumns.BACKDROP_PATH);
+        movieColumnSet.add(MovieColumns.MOVIE_MOVIEDB_ID);
+        movieColumnSet.add(MovieColumns.ORIGINAL_LAN);
+        movieColumnSet.add(MovieColumns.ORIGINAL_TITLE);
+        movieColumnSet.add(MovieColumns.OVERVIEW);
+        movieColumnSet.add(MovieColumns.RELEASE_DATE);
+        movieColumnSet.add(MovieColumns.POSTER_PATH);
+        movieColumnSet.add(MovieColumns.POPULARITY);
+        movieColumnSet.add(MovieColumns.TITLE);
+        movieColumnSet.add(MovieColumns.VOTE_AVERAGE);
+        movieColumnSet.add(MovieColumns.VOTE_COUNT);
 
         int columnNameIndex = c.getColumnIndex("name");
         do {
@@ -85,7 +87,7 @@ public class MovieDBHelperTest extends AndroidTestCase {
 
     public void testMovieTable() {
         // First step: Get reference to writable database
-        SQLiteDatabase db = new MovieDBHelper(mContext).getWritableDatabase();
+        SQLiteDatabase db = MovieSQLiteOpenHelper.getInstance(mContext).getWritableDatabase();
 
         assertEquals(true, db.isOpen());
         insertMovie(db);
@@ -98,13 +100,13 @@ public class MovieDBHelperTest extends AndroidTestCase {
      * Helper methods
      */
     private void deleteTheDatabase() {
-        mContext.deleteDatabase(MovieDBHelper.DATABASE_NAME);
+        mContext.deleteDatabase(MovieSQLiteOpenHelper.DATABASE_FILE_NAME);
     }
     private Long insertMovie(SQLiteDatabase db){
         ContentValues movieEntry = DataTestUtilities.createMovieEntry();
-        Long rowId = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, movieEntry);
+        Long rowId = db.insert(MovieColumns.TABLE_NAME, null, movieEntry);
         assertTrue("Insertion should return row id",rowId != -1);
-        Cursor cursor = db.query(MovieContract.MovieEntry.TABLE_NAME,null,null,null,null,null,null);
+        Cursor cursor = db.query(MovieColumns.TABLE_NAME,null,null,null,null,null,null);
         assertTrue("The inserted record should be available", cursor.moveToFirst());
         DataTestUtilities.validateCurrentRecord("Verifying inserted value failed", cursor, movieEntry);
         assertFalse("Should be only one row", cursor.moveToNext());

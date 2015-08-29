@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 
+import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.util.PollingCheck;
 
 import java.util.Map;
@@ -27,31 +28,31 @@ public class DataTestUtilities {
     static ContentValues createMovieEntry() {
         // Create a new map of values, where column names are the keys
         ContentValues testValues = new ContentValues();
-        testValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH,   "/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg");
-        testValues.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID,      "87101");
-        testValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN,    "en");
-        testValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE,  "Terminator Genisys");
-        testValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW,        "The year is 2029. John Connor, leader of the resistance " +
+        testValues.put(MovieColumns.BACKDROP_PATH,   "/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg");
+        testValues.put(MovieColumns.MOVIE_MOVIEDB_ID,      "87101");
+        testValues.put(MovieColumns.ORIGINAL_LAN,    "en");
+        testValues.put(MovieColumns.ORIGINAL_TITLE,  "Terminator Genisys");
+        testValues.put(MovieColumns.OVERVIEW,        "The year is 2029. John Connor, leader of the resistance " +
                 "ontinues the war against the machines. At the Los Angeles offensive, John's fears of the unknown future begin to emerge when TECOM spies " +
                 "reveal a new plot by SkyNet that will attack him from both fronts; past and future, and will ultimately change warfare forever.");
-        testValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE,    TEST_DATE);
-        testValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH,     "/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg");
-        testValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY,      53.68);
-        testValues.put(MovieContract.MovieEntry.COLUMN_TITLE,           "Terminator Genisys");
-        testValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,    6.3);
-        testValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT,      713);
+        testValues.put(MovieColumns.RELEASE_DATE,    TEST_DATE);
+        testValues.put(MovieColumns.POSTER_PATH,     "/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg");
+        testValues.put(MovieColumns.POPULARITY,      53.68);
+        testValues.put(MovieColumns.TITLE,           "Terminator Genisys");
+        testValues.put(MovieColumns.VOTE_AVERAGE,    6.3);
+        testValues.put(MovieColumns.VOTE_COUNT,      713);
 
         return testValues;
     }
 
     static long insertMovieTestEntry(Context context) {
         // insert our test records into the database
-        MovieDBHelper dbHelper = new MovieDBHelper(context);
+        MovieSQLiteOpenHelper dbHelper = MovieSQLiteOpenHelper.getInstance(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues = DataTestUtilities.createMovieEntry();
 
         long locationRowId;
-        locationRowId = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, testValues);
+        locationRowId = db.insert(MovieColumns.TABLE_NAME, null, testValues);
 
         // Verify we got a row back.
         assertTrue("Row Id of the movie record is returned and is not -1", locationRowId != -1);

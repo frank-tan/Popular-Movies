@@ -1,0 +1,39 @@
+{
+  "documentation": "movie trailers",
+  "fields": [
+    {
+      "documentation": "the title of the trailer",
+      "name": "name",
+      "type": "String",
+      "nullable": true
+  },
+    {
+      "documentation": "HD, SD, etc.",
+      "name": "size",
+      "type": "String",
+      "nullable": true
+  },
+    {
+      "documentation": "the youtube id",
+      "name": "source",
+      "type": "String",
+      "nullable": false
+  },
+    {
+      "documentation": "trailer, video, etc.",
+      "name": "type",
+      "type": "String",
+      "nullable": true
+  },
+    {
+      "documentation": "the movie id",
+      "name": "movie_id",
+      "type": "Long",
+      "nullable": false,
+      "foreignKey": {
+        "table": "movie",
+        "onDelete": "CASCADE"
+      }
+  }
+ ]
+}

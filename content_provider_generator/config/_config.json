@@ -1,0 +1,13 @@
+{
+  "syntaxVersion": "3",
+  "projectPackageId": "com.franktan.popularmovies",
+  "authority": "com.franktan.popularmovies",
+  "providerJavaPackage": "com.franktan.popularmovies.data",
+  "providerClassName": "MovieProvider",
+  "sqliteOpenHelperClassName": "MovieSQLiteOpenHelper",
+  "sqliteOpenHelperCallbacksClassName": "MovieSQLiteOpenHelperCallbacks",
+  "databaseFileName": "popular_movies.db",
+  "databaseVersion": 1,
+  "enableForeignKeys": true,
+  "useAnnotations": true
+}

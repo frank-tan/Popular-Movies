@@ -1,0 +1,78 @@
+{
+  "documentation": "movie entries",
+  "fields": [
+    {
+      "documentation": "The id of the movie in MovieDB",
+      "name": "movie_moviedb_id",
+      "type": "Long",
+      "nullable": false,
+      "index": true
+  },
+    {
+      "name": "title",
+      "type": "String",
+      "nullable": false,
+      "index": true
+  },
+    {
+      "name": "backdrop_path",
+      "type": "String",
+      "nullable": true,
+      "index": false
+  },
+    {
+      "name": "original_lan",
+      "type": "String",
+      "nullable": true,
+      "index": false
+  },
+    {
+      "name": "original_title",
+      "type": "String",
+      "nullable": true,
+      "index": false
+  },
+    {
+      "name": "overview",
+      "type": "String",
+      "nullable": true,
+      "index": false
+  },
+    {
+      "name": "release_date",
+      "type": "Long",
+      "nullable": true,
+      "index": false
+  },
+    {
+      "name": "poster_path",
+      "type": "String",
+      "nullable": true,
+      "index": false
+  },
+    {
+      "name": "popularity",
+      "type": "Double",
+      "nullable": true,
+      "index": false
+  },
+    {
+      "name": "vote_average",
+      "type": "Double",
+      "nullable": true,
+      "index": false
+  },
+    {
+      "name": "vote_count",
+      "type": "Integer",
+      "nullable": true,
+      "index": false
+  }
+ ],
+  "constraints": [
+    {
+      "name": "unique_movie_moviedb_id",
+      "definition": "UNIQUE (movie_moviedb_id) ON CONFLICT REPLACE"
+        }
+    ]
+}

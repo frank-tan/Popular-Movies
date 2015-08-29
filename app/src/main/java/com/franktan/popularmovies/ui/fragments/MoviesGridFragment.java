@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.franktan.popularmovies.R;
-import com.franktan.popularmovies.data.MovieContract;
+import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.ui.activities.MovieDetailActivity;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Utilities;
@@ -33,8 +33,8 @@ import com.franktan.popularmovies.util.Utilities;
 public class MoviesGridFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String[] MOVIE_COLUMNS = {
-            MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry._ID,
-            MovieContract.MovieEntry.COLUMN_POSTER_PATH
+            MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
+            MovieColumns.POSTER_PATH
     };
     static final int COL_MOVIE_ID = 0;
     static final int COL_POSTER_PATH = 1;
@@ -166,12 +166,12 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         mSortOrderPreference = Utilities.getSortOrderPreference(getActivity());
 
-        Uri movieUri = MovieContract.MovieEntry.CONTENT_URI;
+        Uri movieUri = MovieColumns.CONTENT_URI;
         String sortOrder;
         if(mSortOrderPreference.equals("Rating")){
-            sortOrder = MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE + " DESC";
+            sortOrder = MovieColumns.VOTE_AVERAGE + " DESC";
         } else {
-            sortOrder = MovieContract.MovieEntry.COLUMN_POPULARITY + " DESC";
+            sortOrder = MovieColumns.POPULARITY + " DESC";
         }
         return new CursorLoader(
                 getActivity(),

@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.franktan.popularmovies.R;
-import com.franktan.popularmovies.data.MovieContract;
 import com.franktan.popularmovies.model.Movie;
 import com.franktan.popularmovies.rest.MovieListAPIService;
 import com.franktan.popularmovies.util.Constants;
@@ -99,7 +98,8 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
             return 0;
         }
         ContentValues[] movieContentValues = Parser.contentValuesFromMovieList(movieList);
-        return context.getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, movieContentValues);
+        //TODO: fix this return context.getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, movieContentValues);
+        return 0;
     }
 
     public MovieSyncAdapter(Context context, boolean autoInitialize) {

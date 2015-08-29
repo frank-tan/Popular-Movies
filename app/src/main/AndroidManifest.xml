@@ -41,13 +41,6 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
 
-        <provider
-            android:name=".data.MovieProvider"
-            android:authorities="@string/content_authority"
-            android:exported="false"
-            android:syncable="true" >
-        </provider>
-
         <service android:name=".sync.AuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
