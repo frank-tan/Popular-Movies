@@ -42,11 +42,9 @@
         </activity>
 
         <provider
-            android:name=".data.MovieProvider"
-            android:authorities="@string/content_authority"
-            android:exported="false"
-            android:syncable="true" >
-        </provider>
+            android:name="com.franktan.popularmovies.data.MovieProvider"
+            android:authorities="com.franktan.popularmovies"
+            android:exported="false" />
 
         <service android:name=".sync.AuthenticatorService" >
             <intent-filter>

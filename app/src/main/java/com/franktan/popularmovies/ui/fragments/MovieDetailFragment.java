@@ -15,7 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.franktan.popularmovies.R;
-import com.franktan.popularmovies.data.MovieContract;
+import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.movie.MovieSelection;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 import com.squareup.picasso.Picasso;
@@ -38,15 +39,15 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     TextView mOverview;
 
     private static final String[] MOVIE_COLUMNS = {
-            MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry._ID,
-            MovieContract.MovieEntry.COLUMN_BACKDROP_PATH,
-            MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN,
-            MovieContract.MovieEntry.COLUMN_OVERVIEW,
-            MovieContract.MovieEntry.COLUMN_RELEASE_DATE,
-            MovieContract.MovieEntry.COLUMN_POSTER_PATH,
-            MovieContract.MovieEntry.COLUMN_TITLE,
-            MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,
-            MovieContract.MovieEntry.COLUMN_VOTE_COUNT
+            MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
+            MovieColumns.BACKDROP_PATH,
+            MovieColumns.ORIGINAL_LAN,
+            MovieColumns.OVERVIEW,
+            MovieColumns.RELEASE_DATE,
+            MovieColumns.POSTER_PATH,
+            MovieColumns.TITLE,
+            MovieColumns.VOTE_AVERAGE,
+            MovieColumns.VOTE_COUNT
     };
 
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
@@ -99,12 +100,14 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        MovieSelection where = new MovieSelection();
+        where.id(mMovieId);
         return new CursorLoader(
                 getActivity(),
-                MovieContract.MovieEntry.buildMovieUri(mMovieId),
+                MovieColumns.CONTENT_URI,
                 MOVIE_COLUMNS,
-                null,
-                null,
+                where.sel(),
+                where.args(),
                 null
         );
     }

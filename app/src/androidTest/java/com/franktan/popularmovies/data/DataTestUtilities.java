@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 
+import com.franktan.popularmovies.data.genre.GenreColumns;
+import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
 import com.franktan.popularmovies.util.PollingCheck;
 
 import java.util.Map;
@@ -22,36 +25,62 @@ import static junit.framework.Assert.assertTrue;
  * Created by tan on 15/08/2015.
  */
 public class DataTestUtilities {
-    static final long TEST_DATE = 1435680000000L;  // 2015-07-01 GMT+8:00
+    static final long TEST_DATE = 1435680000000L;  //  30 Jun 2015 16:00:00 GMT
 
+    /**
+     * Create a reference movie entry
+     * @return a ContentValues with the movie entry data
+     */
     static ContentValues createMovieEntry() {
         // Create a new map of values, where column names are the keys
         ContentValues testValues = new ContentValues();
-        testValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH,   "/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg");
-        testValues.put(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID,      "87101");
-        testValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LAN,    "en");
-        testValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE,  "Terminator Genisys");
-        testValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW,        "The year is 2029. John Connor, leader of the resistance " +
+        testValues.put(MovieColumns.BACKDROP_PATH,   "/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg");
+        testValues.put(MovieColumns.MOVIE_MOVIEDB_ID,      87101);
+        testValues.put(MovieColumns.ORIGINAL_LAN,    "en");
+        testValues.put(MovieColumns.ORIGINAL_TITLE,  "Terminator Genisys");
+        testValues.put(MovieColumns.OVERVIEW,        "The year is 2029. John Connor, leader of the resistance " +
                 "ontinues the war against the machines. At the Los Angeles offensive, John's fears of the unknown future begin to emerge when TECOM spies " +
                 "reveal a new plot by SkyNet that will attack him from both fronts; past and future, and will ultimately change warfare forever.");
-        testValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE,    TEST_DATE);
-        testValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH,     "/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg");
-        testValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY,      53.68);
-        testValues.put(MovieContract.MovieEntry.COLUMN_TITLE,           "Terminator Genisys");
-        testValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,    6.3);
-        testValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT,      713);
+        testValues.put(MovieColumns.RELEASE_DATE,    TEST_DATE);
+        testValues.put(MovieColumns.POSTER_PATH,     "/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg");
+        testValues.put(MovieColumns.POPULARITY,      53.68);
+        testValues.put(MovieColumns.TITLE,           "Terminator Genisys");
+        testValues.put(MovieColumns.VOTE_AVERAGE,    6.3);
+        testValues.put(MovieColumns.VOTE_COUNT,      713);
 
         return testValues;
     }
 
+    static ContentValues createGenreEntry() {
+        // Create a new map of values, where column names are the keys
+        ContentValues testValues = new ContentValues();
+        testValues.put(GenreColumns.GENRE_MOVIEDB_ID,   28);
+        testValues.put(GenreColumns.NAME,               "Action");
+
+        return testValues;
+    }
+
+    static ContentValues createMovieGenreEntry(long movieId, long genreId) {
+        ContentValues testValues = new ContentValues();
+        testValues.put(MovieGenreColumns.MOVIE_ID,   movieId);
+        testValues.put(MovieGenreColumns.GENRE_ID,   genreId);
+
+        return testValues;
+    }
+
+    /**
+     * Use SQLiteOpenHelper to insert a movie record
+     * @param context
+     * @return
+     */
     static long insertMovieTestEntry(Context context) {
         // insert our test records into the database
-        MovieDBHelper dbHelper = new MovieDBHelper(context);
+        MovieSQLiteOpenHelper dbHelper = MovieSQLiteOpenHelper.getInstance(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues = DataTestUtilities.createMovieEntry();
 
         long locationRowId;
-        locationRowId = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, testValues);
+        locationRowId = db.insert(MovieColumns.TABLE_NAME, null, testValues);
 
         // Verify we got a row back.
         assertTrue("Row Id of the movie record is returned and is not -1", locationRowId != -1);
@@ -59,7 +88,13 @@ public class DataTestUtilities {
         return locationRowId;
     }
 
-    static void validateCurrentRecord(String error, Cursor valueCursor, ContentValues expectedValues){
+    /**
+     * Compare the movie record from cursor with the reference data
+     * @param error
+     * @param valueCursor
+     * @param expectedValues
+     */
+    static void validateMovieRecordUnderCursor(String error, Cursor valueCursor, ContentValues expectedValues){
         Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
         for (Map.Entry<String, Object> entry : valueSet) {
             String columnName = entry.getKey();
@@ -79,10 +114,9 @@ public class DataTestUtilities {
         }
     }
 
-    public static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
+    public static void validateMovieCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
         assertTrue("Cursor should have records" + error, valueCursor.moveToFirst());
-        validateCurrentRecord(error, valueCursor, expectedValues);
-        valueCursor.close();
+        validateMovieRecordUnderCursor(error, valueCursor, expectedValues);
     }
 
     static TestContentObserver getTestContentObserver() {

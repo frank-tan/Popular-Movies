@@ -4,15 +4,16 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.test.InstrumentationTestCase;
 
-import com.franktan.popularmovies.data.MovieContract;
+import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.movie.MovieCursor;
+import com.franktan.popularmovies.data.movie.MovieSelection;
 import com.franktan.popularmovies.rest.MovieListAPIService;
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by tan on 16/08/2015.
@@ -42,35 +43,30 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
 
         MovieListAPIService mockService = mock(MovieListAPIService.class);
         when(mockService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), "popularity", 1435708800000L,1)).thenReturn(getTestingMovieJson());
-        assertEquals("retrieveAndSaveMovieData should return 20", 20, MovieSyncAdapter.retrieveAndSaveMovieData(getInstrumentation().getTargetContext(), mockService, "popularity", 1435708800000L,1));
+        assertEquals("retrieveAndSaveMovieData should return 20", 20, MovieSyncAdapter.retrieveAndSaveMovieData(getInstrumentation().getTargetContext(), mockService, "popularity", 1435708800000L, 1));
 
-        Cursor movieCursor = getInstrumentation().getContext().getContentResolver().query(
-                MovieContract.MovieEntry.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
+        MovieSelection where = new MovieSelection();
+        MovieCursor movieCursor = where.query(getInstrumentation().getTargetContext().getContentResolver());
         assertEquals("Should be 20 movie record in database", 20, movieCursor.getCount());
         movieCursor.moveToFirst();
         assertEquals("First record should match the first movie in our list",
-                102899, movieCursor.getInt(movieCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID)));
+                102899, movieCursor.getMovieMoviedbId());
 
         movieCursor.moveToLast();
         assertEquals("Last record should match the last movie in our list",
-                260346, movieCursor.getInt(movieCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIEDB_ID)));
+                260346, movieCursor.getMovieMoviedbId());
         movieCursor.close();
     }
 
     public void deleteAllRecordsFromProvider() {
         getInstrumentation().getContext().getContentResolver().delete(
-                MovieContract.MovieEntry.CONTENT_URI,
+                MovieColumns.CONTENT_URI,
                 null,
                 null
         );
 
         Cursor cursor = getInstrumentation().getContext().getContentResolver().query(
-                MovieContract.MovieEntry.CONTENT_URI,
+                MovieColumns.CONTENT_URI,
                 null,
                 null,
                 null,

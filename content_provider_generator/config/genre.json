@@ -1,0 +1,17 @@
+{
+  "documentation": "genres",
+  "fields": [
+    {
+      "documentation": "the id of the genre on movieDB",
+      "name": "genre_moviedb_id",
+      "type": "Integer",
+      "nullable": false
+  },
+    {
+      "documentation": "name",
+      "name": "name",
+      "type": "String",
+      "nullable": false
+  }
+ ]
+}

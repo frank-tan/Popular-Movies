@@ -1,0 +1,25 @@
+{
+  "documentation": "movie genre intersection table",
+  "fields": [
+    {
+      "documentation": "the movie id",
+      "name": "movie_id",
+      "type": "Long",
+      "nullable": false,
+      "foreignKey": {
+        "table": "movie",
+        "onDelete": "CASCADE"
+      }
+  },
+    {
+      "documentation": "the genre id",
+      "name": "genre_id",
+      "type": "Long",
+      "nullable": false,
+      "foreignKey": {
+        "table": "genre",
+        "onDelete": "CASCADE"
+      }
+  }
+ ]
+}

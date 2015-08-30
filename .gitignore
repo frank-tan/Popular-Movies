@@ -1,4 +1,6 @@
 .gradle
+.jar
+content_provider_generator/*.jar
 .idea
 /local.properties
 /.idea/workspace.xml

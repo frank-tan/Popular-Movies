@@ -1,0 +1,39 @@
+{
+  "documentation": "movie reviews",
+  "fields": [
+    {
+      "documentation": "the id of the reivew on movieDB",
+      "name": "review_moviedb_id",
+      "type": "Integer",
+      "nullable": false
+  },
+    {
+      "documentation": "author",
+      "name": "author",
+      "type": "String",
+      "nullable": true
+  },
+    {
+      "documentation": "content of the review",
+      "name": "content",
+      "type": "String",
+      "nullable": false
+  },
+    {
+      "documentation": "url of the original review",
+      "name": "url",
+      "type": "String",
+      "nullable": true
+  },
+    {
+      "documentation": "the movie id",
+      "name": "movie_id",
+      "type": "Long",
+      "nullable": false,
+      "foreignKey": {
+        "table": "movie",
+        "onDelete": "CASCADE"
+      }
+  }
+ ]
+}
