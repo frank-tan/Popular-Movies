@@ -117,7 +117,6 @@ public class DataTestUtilities {
     public static void validateMovieCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
         assertTrue("Cursor should have records" + error, valueCursor.moveToFirst());
         validateMovieRecordUnderCursor(error, valueCursor, expectedValues);
-        valueCursor.close();
     }
 
     static TestContentObserver getTestContentObserver() {

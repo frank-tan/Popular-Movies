@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.franktan.popularmovies.R;
+import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.model.Movie;
 import com.franktan.popularmovies.rest.MovieListAPIService;
 import com.franktan.popularmovies.util.Constants;
@@ -91,15 +92,14 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         try {
             movieList = Parser.parseJson(movieJsonString);
         } catch (JSONException e) {
-            // TODO
+            Log.e(Constants.APP_NAME,"JSONException: " + e.getMessage());
             return 0;
         } catch (ParseException e) {
-            // TODO
+            Log.e(Constants.APP_NAME,"ParseException: " + e.getMessage());
             return 0;
         }
         ContentValues[] movieContentValues = Parser.contentValuesFromMovieList(movieList);
-        //TODO: fix this return context.getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, movieContentValues);
-        return 0;
+        return context.getContentResolver().bulkInsert(MovieColumns.CONTENT_URI, movieContentValues);
     }
 
     public MovieSyncAdapter(Context context, boolean autoInitialize) {

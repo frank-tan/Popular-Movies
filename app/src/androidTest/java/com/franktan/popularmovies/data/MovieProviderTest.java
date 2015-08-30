@@ -13,6 +13,8 @@ import android.util.Log;
 
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.movie.MovieCursor;
+import com.franktan.popularmovies.data.movie.MovieSelection;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreCursor;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreSelection;
@@ -171,15 +173,19 @@ public class MovieProviderTest extends AndroidTestCase {
 
         movieCursor.close();
 
-        //Test query by Id
-        Cursor movieCursorById = mContext.getContentResolver().query(
-                MovieColumns.CONTENT_URI,
-                null,
-                MovieColumns._ID + " = " + movieRowId,
-                null,
-                null
-        );
-        movieCursorById.close();
+        MovieSelection where = new MovieSelection();
+        where.id(movieRowId);
+        Cursor cursorById = mContext.getContentResolver().query(MovieColumns.CONTENT_URI,null,where.sel(),where.args(),null);
+        DataTestUtilities.validateMovieCursor("query by id using library's syntax", cursorById, DataTestUtilities.createMovieEntry());
+
+        MovieCursor mc = new MovieCursor(cursorById);
+        mc.moveToFirst();
+        assertEquals("generated MovieCursor should work", movieRowId, mc.getId());
+        assertEquals("generated MovieCursor should work", 87101, mc.getMovieMoviedbId());
+        assertEquals("generated MovieCursor should work", 53.68, mc.getPopularity());
+        assertTrue("generated MovieCursor should work", mc.getPosterPath().equals("/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg"));
+        mc.close();
+        cursorById.close();
     }
 
     /**
@@ -251,7 +257,6 @@ public class MovieProviderTest extends AndroidTestCase {
         cursor.close();
     }
 
-    //// TODO: 29/08/2015 Test using library's way
     public void testProviderUpdate() {
         // Create a new map of values, where column names are the keys
         ContentValues values = DataTestUtilities.createMovieEntry();
@@ -285,12 +290,15 @@ public class MovieProviderTest extends AndroidTestCase {
         movieCursor.unregisterContentObserver(tco);
         movieCursor.close();
 
+        MovieSelection where = new MovieSelection();
+        where.id(movieRowId);
+
         // A cursor is your primary interface to the query results.
         Cursor cursor = mContext.getContentResolver().query(
                 MovieColumns.CONTENT_URI,
                 null,   // projection
-                MovieColumns._ID + " = " + movieRowId,
-                null,   // Values for the "where" clause
+                where.sel(),
+                where.args(),
                 null    // sort order
         );
 
@@ -300,7 +308,6 @@ public class MovieProviderTest extends AndroidTestCase {
         cursor.close();
     }
 
-    //// TODO: 29/08/2015 Test using library's way
     public void testProviderDelete() {
         testProviderInsert();
 
@@ -314,7 +321,6 @@ public class MovieProviderTest extends AndroidTestCase {
         mContext.getContentResolver().unregisterContentObserver(locationObserver);
     }
 
-    //// TODO: 29/08/2015 Test using library's way
     public void testProviderBulkInsert() {
 
         ContentValues[] bulkInsertContentValues = createBulkInsertMovieValues(0);
@@ -351,7 +357,6 @@ public class MovieProviderTest extends AndroidTestCase {
         cursor.close();
     }
 
-    //// TODO: 29/08/2015 Test using library's way 
     public void testProviderBulkUpsert() {
 
         testProviderBulkInsert();
