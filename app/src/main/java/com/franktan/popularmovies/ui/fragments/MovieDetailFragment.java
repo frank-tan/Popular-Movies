@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.movie.MovieSelection;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 import com.squareup.picasso.Picasso;
@@ -98,16 +100,16 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        //TODO: fix this
-//        return new CursorLoader(
-//                getActivity(),
-//                MovieColumns.buildMovieUri(mMovieId),
-//                MOVIE_COLUMNS,
-//                null,
-//                null,
-//                null
-//        );
-        return null;
+        MovieSelection where = new MovieSelection();
+        where.id(mMovieId);
+        return new CursorLoader(
+                getActivity(),
+                MovieColumns.CONTENT_URI,
+                MOVIE_COLUMNS,
+                where.sel(),
+                where.args(),
+                null
+        );
     }
 
     @Override
