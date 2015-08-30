@@ -353,3 +353,21 @@ a:hover {
     font-size: 0.9rem;
   }
 }
+
+img {
+  padding: 2rem;
+}
+
+.centre {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.image-sec h3 {
+  background: rgb(0, 0, 0);
+  /* Fall-back for browsers that don't support rgba */
+  background: rgba(0, 0, 0, .1);
+}
