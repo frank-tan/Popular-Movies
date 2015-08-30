@@ -8,3 +8,8 @@ The app is developed for [Udacity Android Developer Nanodegree](https://www.udac
 
 ## CI Report
 [![Circle CI](https://circleci.com/gh/frank-tan/Popular-Movies/tree/master.svg?style=svg)](https://circleci.com/gh/frank-tan/Popular-Movies/tree/master)
+
+## Data
+This app uses SyncAdapter to fetch data periodically and uses a content provider to save and retrieve data in a SQLite database.
+
+![Alt text](content_provider_generator/popular-movies-db.png?raw=true "Database Schema")
