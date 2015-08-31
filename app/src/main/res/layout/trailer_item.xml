@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/trailer_play"
+        android:src="@drawable/ic_play_circle_outline_black_24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignBottom="@id/trailer_type"
+        android:layout_margin="5dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/trailer_name_placeholder"
+        android:id="@+id/trailer_name"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/trailer_play"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/trailer_type_placeholder"
+        android:id="@+id/trailer_type"
+        android:layout_below="@id/trailer_name"
+        android:layout_toRightOf="@id/trailer_play"
+        android:layout_margin="5dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/trailer_size_placeholder"
+        android:id="@+id/trailer_size"
+        android:layout_toRightOf="@id/trailer_type"
+        android:layout_alignBottom="@id/trailer_type"
+        android:layout_marginLeft="30dp"
+        />
+
+
+
+    <View style="@style/Divider"
+        android:id="@+id/review_divider"
+        android:layout_below="@id/overview"
+        android:layout_margin="5dp"
+        />
+
+
+
+</RelativeLayout>

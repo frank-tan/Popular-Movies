@@ -164,6 +164,19 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/trailer_section"
+        android:layout_below="@id/divider1"></LinearLayout>
+
+    <View style="@style/Divider"
+        android:id="@+id/divider2"
+        android:layout_below="@id/trailer_section"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -171,7 +184,7 @@
         android:text="@string/overview_title"
         android:id="@+id/overview_title"
         android:layout_centerVertical="true"
-        android:layout_below="@id/divider1"
+        android:layout_below="@id/divider2"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -186,7 +199,20 @@
         android:layout_below="@id/overview_title"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:paddingBottom="30dp"/>
+        />
+
+    <View style="@style/Divider"
+        android:id="@+id/divider3"
+        android:layout_below="@id/overview"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/review_section"
+        android:layout_below="@id/divider3"></LinearLayout>
 
     </RelativeLayout>
 </ScrollView>
