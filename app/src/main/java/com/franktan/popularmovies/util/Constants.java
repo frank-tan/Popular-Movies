@@ -9,4 +9,5 @@ public class Constants {
     public static final String BACKDROP_BASE_PATH = "http://image.tmdb.org/t/p/w500";
     public static final String APP_NAME = "popularmovies";
     public static final String MOVIEDB_BASE_URL = "https://api.themoviedb.org";
+    public static final String MOVIEDB_ID = "moviedbId";
 }
