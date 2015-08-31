@@ -3,6 +3,7 @@ package com.franktan.popularmovies.rest;
 import android.content.Context;
 import android.net.Uri;
 
+import com.franktan.popularmovies.model.SortCriterion;
 import com.franktan.popularmovies.util.Parser;
 import com.franktan.popularmovies.util.Utilities;
 
@@ -18,8 +19,7 @@ import java.net.URL;
  */
 public class MovieListAPIService {
 
-    //TODO: use Enum for sort by parameter
-    public String getMovieInfoFromAPI(Context context, String sortBy, long releaseDateFrom, int page) {
+    public String getMovieInfoFromAPI(Context context, SortCriterion sortBy, long releaseDateFrom, int page) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
@@ -35,7 +35,7 @@ public class MovieListAPIService {
         try {
             Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
                     .appendQueryParameter(API_KEY, Utilities.getApiKey(context))
-                    .appendQueryParameter(SORT_BY, sortBy)
+                    .appendQueryParameter(SORT_BY, sortBy.getValue())
                     .appendQueryParameter(PAGE, String.valueOf(page))
                     .appendQueryParameter(RELEASE_BEFORE, formattedDateFrom)
                     .build();

@@ -16,6 +16,7 @@ import android.util.Log;
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.model.Movie;
+import com.franktan.popularmovies.model.SortCriterion;
 import com.franktan.popularmovies.rest.MovieListAPIService;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
@@ -86,7 +87,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param page
      * @return
      */
-    public static int retrieveAndSaveMovieData(Context context, MovieListAPIService movieListAPIService, String sortBy, Long releaseDateFrom, int page) {
+    public static int retrieveAndSaveMovieData(Context context, MovieListAPIService movieListAPIService, SortCriterion sortBy, Long releaseDateFrom, int page) {
         String movieJsonString = movieListAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, page);
         List<Movie> movieList;
         try {
@@ -131,8 +132,6 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         // Here, we retrieve movies release 6 months ago onwards sort by both popularity and vote_average
         // We leave to the cursor adapter to sort all movies from database
 
-        String sortBy = "popularity.desc";
-
         // get movies from within 6 months ago
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -6);
@@ -140,13 +139,11 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         long dateFrom = halfYearAgo.getTime();
 
         for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
-            retrieveAndSaveMovieData(getContext(), movieListAPIService, sortBy, dateFrom, page);
+            retrieveAndSaveMovieData(getContext(), movieListAPIService, SortCriterion.POPULARITY, dateFrom, page);
         }
 
-        sortBy = "vote_average.desc";
-
         for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
-            retrieveAndSaveMovieData(getContext(), movieListAPIService, sortBy, dateFrom, page);
+            retrieveAndSaveMovieData(getContext(), movieListAPIService, SortCriterion.RATING, dateFrom, page);
         }
     }
 
