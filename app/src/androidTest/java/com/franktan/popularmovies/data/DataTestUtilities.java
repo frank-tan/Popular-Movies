@@ -34,19 +34,17 @@ public class DataTestUtilities {
     static ContentValues createMovieEntry() {
         // Create a new map of values, where column names are the keys
         ContentValues testValues = new ContentValues();
-        testValues.put(MovieColumns.BACKDROP_PATH,   "/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg");
-        testValues.put(MovieColumns.MOVIE_MOVIEDB_ID,      87101);
+        testValues.put(MovieColumns.BACKDROP_PATH,   "/tbhdm8UJAb4ViCTsulYFL3lxMCd.jpg");
+        testValues.put(MovieColumns.MOVIE_MOVIEDB_ID,      76341);
         testValues.put(MovieColumns.ORIGINAL_LAN,    "en");
-        testValues.put(MovieColumns.ORIGINAL_TITLE,  "Terminator Genisys");
-        testValues.put(MovieColumns.OVERVIEW,        "The year is 2029. John Connor, leader of the resistance " +
-                "ontinues the war against the machines. At the Los Angeles offensive, John's fears of the unknown future begin to emerge when TECOM spies " +
-                "reveal a new plot by SkyNet that will attack him from both fronts; past and future, and will ultimately change warfare forever.");
+        testValues.put(MovieColumns.ORIGINAL_TITLE,  "Mad Max: Fury Road");
+        testValues.put(MovieColumns.OVERVIEW,        "An apocalyptic story set in the furthest reaches of our planet, in a stark desert landscape where humanity is broken, and most everyone is crazed fighting for the necessities of life. Within this world exist two rebels on the run who just might be able to restore order. There's Max, a man of action and a man of few words, who seeks peace of mind following the loss of his wife and child in the aftermath of the chaos. And Furiosa, a woman of action and a woman who believes her path to survival may be achieved if she can make it across the desert back to her childhood homeland.");
         testValues.put(MovieColumns.RELEASE_DATE,    TEST_DATE);
-        testValues.put(MovieColumns.POSTER_PATH,     "/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg");
-        testValues.put(MovieColumns.POPULARITY,      53.68);
-        testValues.put(MovieColumns.TITLE,           "Terminator Genisys");
-        testValues.put(MovieColumns.VOTE_AVERAGE,    6.3);
-        testValues.put(MovieColumns.VOTE_COUNT,      713);
+        testValues.put(MovieColumns.POSTER_PATH,     "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg");
+        testValues.put(MovieColumns.POPULARITY,      54.32);
+        testValues.put(MovieColumns.TITLE,           "Mad Max: Fury Road");
+        testValues.put(MovieColumns.VOTE_AVERAGE,    7.7);
+        testValues.put(MovieColumns.VOTE_COUNT,      1978);
 
         return testValues;
     }
@@ -73,7 +71,7 @@ public class DataTestUtilities {
      * @param context
      * @return
      */
-    static long insertMovieTestEntry(Context context) {
+    public static long insertMovieTestEntry(Context context) {
         // insert our test records into the database
         MovieSQLiteOpenHelper dbHelper = MovieSQLiteOpenHelper.getInstance(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();

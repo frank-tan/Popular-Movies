@@ -181,9 +181,9 @@ public class MovieProviderTest extends AndroidTestCase {
         MovieCursor mc = new MovieCursor(cursorById);
         mc.moveToFirst();
         assertEquals("generated MovieCursor should work", movieRowId, mc.getId());
-        assertEquals("generated MovieCursor should work", 87101, mc.getMovieMoviedbId());
-        assertEquals("generated MovieCursor should work", 53.68, mc.getPopularity());
-        assertTrue("generated MovieCursor should work", mc.getPosterPath().equals("/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg"));
+        assertEquals("generated MovieCursor should work", 76341, mc.getMovieMoviedbId());
+        assertEquals("generated MovieCursor should work", 54.32, mc.getPopularity());
+        assertTrue("generated MovieCursor should work", mc.getPosterPath().equals("/kqjL17yufvn9OVLyXYpvtyrFfak.jpg"));
         mc.close();
         cursorById.close();
     }
@@ -247,8 +247,8 @@ public class MovieProviderTest extends AndroidTestCase {
 
         assertTrue("Should return one record", cursor.moveToNext());
 
-        assertTrue("movie record title should be correct", cursor.getMovieTitle().equals("Terminator Genisys"));
-        assertTrue("movie record backdroppath should be correct", cursor.getMovieBackdropPath().equals("/bIlYH4l2AyYvEysmS2AOfjO7Dn8.jpg"));
+        assertTrue("movie record title should be correct", cursor.getMovieTitle().equals("Mad Max: Fury Road"));
+        assertTrue("movie record backdroppath should be correct", cursor.getMovieBackdropPath().equals("/tbhdm8UJAb4ViCTsulYFL3lxMCd.jpg"));
         assertEquals("intersection record movie id should be movie record's row id", movieRowId, cursor.getMovieId());
         assertEquals("intersection record genre id should be genre record's row id", genreRowId, cursor.getGenreId());
         assertTrue("genre name should be correct", cursor.getGenreName().equals("Action"));
