@@ -169,10 +169,11 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         ReviewCursor reviewCursor = new ReviewCursor(cursor);
         reviewCursor.moveToFirst();
         do {
-            //todo: will throw NullPointerException if no records exist need to try catch
-            String content = reviewCursor.getContent();
-            if (content == null || content.length() <= 0)
+            try {
+                String content = reviewCursor.getContent();
+            } catch (NullPointerException e){
                 break;
+            }
 
             insertReviewRecord(reviewCursor);
 
