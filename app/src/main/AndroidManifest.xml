@@ -46,6 +46,9 @@
             android:authorities="com.franktan.popularmovies"
             android:exported="false" />
 
+        <service android:name=".service.MovieDetailsIntentService"
+            android:exported="false"/>
+
         <service android:name=".sync.AuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />

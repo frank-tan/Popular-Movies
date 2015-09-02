@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMovieItemSelected(int movieId) {
+    public void onMovieItemSelected(long movieDBId) {
         MovieDetailFragment fragment = (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_movie_details);
-        fragment.showDetailsbyMovieId(movieId);
+        fragment.showDetailsByMovieDBId(movieDBId);
     }
 }

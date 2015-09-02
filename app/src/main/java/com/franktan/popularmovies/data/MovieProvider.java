@@ -44,7 +44,7 @@ public class MovieProvider extends BaseContentProvider {
     private static final int URI_TYPE_TRAILER = 8;
     private static final int URI_TYPE_TRAILER_ID = 9;
 
-
+    private static final int URI_TYPE_MOVIEDB_ID = 10;
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -53,6 +53,7 @@ public class MovieProvider extends BaseContentProvider {
         URI_MATCHER.addURI(AUTHORITY, GenreColumns.TABLE_NAME + "/#", URI_TYPE_GENRE_ID);
         URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME, URI_TYPE_MOVIE);
         URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME + "/#", URI_TYPE_MOVIE_ID);
+        URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME + "/moviedb/#", URI_TYPE_MOVIEDB_ID);
         URI_MATCHER.addURI(AUTHORITY, MovieGenreColumns.TABLE_NAME, URI_TYPE_MOVIE_GENRE);
         URI_MATCHER.addURI(AUTHORITY, MovieGenreColumns.TABLE_NAME + "/#", URI_TYPE_MOVIE_GENRE_ID);
         URI_MATCHER.addURI(AUTHORITY, ReviewColumns.TABLE_NAME, URI_TYPE_REVIEW);
@@ -101,6 +102,9 @@ public class MovieProvider extends BaseContentProvider {
             case URI_TYPE_TRAILER_ID:
                 return TYPE_CURSOR_ITEM + TrailerColumns.TABLE_NAME;
 
+            case URI_TYPE_MOVIEDB_ID:
+                return TYPE_CURSOR_ITEM + MovieColumns.TABLE_NAME;
+
         }
         return null;
     }
@@ -134,7 +138,8 @@ public class MovieProvider extends BaseContentProvider {
         if (DEBUG)
             Log.d(TAG, "query uri=" + uri + " selection=" + selection + " selectionArgs=" + Arrays.toString(selectionArgs) + " sortOrder=" + sortOrder
                     + " groupBy=" + uri.getQueryParameter(QUERY_GROUP_BY) + " having=" + uri.getQueryParameter(QUERY_HAVING) + " limit=" + uri.getQueryParameter(QUERY_LIMIT));
-        return super.query(uri, projection, selection, selectionArgs, sortOrder);
+        Cursor cursor = super.query(uri, projection, selection, selectionArgs, sortOrder);
+        return cursor;
     }
 
     @Override
@@ -156,6 +161,19 @@ public class MovieProvider extends BaseContentProvider {
                 res.table = MovieColumns.TABLE_NAME;
                 res.idColumn = MovieColumns._ID;
                 res.tablesWithJoins = MovieColumns.TABLE_NAME;
+                res.orderBy = MovieColumns.DEFAULT_ORDER;
+                break;
+
+            case URI_TYPE_MOVIEDB_ID:
+                res.table = MovieColumns.TABLE_NAME;
+                res.idColumn = MovieColumns._ID;
+                res.tablesWithJoins = MovieColumns.TABLE_NAME;
+                if (ReviewColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + ReviewColumns.TABLE_NAME + " ON " + MovieColumns.TABLE_NAME + "." + MovieColumns._ID + "=" + ReviewColumns.TABLE_NAME + "." + ReviewColumns.MOVIE_ID;
+                }
+                if (TrailerColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + TrailerColumns.TABLE_NAME + " ON " + MovieColumns.TABLE_NAME + "." + MovieColumns._ID + "=" + TrailerColumns.TABLE_NAME + "." + TrailerColumns.MOVIE_ID;
+                }
                 res.orderBy = MovieColumns.DEFAULT_ORDER;
                 break;
 

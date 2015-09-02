@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.franktan.popularmovies.R;
-import com.franktan.popularmovies.ui.fragments.MoviesGridFragment;
+import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.util.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -34,7 +34,8 @@ public class MovieGridAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        String posterPath = cursor.getString(MoviesGridFragment.COL_POSTER_PATH);
+        MovieCursor movieCursor = new MovieCursor(cursor);
+        String posterPath = movieCursor.getPosterPath();
         String posterFullPath = Constants.POSTER_BASE_PATH + posterPath;
 
         Picasso.with(context)
@@ -66,7 +67,8 @@ public class MovieGridAdapter extends CursorAdapter {
     public long getItemId(int position) {
         if(mCursor != null) {
             if(mCursor.moveToPosition(position)) {
-                return mCursor.getInt(MoviesGridFragment.COL_MOVIE_ID);
+                MovieCursor movieCursor = new MovieCursor(mCursor);
+                return movieCursor.getMovieMoviedbId();
             }
         }
         return 0;

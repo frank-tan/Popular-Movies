@@ -1,22 +1,29 @@
 package com.franktan.popularmovies.ui.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.movie.MovieColumns;
-import com.franktan.popularmovies.data.movie.MovieSelection;
+import com.franktan.popularmovies.data.movie.MovieCursor;
+import com.franktan.popularmovies.data.review.ReviewColumns;
+import com.franktan.popularmovies.data.review.ReviewCursor;
+import com.franktan.popularmovies.service.MovieDetailsIntentService;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 import com.squareup.picasso.Picasso;
@@ -27,7 +34,7 @@ import com.squareup.picasso.Picasso;
 public class MovieDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int DETAIL_LOADER = 0;
-    private int mMovieId = -1;
+    private long mMovieDBId = -1;
 
     ImageView mMovieTrailer;
     ImageView mMoviePoster;
@@ -37,30 +44,23 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     TextView mRatingText;
     TextView mVoteCount;
     TextView mOverview;
+    LinearLayout mReviewSection;
+    LinearLayout mTrailerSection;
 
     private static final String[] MOVIE_COLUMNS = {
             MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
-            MovieColumns.BACKDROP_PATH,
-            MovieColumns.ORIGINAL_LAN,
-            MovieColumns.OVERVIEW,
-            MovieColumns.RELEASE_DATE,
-            MovieColumns.POSTER_PATH,
-            MovieColumns.TITLE,
-            MovieColumns.VOTE_AVERAGE,
-            MovieColumns.VOTE_COUNT
+            MovieColumns.TABLE_NAME + "." + MovieColumns.BACKDROP_PATH,
+            MovieColumns.TABLE_NAME + "." + MovieColumns.ORIGINAL_LAN,
+            MovieColumns.TABLE_NAME + "." + MovieColumns.OVERVIEW,
+            MovieColumns.TABLE_NAME + "." + MovieColumns.RELEASE_DATE,
+            MovieColumns.TABLE_NAME + "." + MovieColumns.POSTER_PATH,
+            MovieColumns.TABLE_NAME + "." + MovieColumns.TITLE,
+            MovieColumns.TABLE_NAME + "." + MovieColumns.VOTE_AVERAGE,
+            MovieColumns.TABLE_NAME + "." + MovieColumns.VOTE_COUNT,
+            ReviewColumns.TABLE_NAME + "." + ReviewColumns.AUTHOR,
+            ReviewColumns.TABLE_NAME + "." + ReviewColumns.CONTENT,
+            ReviewColumns.TABLE_NAME + "." + ReviewColumns.URL
     };
-
-    // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
-    // must change.
-    static final int COL_MOVIE_ID               = 0;
-    static final int COL_MOVIE_BACKDROP_PATH    = 1;
-    static final int COL_MOVIE_ORIGINAL_LAN     = 2;
-    static final int COL_MOVIE_OVERVIEW         = 3;
-    static final int COL_MOVIE_RELEASE_DATE     = 4;
-    static final int COL_MOVIE_POSTER_PATH      = 5;
-    static final int COL_MOVIE_TITLE            = 6;
-    static final int COL_MOVIE_VOTE_AVERAGE     = 7;
-    static final int COL_MOVIE_VOTE_COUNT       = 8;
 
     public MovieDetailFragment() {
     }
@@ -78,6 +78,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mRatingText         = (TextView)    view.findViewById(R.id.rating_text);
         mVoteCount          = (TextView)    view.findViewById(R.id.vote_count);
         mOverview           = (TextView)    view.findViewById(R.id.overview);
+        mReviewSection      = (LinearLayout)view.findViewById(R.id.review_section);
+        mTrailerSection     = (LinearLayout)view.findViewById(R.id.trailer_section);
 
         return view;
     }
@@ -87,12 +89,17 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         super.onAttach(activity);
 
         Intent intent = activity.getIntent();
-        mMovieId = intent.getIntExtra("Id",-1);
+        mMovieDBId = intent.getLongExtra(Constants.MOVIEDB_ID,-1);
+        Log.i(Constants.APP_NAME, "mMovieDBId from intent is " + mMovieDBId);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        if(mMovieId != -1) {
+        if(mMovieDBId != -1) {
+            // Invoke IntentService to retrieve reviews and trailers
+            startMovieDetailsIntentService();
+
+            // Query database
             getLoaderManager().initLoader(DETAIL_LOADER, null, this);
         }
         super.onActivityCreated(savedInstanceState);
@@ -100,14 +107,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        MovieSelection where = new MovieSelection();
-        where.id(mMovieId);
+
         return new CursorLoader(
                 getActivity(),
-                MovieColumns.CONTENT_URI,
+                Uri.withAppendedPath(MovieColumns.CONTENT_URI, "moviedb/" + String.valueOf(mMovieDBId)),
                 MOVIE_COLUMNS,
-                where.sel(),
-                where.args(),
+                MovieColumns.TABLE_NAME + "." + MovieColumns.MOVIE_MOVIEDB_ID + "="+ String.valueOf(mMovieDBId),
+                null,
                 null
         );
     }
@@ -119,17 +125,23 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.i(Constants.APP_NAME,"loader finished");
         if (cursor != null && !cursor.moveToFirst()){
+            Log.i(Constants.APP_NAME,"loader finished: no records returned");
             return;
         }
-        String backdropPath = Constants.BACKDROP_BASE_PATH + cursor.getString(COL_MOVIE_BACKDROP_PATH);
-        String posterPath   = Constants.POSTER_BASE_PATH + cursor.getString(COL_MOVIE_POSTER_PATH);
-        String title        = cursor.getString(COL_MOVIE_TITLE);
-        long releaseDate     = cursor.getLong(COL_MOVIE_RELEASE_DATE);
-        String language     = cursor.getString(COL_MOVIE_ORIGINAL_LAN);
-        Double voteAverage  = cursor.getDouble(COL_MOVIE_VOTE_AVERAGE);
-        int voteCount       = cursor.getInt(COL_MOVIE_VOTE_COUNT);
-        String overview     = cursor.getString(COL_MOVIE_OVERVIEW);
+        Log.i(Constants.APP_NAME, String.valueOf(cursor.getCount()) + "  records returned");
+
+        MovieCursor movieCursor = new MovieCursor(cursor);
+        movieCursor.moveToFirst();
+        String backdropPath = Constants.BACKDROP_BASE_PATH + movieCursor.getBackdropPath();
+        String posterPath   = Constants.POSTER_BASE_PATH + movieCursor.getPosterPath();
+        String title        = movieCursor.getTitle();
+        long releaseDate    = movieCursor.getReleaseDate();
+        String language     = movieCursor.getOriginalLan();
+        Double voteAverage  = movieCursor.getVoteAverage();
+        int voteCount       = movieCursor.getVoteCount();
+        String overview     = movieCursor.getOverview();
         
         Picasso.with(getActivity())
                 .load(backdropPath)
@@ -148,14 +160,49 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mMovieTitle.setText(title);
         mMovieReleaseDate.setText(Parser.humanDateStringFromMiliseconds(releaseDate));
         mOriginalLanguage.setText(language);
-//        mRatingBar;
         mRatingText.setText(String.valueOf(voteAverage) + "/10");
         mVoteCount.setText(String.valueOf(voteCount) + " votes");
         mOverview.setText(overview);
+
+        mReviewSection.removeAllViews();
+
+        ReviewCursor reviewCursor = new ReviewCursor(cursor);
+        reviewCursor.moveToFirst();
+        do {
+            //todo: will throw NullPointerException if no records exist need to try catch
+            String content = reviewCursor.getContent();
+            if (content == null || content.length() <= 0)
+                break;
+
+            insertReviewRecord(reviewCursor);
+
+            Log.i(Constants.APP_NAME, reviewCursor.getAuthor());
+            Log.i(Constants.APP_NAME, reviewCursor.getContent());
+            Log.i(Constants.APP_NAME, reviewCursor.getUrl());
+
+        } while (reviewCursor.moveToNext());
     }
 
-    public void showDetailsbyMovieId (int movieId) {
-        mMovieId = movieId;
+    private void insertReviewRecord (ReviewCursor reviewCursor) {
+        View reviewItemView = getActivity().getLayoutInflater().inflate(R.layout.review_item, null);
+        TextView authorTextView = (TextView) reviewItemView.findViewById(R.id.review_author);
+        TextView contentTextView = (TextView) reviewItemView.findViewById(R.id.review_text);
+        mReviewSection.addView(reviewItemView);
+
+        authorTextView.setText(reviewCursor.getAuthor());
+        contentTextView.setText(reviewCursor.getContent());
+    }
+
+    public void showDetailsByMovieDBId(long movieDBId) {
+        mMovieDBId = movieDBId;
+        startMovieDetailsIntentService();
         getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+    }
+
+    private void startMovieDetailsIntentService () {
+        Context appContext = getActivity().getApplicationContext();
+        Intent intent = new Intent(appContext, MovieDetailsIntentService.class);
+        intent.putExtra(Constants.MOVIEDB_ID, mMovieDBId);
+        appContext.startService(intent);
     }
 }

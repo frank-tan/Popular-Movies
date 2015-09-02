@@ -37,7 +37,7 @@ public class MovieDetailsIntentServiceTest extends ServiceTestCase<MovieDetailsI
 
     public void testIntentService() throws InterruptedException {
         // start intent service and wait for it to finish
-        Intent intent = new Intent(getSystemContext(), MovieDetailsIntentService.class);
+        Intent intent = new Intent(getSystemContext(), MovieDetailsIntentServiceWrapper.class);
         intent.putExtra(Constants.MOVIEDB_ID, 76341);
         startService(intent);
         latch.await();
@@ -63,9 +63,13 @@ public class MovieDetailsIntentServiceTest extends ServiceTestCase<MovieDetailsI
         reviewSelection.movieId(movieRowId);
         ReviewCursor reviewCursor = reviewSelection.query(getSystemContext().getContentResolver());
 
+//        Log.i(Constants.APP_NAME,"number of reviews: "+reviewCursor.getCount());
         assertTrue("should return some reviews", reviewCursor.getCount() > 0);
 
         reviewCursor.moveToFirst();
+//        Log.i(Constants.APP_NAME, "auther: " + reviewCursor.getAuthor());
+//        Log.i(Constants.APP_NAME,"content: "+reviewCursor.getContent());
+//        Log.i(Constants.APP_NAME,"url: "+reviewCursor.getUrl());
         assertTrue("author should not be empty", reviewCursor.getAuthor() != null && reviewCursor.getAuthor().length() > 0);
         assertTrue("content should not be empty", reviewCursor.getContent() != null && reviewCursor.getContent().length() > 0);
         assertTrue("url should not be empty", reviewCursor.getUrl() != null && reviewCursor.getUrl().length() > 0);

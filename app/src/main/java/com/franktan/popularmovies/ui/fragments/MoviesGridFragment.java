@@ -18,6 +18,7 @@ import android.widget.GridView;
 
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.ui.activities.MovieDetailActivity;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Utilities;
@@ -34,10 +35,10 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     private static final String[] MOVIE_COLUMNS = {
             MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
+            MovieColumns.MOVIE_MOVIEDB_ID,
             MovieColumns.POSTER_PATH
     };
-    static final int COL_MOVIE_ID = 0;
-    static final int COL_POSTER_PATH = 1;
+
     private static final int MOVIE_LOADER_ID = 0;
     private static String mSortOrderPreference;
 
@@ -122,12 +123,14 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
                     Log.i(Constants.APP_NAME, "item clicked, but cursor is null");
                     return;
                 }
-                int movieId = cursor.getInt(COL_MOVIE_ID);
+                MovieCursor movieCursor = new MovieCursor(cursor);
+                long movieDBId = movieCursor.getMovieMoviedbId();
+                Log.i(Constants.APP_NAME,"movieDBId onclick: "+movieDBId);
                 if (mListener.isInTwoPaneMode()) {
-                    mListener.onMovieItemSelected(movieId);
+                    mListener.onMovieItemSelected(movieDBId);
                 } else {
                     Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-                    intent.putExtra("Id", movieId);
+                    intent.putExtra(Constants.MOVIEDB_ID, movieDBId);
                     startActivity(intent);
                 }
             }
@@ -202,8 +205,8 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
             mGridView.setSelection(mSelection);
             mGridView.setItemChecked(mSelection, true);
             if(mListener.isInTwoPaneMode()) {
-                int movieId = (int) mMovieGridAdapter.getItemId(mSelection);
-                mListener.onMovieItemSelected(movieId);
+                int movieDBId = (int) mMovieGridAdapter.getItemId(mSelection);
+                mListener.onMovieItemSelected(movieDBId);
             }
         }
     }
@@ -221,7 +224,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     public interface OnFragmentInteractionListener {
         boolean isInTwoPaneMode();
 
-        void onMovieItemSelected(int movieId);
+        void onMovieItemSelected(long movieDBId);
     }
 
 }

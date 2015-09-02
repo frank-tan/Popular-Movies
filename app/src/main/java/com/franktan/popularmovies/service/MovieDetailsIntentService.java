@@ -3,8 +3,10 @@ package com.franktan.popularmovies.service;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
+import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.data.movie.MovieSelection;
 import com.franktan.popularmovies.data.review.ReviewColumns;
@@ -31,11 +33,14 @@ public class MovieDetailsIntentService extends IntentService {
     //// TODO: 31/08/2015 Added unit test for this service
     @Override
     protected void onHandleIntent(Intent intent) {
-        int movieMovieDBId = intent.getIntExtra(Constants.MOVIEDB_ID, -1);
+        Log.i(Constants.APP_NAME,"MovieDetailsIntentService onHandleIntent");
+        long movieMovieDBId = intent.getLongExtra(Constants.MOVIEDB_ID, -1);
         if(movieMovieDBId == -1) return;
 
+        Log.i(Constants.APP_NAME,"MovieDetailsIntentService retrieving movie details");
         Movie movie = MovieDetailsAPIService.retrieveMovieDetails(this, movieMovieDBId, null);
 
+        Log.i(Constants.APP_NAME,"MovieDetailsIntentService REST returned");
         MovieSelection movieSelection = new MovieSelection();
         movieSelection.movieMoviedbId(movieMovieDBId);
         MovieCursor movieCursor = movieSelection.query(getContentResolver());
@@ -46,12 +51,21 @@ public class MovieDetailsIntentService extends IntentService {
         }
         long movieRowId = movieCursor.getId();
         movieCursor.close();
+        Log.i(Constants.APP_NAME, "MovieDetailsIntentService movie record found");
 
-        insertReviews(movie, movieRowId);
-        insertTrailers(movie, movieRowId);
+        int reviewsInserted = insertReviews(movie, movieRowId);
+        Log.i(Constants.APP_NAME, "MovieDetailsIntentService reviews inserted");
+        int trailersInserted = insertTrailers(movie, movieRowId);
+        Log.i(Constants.APP_NAME, "MovieDetailsIntentService trailers inserted");
+
+        // if new reviews or trailers are inserted into database notify cursor loader
+        if(reviewsInserted + trailersInserted > 0) {
+            getApplicationContext().getContentResolver().notifyChange(Uri.withAppendedPath(MovieColumns.CONTENT_URI, "moviedb/" + String.valueOf(movieMovieDBId)), null);
+        }
     }
 
-    private void insertReviews(Movie movie, long movieRowId) {
+    private int insertReviews(Movie movie, long movieRowId) {
+        getContentResolver().delete(ReviewColumns.CONTENT_URI,null,null);
         ContentValues[] reviews = new ContentValues[movie.getReviews().size()];
 
         for (int i = 0; i < movie.getReviews().size(); i++) {
@@ -67,11 +81,10 @@ public class MovieDetailsIntentService extends IntentService {
 
             reviews[i] = reviewContentValues.values();
         }
-        int reviewNum = getContentResolver().bulkInsert(ReviewColumns.CONTENT_URI, reviews);
-        Log.i(Constants.APP_NAME, "number of reviews inserted: " + reviewNum);
+        return getContentResolver().bulkInsert(ReviewColumns.CONTENT_URI, reviews);
     }
 
-    private void insertTrailers(Movie movie, long movieRowId) {
+    private int insertTrailers(Movie movie, long movieRowId) {
         ContentValues[] trailers = new ContentValues[movie.getTrailers().size()];
 
         for (int i = 0; i < movie.getTrailers().size(); i++) {
@@ -86,8 +99,7 @@ public class MovieDetailsIntentService extends IntentService {
 
             trailers[i] = trailerContentValues.values();
         }
-        int reviewNum = getContentResolver().bulkInsert(TrailerColumns.CONTENT_URI, trailers);
-        Log.i(Constants.APP_NAME,"number of trailers inserted: " + reviewNum);
+        return getContentResolver().bulkInsert(TrailerColumns.CONTENT_URI, trailers);
     }
 
     //TODO: insertGenres

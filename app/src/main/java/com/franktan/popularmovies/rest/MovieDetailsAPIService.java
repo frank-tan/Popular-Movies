@@ -41,7 +41,7 @@ public class MovieDetailsAPIService {
      */
     public interface MovieDetailsAPI {
         @GET("/3/movie/{id}")
-        public Movie retrieveMovieDetails(@Path("id")int id, @QueryMap Map<String, String> options);
+        public Movie retrieveMovieDetails(@Path("id")long id, @QueryMap Map<String, String> options);
     }
 
     /**
@@ -121,7 +121,7 @@ public class MovieDetailsAPIService {
      * @param client for testing purpose, you can provide a mock client. Leave it to null for real MovieDB api call
      * @return
      */
-    public static Movie retrieveMovieDetails (Context context, int movieId, Client client) {
+    public static Movie retrieveMovieDetails (Context context, long movieId, Client client) {
         Map<String,String> params = movieDetailsURLParameters(context);
         RestAdapter restAdapter = createRestAdapter(client);
         MovieDetailsAPI movieDetailsAPI = restAdapter.create(MovieDetailsAPI.class);

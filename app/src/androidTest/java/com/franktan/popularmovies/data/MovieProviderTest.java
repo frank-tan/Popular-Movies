@@ -207,10 +207,11 @@ public class MovieProviderTest extends AndroidTestCase {
         contentResolver.unregisterContentObserver(tco);
 
         // insert genre record
-        contentResolver.registerContentObserver(GenreColumns.CONTENT_URI, true, tco);
+        DataTestUtilities.TestContentObserver tco2 = DataTestUtilities.getTestContentObserver();
+        contentResolver.registerContentObserver(GenreColumns.CONTENT_URI, true, tco2);
         Uri genreUri = contentResolver.insert(GenreColumns.CONTENT_URI, genreTestValues);
-        tco.waitForNotificationOrFail();
-        contentResolver.unregisterContentObserver(tco);
+        tco2.waitForNotificationOrFail();
+        contentResolver.unregisterContentObserver(tco2);
 
         long movieRowId = ContentUris.parseId(movieUri);
         long genreRowId = ContentUris.parseId(genreUri);
@@ -218,10 +219,11 @@ public class MovieProviderTest extends AndroidTestCase {
         ContentValues movieGenreTestValues = DataTestUtilities.createMovieGenreEntry(movieRowId, genreRowId);
 
         // insert movie_genre intersection record
-        contentResolver.registerContentObserver(MovieGenreColumns.CONTENT_URI, true, tco);
+        DataTestUtilities.TestContentObserver tco3 = DataTestUtilities.getTestContentObserver();
+        contentResolver.registerContentObserver(MovieGenreColumns.CONTENT_URI, true, tco3);
         Uri movieGenreUri = contentResolver.insert(MovieGenreColumns.CONTENT_URI, movieGenreTestValues);
-        tco.waitForNotificationOrFail();
-        contentResolver.unregisterContentObserver(tco);
+        tco3.waitForNotificationOrFail();
+        contentResolver.unregisterContentObserver(tco3);
 
         long movieGenreRowId = ContentUris.parseId(movieGenreUri);
 
