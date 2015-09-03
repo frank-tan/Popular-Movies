@@ -11,7 +11,6 @@ import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.data.movie.MovieSelection;
 import com.franktan.popularmovies.data.review.ReviewColumns;
 import com.franktan.popularmovies.data.review.ReviewContentValues;
-import com.franktan.popularmovies.data.review.ReviewSelection;
 import com.franktan.popularmovies.data.trailer.TrailerColumns;
 import com.franktan.popularmovies.data.trailer.TrailerContentValues;
 import com.franktan.popularmovies.model.Movie;
@@ -60,15 +59,14 @@ public class MovieDetailsIntentService extends IntentService {
         Log.i(Constants.APP_NAME, "MovieDetailsIntentService trailers inserted");
 
         // if new reviews or trailers are inserted into database notify cursor loader
+        Log.i(Constants.APP_NAME,"total records inserted: " + String.valueOf(reviewsInserted + trailersInserted));
         if(reviewsInserted + trailersInserted > 0) {
             getApplicationContext().getContentResolver().notifyChange(Uri.withAppendedPath(MovieColumns.CONTENT_URI, "moviedb/" + String.valueOf(movieMovieDBId)), null);
         }
     }
 
     private int insertReviews(Movie movie, long movieRowId) {
-        ReviewSelection reviewSelection = new ReviewSelection();
-        reviewSelection.movieId(movie.getId());
-        getContentResolver().delete(ReviewColumns.CONTENT_URI,reviewSelection.sel(),reviewSelection.args());
+
         ContentValues[] reviews = new ContentValues[movie.getReviews().size()];
 
         for (int i = 0; i < movie.getReviews().size(); i++) {
