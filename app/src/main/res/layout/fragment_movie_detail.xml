@@ -169,7 +169,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/trailer_section"
-        android:layout_below="@id/divider1"></LinearLayout>
+        android:layout_below="@id/divider1"
+        android:layout_margin="15dp">
+
+    </LinearLayout>
 
     <View style="@style/Divider"
         android:id="@+id/divider2"
@@ -212,7 +215,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/review_section"
-        android:layout_below="@id/divider3"></LinearLayout>
+        android:layout_below="@id/divider3"
+        android:layout_margin="15dp">
+
+    </LinearLayout>
 
     </RelativeLayout>
 </ScrollView>

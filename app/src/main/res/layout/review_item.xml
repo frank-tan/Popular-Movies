@@ -11,7 +11,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/author_placeholder"
         android:id="@+id/review_author"
-        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         />
 
     <TextView
@@ -19,12 +20,14 @@
         android:layout_height="wrap_content"
         android:text="@string/review_text_placeholder"
         android:id="@+id/review_text"
-        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         />
 
     <View style="@style/Divider"
         android:id="@+id/review_divider"
         android:layout_below="@id/overview"
-        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         />
 </LinearLayout>

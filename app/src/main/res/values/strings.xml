@@ -33,6 +33,9 @@
     <string name="trailer_name_placeholder">Trailer</string>
     <string name="trailer_type_placeholder">Trailer</string>
     <string name="trailer_size_placeholder">HD</string>
+    <string name="reviews_title">Reviews</string>
+    <string name="trailers_title">Trailers</string>
+    <string name="no_reviews_available">No reviews available for this movie.</string>
     <string-array name="sort_order_array">
         <item>Popularity</item>
         <item>Rating</item>

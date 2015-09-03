@@ -182,6 +182,22 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             Log.i(Constants.APP_NAME, reviewCursor.getUrl());
 
         } while (reviewCursor.moveToNext());
+
+        if(mReviewSection.getChildCount() > 0) {
+            TextView reviewTitle = new TextView(getActivity());
+            reviewTitle.setText(getString(R.string.reviews_title));
+            ViewGroup.LayoutParams textViewLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            reviewTitle.setLayoutParams(textViewLayoutParams);
+
+            mReviewSection.addView(reviewTitle,0);
+        } else {
+            TextView reviewTitle = new TextView(getActivity());
+            reviewTitle.setText(getString(R.string.no_reviews_available));
+            ViewGroup.LayoutParams textViewLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            reviewTitle.setLayoutParams(textViewLayoutParams);
+
+            mReviewSection.addView(reviewTitle);
+        }
     }
 
     private void insertReviewRecord (ReviewCursor reviewCursor) {
