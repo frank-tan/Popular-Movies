@@ -188,6 +188,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             reviewTitle.setText(getString(R.string.reviews_title));
             ViewGroup.LayoutParams textViewLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             reviewTitle.setLayoutParams(textViewLayoutParams);
+            reviewTitle.setTextAppearance(getActivity(),R.style.Base_TextAppearance_AppCompat_Large);
 
             mReviewSection.addView(reviewTitle,0);
         } else {

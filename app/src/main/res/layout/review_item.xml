@@ -8,18 +8,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/author_placeholder"
-        android:id="@+id/review_author"
+        android:text="@string/review_text_placeholder"
+        android:id="@+id/review_text"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/review_text_placeholder"
-        android:id="@+id/review_text"
+        android:layout_gravity="right"
+        android:text="@string/author_placeholder"
+        android:id="@+id/review_author"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         />
