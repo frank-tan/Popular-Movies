@@ -21,6 +21,9 @@
         android:id="@+id/review_author"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:singleLine="true"
+        android:textStyle="bold|italic"
         />
 
     <View style="@style/Divider"
