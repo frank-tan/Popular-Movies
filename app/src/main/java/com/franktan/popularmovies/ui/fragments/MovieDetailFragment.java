@@ -23,10 +23,15 @@ import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.data.review.ReviewColumns;
 import com.franktan.popularmovies.data.review.ReviewCursor;
+import com.franktan.popularmovies.data.trailer.TrailerColumns;
+import com.franktan.popularmovies.data.trailer.TrailerCursor;
 import com.franktan.popularmovies.service.MovieDetailsIntentService;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -59,7 +64,11 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             MovieColumns.TABLE_NAME + "." + MovieColumns.VOTE_COUNT,
             ReviewColumns.TABLE_NAME + "." + ReviewColumns.AUTHOR,
             ReviewColumns.TABLE_NAME + "." + ReviewColumns.CONTENT,
-            ReviewColumns.TABLE_NAME + "." + ReviewColumns.URL
+            ReviewColumns.TABLE_NAME + "." + ReviewColumns.URL,
+            TrailerColumns.TABLE_NAME + "." + TrailerColumns.TYPE,
+            TrailerColumns.TABLE_NAME + "." + TrailerColumns.NAME,
+            TrailerColumns.TABLE_NAME + "." + TrailerColumns.SIZE,
+            TrailerColumns.TABLE_NAME + "." + TrailerColumns.SOURCE
     };
 
     public MovieDetailFragment() {
@@ -164,23 +173,39 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mVoteCount.setText(String.valueOf(voteCount) + " votes");
         mOverview.setText(overview);
 
+        ReviewCursor reviewCursor = new ReviewCursor(cursor);
+        showAllReviewRecords(reviewCursor);
+
+        TrailerCursor trailerCursor = new TrailerCursor(cursor);
+        showAllTrailerRecords(trailerCursor);
+    }
+
+    private void showAllTrailerRecords(TrailerCursor trailerCursor) {
+        Set<String> trailerSet = new HashSet<String>();
+        trailerCursor.moveToFirst();
+        do {
+            try {
+                if(trailerSet.add(trailerCursor.getSource())) {
+                    //// TODO: 4/09/2015 need to finalize the way to show trailer
+                    Log.i(Constants.APP_NAME, trailerCursor.getName());
+                    Log.i(Constants.APP_NAME, trailerCursor.getSize());
+                    Log.i(Constants.APP_NAME, trailerCursor.getSource());
+                    Log.i(Constants.APP_NAME, trailerCursor.getType());
+                }
+            } catch (NullPointerException e){}
+        } while (trailerCursor.moveToNext());
+    }
+
+    private void showAllReviewRecords(ReviewCursor reviewCursor) {
         mReviewSection.removeAllViews();
 
-        ReviewCursor reviewCursor = new ReviewCursor(cursor);
+        Set<String> reviewSet = new HashSet<String>();
         reviewCursor.moveToFirst();
         do {
             try {
-                String content = reviewCursor.getContent();
-            } catch (NullPointerException e){
-                break;
-            }
-
-            insertReviewRecord(reviewCursor);
-
-            Log.i(Constants.APP_NAME, reviewCursor.getAuthor());
-            Log.i(Constants.APP_NAME, reviewCursor.getContent());
-            Log.i(Constants.APP_NAME, reviewCursor.getUrl());
-
+                if(reviewSet.add(reviewCursor.getUrl()))
+                    showCurrentReviewRecord(reviewCursor);
+            } catch (NullPointerException e){}
         } while (reviewCursor.moveToNext());
 
         if(mReviewSection.getChildCount() > 0) {
@@ -201,7 +226,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         }
     }
 
-    private void insertReviewRecord (ReviewCursor reviewCursor) {
+    private void showCurrentReviewRecord(ReviewCursor reviewCursor) {
         View reviewItemView = getActivity().getLayoutInflater().inflate(R.layout.review_item, null);
         TextView authorTextView = (TextView) reviewItemView.findViewById(R.id.review_author);
         TextView contentTextView = (TextView) reviewItemView.findViewById(R.id.review_text);

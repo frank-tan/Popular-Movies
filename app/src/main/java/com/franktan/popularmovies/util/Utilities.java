@@ -17,7 +17,11 @@ public class Utilities {
         return sharedPreferences.getString(sortPrefKey, "popularity");
     }
 
-    public static String getApiKey(Context context) {
+    public static String getMovieDBApiKey(Context context) {
         return context.getString(R.string.moviedb_api_key);
+    }
+
+    public static String getGoogleApiKey(Context context) {
+        return context.getString(R.string.google_api_key);
     }
 }

@@ -34,7 +34,7 @@ public class MovieListAPIService {
 
         try {
             Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
-                    .appendQueryParameter(API_KEY, Utilities.getApiKey(context))
+                    .appendQueryParameter(API_KEY, Utilities.getMovieDBApiKey(context))
                     .appendQueryParameter(SORT_BY, sortBy.getValue())
                     .appendQueryParameter(PAGE, String.valueOf(page))
                     .appendQueryParameter(RELEASE_BEFORE, formattedDateFrom)

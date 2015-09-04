@@ -38,7 +38,7 @@ public class MovieDetailsIntentServiceTest extends ServiceTestCase<MovieDetailsI
     public void testIntentService() throws InterruptedException {
         // start intent service and wait for it to finish
         Intent intent = new Intent(getSystemContext(), MovieDetailsIntentServiceWrapper.class);
-        intent.putExtra(Constants.MOVIEDB_ID, 76341);
+        intent.putExtra(Constants.MOVIEDB_ID, 76341L);
         startService(intent);
         latch.await();
 

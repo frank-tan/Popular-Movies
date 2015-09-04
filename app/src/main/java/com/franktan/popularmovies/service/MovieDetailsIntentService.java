@@ -30,7 +30,6 @@ public class MovieDetailsIntentService extends IntentService {
         super(name);
     }
 
-    //// TODO: 31/08/2015 Added unit test for this service
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.i(Constants.APP_NAME,"MovieDetailsIntentService onHandleIntent");

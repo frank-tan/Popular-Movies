@@ -10,8 +10,13 @@ public class UtilitiesTest extends AndroidTestCase {
      * Test API key can be retrieved from environment variable
      * (For CI only)
      */
-    public void testApiKey () {
-        String apiKey = Utilities.getApiKey(mContext);
-        assertTrue("API Key should not be null", (apiKey != null && !apiKey.equals("")));
+    public void testGetMovieDBApiKey () {
+        String apiKey = Utilities.getMovieDBApiKey(mContext);
+        assertTrue("MovieDB API Key should not be null", apiKey.length() > 0);
+    }
+
+    public void testGetGoogleApiKey() throws Exception {
+        String apiKey = Utilities.getMovieDBApiKey(mContext);
+        assertTrue("Google API Key should not be null", apiKey.length() > 0);
     }
 }
