@@ -36,6 +36,8 @@
     <string name="reviews_title">Reviews</string>
     <string name="trailers_title">Trailers</string>
     <string name="no_reviews_available">No reviews available for this movie.</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+    <string name="error_thumbnail_view"><![CDATA[<string name=\"error_thumbnail_view\">There was an error initializing the YouTubeThumbnailView (%1$s)]]></string>
     <string-array name="sort_order_array">
         <item>Popularity</item>
         <item>Rating</item>

@@ -28,6 +28,10 @@ import com.franktan.popularmovies.data.trailer.TrailerCursor;
 import com.franktan.popularmovies.service.MovieDetailsIntentService;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
+import com.franktan.popularmovies.util.Utilities;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashSet;
@@ -36,7 +40,9 @@ import java.util.Set;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MovieDetailFragment
+        extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int DETAIL_LOADER = 0;
     private long mMovieDBId = -1;
@@ -89,6 +95,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mOverview           = (TextView)    view.findViewById(R.id.overview);
         mReviewSection      = (LinearLayout)view.findViewById(R.id.review_section);
         mTrailerSection     = (LinearLayout)view.findViewById(R.id.trailer_section);
+
+        YouTubeThumbnailView youTubeThumbnailView =
+                (YouTubeThumbnailView) view.findViewById(R.id.youtube_thumbnail);
+        youTubeThumbnailView.initialize(Utilities.getGoogleApiKey(getActivity()), new TrailerThumbnailListener());
 
         return view;
     }
@@ -248,4 +258,39 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         intent.putExtra(Constants.MOVIEDB_ID, mMovieDBId);
         appContext.startService(intent);
     }
+
+    private final class TrailerThumbnailListener implements
+            YouTubeThumbnailView.OnInitializedListener,
+            YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+
+        @Override
+        public void onInitializationSuccess(
+                YouTubeThumbnailView view, YouTubeThumbnailLoader loader) {
+            loader.setOnThumbnailLoadedListener(this);
+            //thumbnailViewToLoaderMap.put(view, loader);
+            //// TODO: 5/09/2015: load a place holder image
+            //view.setImageResource(R.drawable.loading_thumbnail);
+            //// TODO: 5/09/2015 remove hardcoded video id
+            loader.setVideo("YWNWi-ZWL3c");
+        }
+
+        @Override
+        public void onInitializationFailure(
+                YouTubeThumbnailView view, YouTubeInitializationResult loader) {
+            //// TODO: 5/09/2015: load backdrop image
+            //view.setImageResource(R.drawable.no_thumbnail);
+        }
+
+        @Override
+        public void onThumbnailLoaded(YouTubeThumbnailView view, String videoId) {
+            // // TODO: 5/09/2015 show play button
+        }
+
+        @Override
+        public void onThumbnailError(YouTubeThumbnailView view, YouTubeThumbnailLoader.ErrorReason errorReason) {
+            //// TODO: 5/09/2015: load backdrop image
+            //view.setImageResource(R.drawable.no_thumbnail);
+        }
+    }
+
 }
