@@ -10,4 +10,6 @@ public class Constants {
     public static final String APP_NAME = "popularmovies";
     public static final String MOVIEDB_BASE_URL = "https://api.themoviedb.org";
     public static final String MOVIEDB_ID = "moviedbId";
+
+    public static final String YOUTUBE_ID = "youtubeId";
 }

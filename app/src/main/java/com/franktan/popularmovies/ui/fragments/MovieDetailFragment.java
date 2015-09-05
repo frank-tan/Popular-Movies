@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +29,11 @@ import com.franktan.popularmovies.data.trailer.TrailerCursor;
 import com.franktan.popularmovies.service.MovieDetailsIntentService;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
-import com.franktan.popularmovies.util.Utilities;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubeThumbnailLoader;
-import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -46,6 +45,8 @@ public class MovieDetailFragment
 
     private static final int DETAIL_LOADER = 0;
     private long mMovieDBId = -1;
+
+    TrailerPagerAdapter mTrailerPagerAdapter = null;
 
     ImageView mMovieTrailer;
     ImageView mMoviePoster;
@@ -96,11 +97,15 @@ public class MovieDetailFragment
         mReviewSection      = (LinearLayout)view.findViewById(R.id.review_section);
         mTrailerSection     = (LinearLayout)view.findViewById(R.id.trailer_section);
 
-        YouTubeThumbnailView youTubeThumbnailView =
-                (YouTubeThumbnailView) view.findViewById(R.id.youtube_thumbnail);
-        youTubeThumbnailView.initialize(Utilities.getGoogleApiKey(getActivity()), new TrailerThumbnailListener());
-
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mTrailerPagerAdapter != null) {
+            mTrailerPagerAdapter.releaseLoaders();
+        }
     }
 
     @Override
@@ -191,25 +196,30 @@ public class MovieDetailFragment
     }
 
     private void showAllTrailerRecords(TrailerCursor trailerCursor) {
-        Set<String> trailerSet = new HashSet<String>();
+        mTrailerSection.removeAllViews();
+
+        Set<String> trailerSet = new LinkedHashSet<>();
         trailerCursor.moveToFirst();
         do {
             try {
                 if(trailerSet.add(trailerCursor.getSource())) {
                     //// TODO: 4/09/2015 need to finalize the way to show trailer
                     Log.i(Constants.APP_NAME, trailerCursor.getName());
-                    Log.i(Constants.APP_NAME, trailerCursor.getSize());
-                    Log.i(Constants.APP_NAME, trailerCursor.getSource());
-                    Log.i(Constants.APP_NAME, trailerCursor.getType());
                 }
             } catch (NullPointerException e){}
         } while (trailerCursor.moveToNext());
+
+        View trailerPagerContainer = getLayoutInflater(null).inflate(R.layout.trailer_view_pager, mTrailerSection, true);
+        ViewPager trailerPager = (ViewPager) trailerPagerContainer.findViewById(R.id.view_pager);
+        mTrailerPagerAdapter = new TrailerPagerAdapter(getActivity(),new ArrayList<String>(trailerSet));
+        //// TODO: 6/09/2015 on fragment destroy, free up the loaders in adapter
+        trailerPager.setAdapter(mTrailerPagerAdapter);
     }
 
     private void showAllReviewRecords(ReviewCursor reviewCursor) {
         mReviewSection.removeAllViews();
 
-        Set<String> reviewSet = new HashSet<String>();
+        Set<String> reviewSet = new HashSet<>();
         reviewCursor.moveToFirst();
         do {
             try {
@@ -257,40 +267,6 @@ public class MovieDetailFragment
         Intent intent = new Intent(appContext, MovieDetailsIntentService.class);
         intent.putExtra(Constants.MOVIEDB_ID, mMovieDBId);
         appContext.startService(intent);
-    }
-
-    private final class TrailerThumbnailListener implements
-            YouTubeThumbnailView.OnInitializedListener,
-            YouTubeThumbnailLoader.OnThumbnailLoadedListener {
-
-        @Override
-        public void onInitializationSuccess(
-                YouTubeThumbnailView view, YouTubeThumbnailLoader loader) {
-            loader.setOnThumbnailLoadedListener(this);
-            //thumbnailViewToLoaderMap.put(view, loader);
-            //// TODO: 5/09/2015: load a place holder image
-            //view.setImageResource(R.drawable.loading_thumbnail);
-            //// TODO: 5/09/2015 remove hardcoded video id
-            loader.setVideo("YWNWi-ZWL3c");
-        }
-
-        @Override
-        public void onInitializationFailure(
-                YouTubeThumbnailView view, YouTubeInitializationResult loader) {
-            //// TODO: 5/09/2015: load backdrop image
-            //view.setImageResource(R.drawable.no_thumbnail);
-        }
-
-        @Override
-        public void onThumbnailLoaded(YouTubeThumbnailView view, String videoId) {
-            // // TODO: 5/09/2015 show play button
-        }
-
-        @Override
-        public void onThumbnailError(YouTubeThumbnailView view, YouTubeThumbnailLoader.ErrorReason errorReason) {
-            //// TODO: 5/09/2015: load backdrop image
-            //view.setImageResource(R.drawable.no_thumbnail);
-        }
     }
 
 }
