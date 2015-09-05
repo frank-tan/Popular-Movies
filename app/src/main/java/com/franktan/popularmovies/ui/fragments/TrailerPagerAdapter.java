@@ -1,16 +1,21 @@
 package com.franktan.popularmovies.ui.fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Utilities;
 import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
@@ -24,9 +29,7 @@ import java.util.Map;
 public class TrailerPagerAdapter extends PagerAdapter {
 
     private List<String> mTrailerYoutubeIds;
-    private List<View> mTrailerViews;
     private Map<YouTubeThumbnailView, YouTubeThumbnailLoader> mThumbnailViewToLoaderMap;
-    private TrailerThumbnailListener mTrailerThumbnailListener;
     private LayoutInflater mInflater;
     private Context mContext;
 
@@ -35,7 +38,7 @@ public class TrailerPagerAdapter extends PagerAdapter {
         this.mTrailerYoutubeIds = mTrailerYoutubeIds;
         this.mInflater = LayoutInflater.from(context);
 
-        this.mThumbnailViewToLoaderMap = new HashMap<YouTubeThumbnailView, YouTubeThumbnailLoader>();
+        this.mThumbnailViewToLoaderMap = new HashMap<>();
     }
 
     @Override
@@ -58,10 +61,34 @@ public class TrailerPagerAdapter extends PagerAdapter {
         Log.i(Constants.APP_NAME,"instantiateItem called - position: "+position);
         // inflate a new page
         View view = mInflater.inflate(R.layout.trailer_item,container,false);
+        String youtubeId = mTrailerYoutubeIds.get(position);
 
         YouTubeThumbnailView youTubeThumbnailView = (YouTubeThumbnailView) view.findViewById(R.id.youtube_thumbnail);
-        youTubeThumbnailView.setTag(mTrailerYoutubeIds.get(position));
+        youTubeThumbnailView.setTag(youtubeId);
         youTubeThumbnailView.initialize(Utilities.getGoogleApiKey(mContext), new TrailerThumbnailListener());
+
+        ImageView playButton = (ImageView) view.findViewById(R.id.youtube_play_button);
+        playButton.setTag(youtubeId);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = (Activity) mContext;
+                String youtubeId = (String) v.getTag();
+                Intent intent = YouTubeStandalonePlayer.createVideoIntent(
+                        activity, Utilities.getGoogleApiKey(mContext), youtubeId, 0, true, false);
+
+                if (intent != null) {
+                    if (canResolveIntent(intent)) {
+                        activity.startActivity(intent);
+                    } else {
+                        // Could not resolve the intent - must need to install or update the YouTube API service.
+                        // // TODO: 6/09/2015 launch activity to go to video url
+                        YouTubeInitializationResult.SERVICE_MISSING
+                                .getErrorDialog(activity, 2).show();
+                    }
+                }
+            }
+        });
 
         container.addView(view);
 
@@ -72,6 +99,11 @@ public class TrailerPagerAdapter extends PagerAdapter {
         for (YouTubeThumbnailLoader loader : mThumbnailViewToLoaderMap.values()) {
             loader.release();
         }
+    }
+
+    private boolean canResolveIntent(Intent intent) {
+        List<ResolveInfo> resolveInfo = mContext.getPackageManager().queryIntentActivities(intent, 0);
+        return resolveInfo != null && !resolveInfo.isEmpty();
     }
 
     private final class TrailerThumbnailListener implements

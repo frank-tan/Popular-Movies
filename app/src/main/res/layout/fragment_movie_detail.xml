@@ -170,7 +170,7 @@
         android:orientation="vertical"
         android:id="@+id/trailer_section"
         android:layout_below="@id/divider1"
-        android:layout_margin="15dp">
+        >
 
     </LinearLayout>
 
