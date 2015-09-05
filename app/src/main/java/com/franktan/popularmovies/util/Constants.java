@@ -12,4 +12,5 @@ public class Constants {
     public static final String MOVIEDB_ID = "moviedbId";
 
     public static final String YOUTUBE_ID = "youtubeId";
+    public static final String YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,10 +82,11 @@ public class TrailerPagerAdapter extends PagerAdapter {
                     if (canResolveIntent(intent)) {
                         activity.startActivity(intent);
                     } else {
-                        // Could not resolve the intent - must need to install or update the YouTube API service.
-                        // // TODO: 6/09/2015 launch activity to go to video url
-                        YouTubeInitializationResult.SERVICE_MISSING
-                                .getErrorDialog(activity, 2).show();
+                        // Youtube not available. Open the youtube video url instead
+                        String url = Constants.YOUTUBE_URL + youtubeId;
+                        Intent intentURL = new Intent(Intent.ACTION_VIEW);
+                        intentURL.setData(Uri.parse(url));
+                        activity.startActivity(intentURL);
                     }
                 }
             }
