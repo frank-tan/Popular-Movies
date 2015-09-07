@@ -202,31 +202,50 @@ public class MovieDetailFragment
         trailerCursor.moveToFirst();
         do {
             try {
-                if(trailerSet.add(trailerCursor.getSource())) {
-                    //// TODO: 4/09/2015 need to finalize the way to show trailer
-                    Log.i(Constants.APP_NAME, trailerCursor.getName());
-                }
+                trailerSet.add(trailerCursor.getSource());
             } catch (NullPointerException e){}
         } while (trailerCursor.moveToNext());
 
-        View trailerPagerContainer = getLayoutInflater(null).inflate(R.layout.trailer_view_pager, mTrailerSection, true);
-        ViewPager trailerPager = (ViewPager) trailerPagerContainer.findViewById(R.id.view_pager);
-        mTrailerPagerAdapter = new TrailerPagerAdapter(getActivity(),new ArrayList<String>(trailerSet));
-        //// TODO: 6/09/2015 on fragment destroy, free up the loaders in adapter
-        trailerPager.setAdapter(mTrailerPagerAdapter);
+        if(trailerSet.size() > 0) {
+            TextView trailerTitle = new TextView(getActivity());
+            trailerTitle.setText(getString(R.string.trailers_title));
+
+            LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textViewLayoutParams.setMargins(20,20,20,20);
+            trailerTitle.setLayoutParams(textViewLayoutParams);
+            trailerTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
+
+            mTrailerSection.addView(trailerTitle);
+
+            View trailerPagerContainer = getLayoutInflater(null).inflate(R.layout.trailer_view_pager, mTrailerSection, true);
+            ViewPager trailerPager = (ViewPager) trailerPagerContainer.findViewById(R.id.view_pager);
+            mTrailerPagerAdapter = new TrailerPagerAdapter(getActivity(), new ArrayList<String>(trailerSet));
+            //// TODO: 6/09/2015 on fragment destroy, free up the loaders in adapter
+            trailerPager.setAdapter(mTrailerPagerAdapter);
+        } else {
+            TextView trailerNAText = new TextView(getActivity());
+            trailerNAText.setText(getString(R.string.no_trailers_available));
+
+            LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textViewLayoutParams.setMargins(30,10,0,10);
+            trailerNAText.setLayoutParams(textViewLayoutParams);
+
+            mTrailerSection.addView(trailerNAText);
+        }
     }
 
     private void showAllReviewRecords(ReviewCursor reviewCursor) {
         mReviewSection.removeAllViews();
 
         Set<String> reviewSet = new HashSet<>();
-        reviewCursor.moveToFirst();
-        do {
+        while(reviewCursor.moveToNext())
+        {
             try {
-                if(reviewSet.add(reviewCursor.getUrl()))
+                String reviewUrl = reviewCursor.getUrl();
+                if(reviewUrl != null && reviewSet.add(reviewUrl))
                     showCurrentReviewRecord(reviewCursor);
             } catch (NullPointerException e){}
-        } while (reviewCursor.moveToNext());
+        };
 
         if(mReviewSection.getChildCount() > 0) {
             TextView reviewTitle = new TextView(getActivity());
@@ -237,12 +256,12 @@ public class MovieDetailFragment
 
             mReviewSection.addView(reviewTitle,0);
         } else {
-            TextView reviewTitle = new TextView(getActivity());
-            reviewTitle.setText(getString(R.string.no_reviews_available));
+            TextView reviewNAText = new TextView(getActivity());
+            reviewNAText.setText(getString(R.string.no_reviews_available));
             ViewGroup.LayoutParams textViewLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            reviewTitle.setLayoutParams(textViewLayoutParams);
+            reviewNAText.setLayoutParams(textViewLayoutParams);
 
-            mReviewSection.addView(reviewTitle);
+            mReviewSection.addView(reviewNAText);
         }
     }
 
