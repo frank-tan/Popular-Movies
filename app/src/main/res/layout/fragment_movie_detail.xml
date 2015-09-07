@@ -218,10 +218,10 @@
         android:orientation="vertical"
         android:id="@+id/review_section"
         android:layout_below="@id/divider3"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="25dp">
 
     </LinearLayout>
 

@@ -220,7 +220,6 @@ public class MovieDetailFragment
             View trailerPagerContainer = getLayoutInflater(null).inflate(R.layout.trailer_view_pager, mTrailerSection, true);
             ViewPager trailerPager = (ViewPager) trailerPagerContainer.findViewById(R.id.view_pager);
             mTrailerPagerAdapter = new TrailerPagerAdapter(getActivity(), new ArrayList<String>(trailerSet));
-            //// TODO: 6/09/2015 on fragment destroy, free up the loaders in adapter
             trailerPager.setAdapter(mTrailerPagerAdapter);
         } else {
             TextView trailerNAText = new TextView(getActivity());
