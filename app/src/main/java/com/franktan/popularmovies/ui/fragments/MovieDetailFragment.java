@@ -211,7 +211,7 @@ public class MovieDetailFragment
             trailerTitle.setText(getString(R.string.trailers_title));
 
             LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textViewLayoutParams.setMargins(20,20,20,20);
+            textViewLayoutParams.setMargins(30,10,0,20);
             trailerTitle.setLayoutParams(textViewLayoutParams);
             trailerTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
 
