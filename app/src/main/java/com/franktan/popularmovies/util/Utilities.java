@@ -3,6 +3,7 @@ package com.franktan.popularmovies.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 
 import com.franktan.popularmovies.R;
 
@@ -23,5 +24,11 @@ public class Utilities {
 
     public static String getGoogleApiKey(Context context) {
         return context.getString(R.string.google_api_key);
+    }
+
+    public static int pixelSizeFromDp(Context context, float dp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        float fpixels = metrics.density * dp;
+        return (int) (fpixels + 0.5f);
     }
 }

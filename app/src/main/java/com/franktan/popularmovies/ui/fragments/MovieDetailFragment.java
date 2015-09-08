@@ -27,6 +27,7 @@ import com.franktan.popularmovies.data.review.ReviewCursor;
 import com.franktan.popularmovies.data.trailer.TrailerColumns;
 import com.franktan.popularmovies.data.trailer.TrailerCursor;
 import com.franktan.popularmovies.service.MovieDetailsIntentService;
+import com.franktan.popularmovies.ui.views.PagerIndicator;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 import com.squareup.picasso.Picasso;
@@ -41,12 +42,13 @@ import java.util.Set;
  */
 public class MovieDetailFragment
         extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+        implements LoaderManager.LoaderCallbacks<Cursor>, PagerIndicator.SetPage {
 
     private static final int DETAIL_LOADER = 0;
     private long mMovieDBId = -1;
 
     TrailerPagerAdapter mTrailerPagerAdapter = null;
+    PagerIndicator mPagerIndicator = null;
 
     ImageView mMovieTrailer;
     ImageView mMoviePoster;
@@ -58,6 +60,7 @@ public class MovieDetailFragment
     TextView mOverview;
     LinearLayout mReviewSection;
     LinearLayout mTrailerSection;
+    ViewPager mTrailerPager;
 
     private static final String[] MOVIE_COLUMNS = {
             MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
@@ -211,16 +214,23 @@ public class MovieDetailFragment
             trailerTitle.setText(getString(R.string.trailers_title));
 
             LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textViewLayoutParams.setMargins(30,10,0,20);
+            textViewLayoutParams.setMargins(30, 10, 0, 20);
             trailerTitle.setLayoutParams(textViewLayoutParams);
             trailerTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
 
             mTrailerSection.addView(trailerTitle);
 
             View trailerPagerContainer = getLayoutInflater(null).inflate(R.layout.trailer_view_pager, mTrailerSection, true);
-            ViewPager trailerPager = (ViewPager) trailerPagerContainer.findViewById(R.id.view_pager);
+            mTrailerPager = (ViewPager) trailerPagerContainer.findViewById(R.id.view_pager);
             mTrailerPagerAdapter = new TrailerPagerAdapter(getActivity(), new ArrayList<String>(trailerSet));
-            trailerPager.setAdapter(mTrailerPagerAdapter);
+            mTrailerPager.setAdapter(mTrailerPagerAdapter);
+
+            mPagerIndicator = new PagerIndicator(getActivity(),null);
+            mPagerIndicator.init(trailerSet.size());
+            mPagerIndicator.setPagerController(this);
+            mTrailerSection.addView(mPagerIndicator);
+
+            mTrailerPager.addOnPageChangeListener(createPageChangedListener());
         } else {
             TextView trailerNAText = new TextView(getActivity());
             trailerNAText.setText(getString(R.string.no_trailers_available));
@@ -251,9 +261,9 @@ public class MovieDetailFragment
             reviewTitle.setText(getString(R.string.reviews_title));
             ViewGroup.LayoutParams textViewLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             reviewTitle.setLayoutParams(textViewLayoutParams);
-            reviewTitle.setTextAppearance(getActivity(),R.style.Base_TextAppearance_AppCompat_Large);
+            reviewTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
 
-            mReviewSection.addView(reviewTitle,0);
+            mReviewSection.addView(reviewTitle, 0);
         } else {
             TextView reviewNAText = new TextView(getActivity());
             reviewNAText.setText(getString(R.string.no_reviews_available));
@@ -287,4 +297,32 @@ public class MovieDetailFragment
         appContext.startService(intent);
     }
 
+    private ViewPager.OnPageChangeListener createPageChangedListener() {
+        return new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i(Constants.APP_NAME,"New Page: "+position);
+                int page = position + 1;
+                if(mPagerIndicator.getCheckedRadioButtonId() != page)
+                    mPagerIndicator.check(page);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        };
+    }
+
+    @Override
+    public void setPage(int page) {
+        int actualPage = (page - 1) >= 0 ? page - 1 : 0 ;
+        if(mTrailerPager.getCurrentItem() != actualPage)
+            mTrailerPager.setCurrentItem(actualPage);
+    }
 }
