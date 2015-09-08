@@ -306,7 +306,6 @@ public class MovieDetailFragment
 
             @Override
             public void onPageSelected(int position) {
-                Log.i(Constants.APP_NAME,"New Page: "+position);
                 int page = position + 1;
                 if(mPagerIndicator.getCheckedRadioButtonId() != page)
                     mPagerIndicator.check(page);
