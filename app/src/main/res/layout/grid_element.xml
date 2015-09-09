@@ -6,4 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+    <CheckBox
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/favorite_checkbox"
+        android:button="@drawable/favorite_checkbox_selector"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        />
 </RelativeLayout>
