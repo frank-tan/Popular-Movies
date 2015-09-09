@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.util.Utilities;
 
 /**
@@ -32,6 +33,7 @@ public class PagerIndicator extends RadioGroup {
         for (int i = 0; i < size; i++) {
             RadioButton radioButton = new RadioButton(mContext);
             radioButton.setId(i + 1);
+            radioButton.setButtonDrawable(R.drawable.page_indicator_radiobutton_selector);
 
             int pixels = Utilities.pixelSizeFromDp(mContext, 10f);
 
