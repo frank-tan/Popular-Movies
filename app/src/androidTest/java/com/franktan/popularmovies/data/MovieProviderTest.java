@@ -11,6 +11,9 @@ import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import com.franktan.popularmovies.data.favorite.FavoriteColumns;
+import com.franktan.popularmovies.data.favorite.FavoriteCursor;
+import com.franktan.popularmovies.data.favorite.FavoriteSelection;
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
@@ -153,6 +156,23 @@ public class MovieProviderTest extends AndroidTestCase {
     }
 
     /**
+     * Test getType on favorite uri
+     */
+    public void testProviderGetTypeFavorite() {
+        String type = mContext.getContentResolver().getType(FavoriteColumns.CONTENT_URI);
+
+        assertTrue("the favorite CONTENT_URI should return correct CONTENT_TYPE",
+                type.equals(TYPE_CURSOR_DIR + FavoriteColumns.TABLE_NAME));
+
+        int id = 1;
+        type = mContext.getContentResolver().getType(
+                ContentUris.withAppendedId(FavoriteColumns.CONTENT_URI,id));
+        Log.d(Constants.APP_NAME, type);
+        assertTrue("favorite uri content type should be parsed",
+                type.equals(TYPE_CURSOR_ITEM + FavoriteColumns.TABLE_NAME));
+    }
+
+    /**
      * Insert using direct SQLiteDbHelper and test query using content provider
      */
     public void testProviderQuery() {
@@ -200,13 +220,17 @@ public class MovieProviderTest extends AndroidTestCase {
 
         ContentResolver contentResolver = mContext.getContentResolver();
 
-        // insert movie record
+        /*
+            insert movie record
+         */
         contentResolver.registerContentObserver(MovieColumns.CONTENT_URI, true, tco);
         Uri movieUri = contentResolver.insert(MovieColumns.CONTENT_URI, movieTestValues);
         tco.waitForNotificationOrFail();
         contentResolver.unregisterContentObserver(tco);
 
-        // insert genre record
+        /*
+            insert genre record
+          */
         DataTestUtilities.TestContentObserver tco2 = DataTestUtilities.getTestContentObserver();
         contentResolver.registerContentObserver(GenreColumns.CONTENT_URI, true, tco2);
         Uri genreUri = contentResolver.insert(GenreColumns.CONTENT_URI, genreTestValues);
@@ -218,7 +242,9 @@ public class MovieProviderTest extends AndroidTestCase {
 
         ContentValues movieGenreTestValues = DataTestUtilities.createMovieGenreEntry(movieRowId, genreRowId);
 
-        // insert movie_genre intersection record
+        /*
+            insert movie_genre intersection record
+          */
         DataTestUtilities.TestContentObserver tco3 = DataTestUtilities.getTestContentObserver();
         contentResolver.registerContentObserver(MovieGenreColumns.CONTENT_URI, true, tco3);
         Uri movieGenreUri = contentResolver.insert(MovieGenreColumns.CONTENT_URI, movieGenreTestValues);
@@ -227,7 +253,9 @@ public class MovieProviderTest extends AndroidTestCase {
 
         long movieGenreRowId = ContentUris.parseId(movieGenreUri);
 
-        // Verify we got a row back.
+        /*
+            Verify we got a movie, moviegenre, genre join row back.
+          */
         assertTrue("Valid row id should be returned from content provider movie insert", movieRowId != -1);
         assertTrue("Valid row id should be returned from content provider genre insert", genreRowId != -1);
         assertTrue("Valid row id should be returned from content provider movie_genre insert", movieGenreRowId != -1);
@@ -257,6 +285,38 @@ public class MovieProviderTest extends AndroidTestCase {
         assertEquals("genre moviedb id should be correct", 28, cursor.getGenreGenreMoviedbId());
 
         cursor.close();
+
+        /*
+            insert a record to favorite table
+         */
+        ContentValues favoriteTestValues = DataTestUtilities.createFavoriteEntry(76341, DataTestUtilities.TEST_DATE);
+
+        DataTestUtilities.TestContentObserver tco4 = DataTestUtilities.getTestContentObserver();
+        contentResolver.registerContentObserver(FavoriteColumns.CONTENT_URI, true, tco4);
+        Uri favoriteUri = contentResolver.insert(FavoriteColumns.CONTENT_URI, favoriteTestValues);
+        tco4.waitForNotificationOrFail();
+        contentResolver.unregisterContentObserver(tco4);
+
+        long favoriteRowId = ContentUris.parseId(favoriteUri);
+
+        String[] favoriteMovieProjection = {
+                FavoriteColumns._ID,
+                FavoriteColumns.CREATED,
+                MovieColumns.TITLE,
+                MovieColumns.MOVIE_MOVIEDB_ID
+        };
+
+        FavoriteSelection favoriteSelection = new FavoriteSelection();
+        FavoriteCursor favoriteCursor = favoriteSelection.query(mContext.getContentResolver(),favoriteMovieProjection);
+
+        assertTrue("Should return record", favoriteCursor.moveToNext());
+        assertEquals("should return one record", 1, favoriteCursor.getCount());
+        assertEquals("movie id should be correct", 76341, favoriteCursor.getMovieMovieMoviedbId());
+        assertTrue("movie title should be correct", favoriteCursor.getMovieTitle().equals("Mad Max: Fury Road"));
+        assertEquals("favorite id should be correct", favoriteRowId, favoriteCursor.getId());
+        assertEquals("favorite date time should be correct", String.valueOf(DataTestUtilities.TEST_DATE), String.valueOf(favoriteCursor.getCreated()));
+
+        favoriteCursor.close();
     }
 
     public void testProviderUpdate() {
@@ -439,6 +499,7 @@ public class MovieProviderTest extends AndroidTestCase {
     }
 
     public void deleteAllRecordsFromProvider() {
+        deleteAllFavoriteRecords();
         deleteAllMovieRecords();
         deleteAllTrailerRecords();
         deleteAllReviewRecords();
@@ -477,6 +538,23 @@ public class MovieProviderTest extends AndroidTestCase {
                 null
         );
         assertEquals("Should be 0 record in trailer table after delete", 0, cursor.getCount());
+        cursor.close();
+    }
+
+    public void deleteAllFavoriteRecords() {
+        mContext.getContentResolver().delete(
+                FavoriteColumns.CONTENT_URI,
+                null,
+                null
+        );
+        Cursor cursor = mContext.getContentResolver().query(
+                FavoriteColumns.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+        assertEquals("Should be 0 record in favorite table after delete", 0, cursor.getCount());
         cursor.close();
     }
 

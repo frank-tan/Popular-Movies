@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.franktan.popularmovies.data.favorite.FavoriteColumns;
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
@@ -62,6 +63,7 @@ public class DBHelperTest extends AndroidTestCase {
         movieGenreTableHasRightColumns(db);
         reviewTableHasRightColumns(db);
         trailerTableHasRightColumns(db);
+        favoriteTableHasRightColumns(db);
 
         db.close();
     }
@@ -112,6 +114,36 @@ public class DBHelperTest extends AndroidTestCase {
         // entry columns
         assertTrue("tailer table should contains all columns we defined",
                 trailerColumnSet.isEmpty());
+        c.close();
+    }
+
+    /**
+     * Test favorite table has the right colomns
+     * @param db
+     */
+    public void favoriteTableHasRightColumns (SQLiteDatabase db) {
+        // test Genre table has correct columns
+        Cursor c = db.rawQuery("PRAGMA table_info(" + FavoriteColumns.TABLE_NAME + ")",
+                null);
+
+        assertTrue("Our favorite table should have columns", c.moveToFirst());
+
+        // Build a HashSet of all of the column names we want to look for
+        final HashSet<String> favoriteColumnSet = new HashSet<>();
+        favoriteColumnSet.add(FavoriteColumns._ID);
+        favoriteColumnSet.add(FavoriteColumns.FAVORITE_MOVIEDB_ID);
+        favoriteColumnSet.add(FavoriteColumns.CREATED);
+
+        int columnNameIndexFavorite = c.getColumnIndex("name");
+        do {
+            String columnName = c.getString(columnNameIndexFavorite);
+            favoriteColumnSet.remove(columnName);
+        } while(c.moveToNext());
+
+        // if this fails, it means that your database doesn't contain all of the required location
+        // entry columns
+        assertTrue("favorite table should contains all columns we defined",
+                favoriteColumnSet.isEmpty());
         c.close();
     }
 

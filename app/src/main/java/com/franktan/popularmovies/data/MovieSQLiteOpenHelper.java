@@ -10,6 +10,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.franktan.popularmovies.BuildConfig;
+import com.franktan.popularmovies.data.favorite.FavoriteColumns;
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
@@ -20,12 +21,21 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = MovieSQLiteOpenHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "popular_movies.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
     private static MovieSQLiteOpenHelper sInstance;
     private final Context mContext;
     private final MovieSQLiteOpenHelperCallbacks mOpenHelperCallbacks;
 
     // @formatter:off
+    public static final String SQL_CREATE_TABLE_FAVORITE = "CREATE TABLE IF NOT EXISTS "
+            + FavoriteColumns.TABLE_NAME + " ( "
+            + FavoriteColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + FavoriteColumns.FAVORITE_MOVIEDB_ID + " INTEGER NOT NULL, "
+            + FavoriteColumns.CREATED + " INTEGER "
+            + ", CONSTRAINT fk_favorite_moviedb_id FOREIGN KEY (" + FavoriteColumns.FAVORITE_MOVIEDB_ID + ") REFERENCES movie (movie_moviedb_id) ON DELETE NO ACTION"
+            + ", CONSTRAINT unique_moviedb_id UNIQUE (favorite_moviedb_id) ON CONFLICT REPLACE"
+            + " );";
+
     public static final String SQL_CREATE_TABLE_GENRE = "CREATE TABLE IF NOT EXISTS "
             + GenreColumns.TABLE_NAME + " ( "
             + GenreColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -47,7 +57,7 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
             + MovieColumns.POPULARITY + " REAL, "
             + MovieColumns.VOTE_AVERAGE + " REAL, "
             + MovieColumns.VOTE_COUNT + " INTEGER "
-            + ", CONSTRAINT MOVIE_MOVIEDB_ID UNIQUE (" + MovieColumns.MOVIE_MOVIEDB_ID + ") ON CONFLICT REPLACE"
+            + ", CONSTRAINT unique_movie_moviedb_id UNIQUE (" + MovieColumns.MOVIE_MOVIEDB_ID + ") ON CONFLICT REPLACE"
             + " );";
 
     public static final String SQL_CREATE_INDEX_MOVIE_MOVIE_MOVIEDB_ID = "CREATE INDEX IDX_MOVIE_MOVIE_MOVIEDB_ID "
@@ -73,7 +83,7 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
             + ReviewColumns.CONTENT + " TEXT NOT NULL, "
             + ReviewColumns.URL + " TEXT NOT NULL, "
             + ReviewColumns.MOVIE_ID + " INTEGER NOT NULL "
-            + ", CONSTRAINT URL UNIQUE (" + ReviewColumns.URL + ") ON CONFLICT IGNORE"
+            + ", CONSTRAINT unique_reivew_url UNIQUE (" + ReviewColumns.URL + ") ON CONFLICT IGNORE"
             + ", CONSTRAINT fk_movie_id FOREIGN KEY (" + ReviewColumns.MOVIE_ID + ") REFERENCES movie (_id) ON DELETE CASCADE"
             + " );";
 
@@ -85,7 +95,7 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
             + TrailerColumns.SOURCE + " TEXT NOT NULL, "
             + TrailerColumns.TYPE + " TEXT, "
             + TrailerColumns.MOVIE_ID + " INTEGER NOT NULL "
-            + ", CONSTRAINT SOURCE UNIQUE (" + TrailerColumns.SOURCE + ") ON CONFLICT IGNORE"
+            + ", CONSTRAINT unique_trailer_source UNIQUE (" + TrailerColumns.SOURCE + ") ON CONFLICT IGNORE"
             + ", CONSTRAINT fk_movie_id FOREIGN KEY (" + TrailerColumns.MOVIE_ID + ") REFERENCES movie (_id) ON DELETE CASCADE"
             + " );";
 
@@ -143,6 +153,7 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
+        db.execSQL(SQL_CREATE_TABLE_FAVORITE);
         db.execSQL(SQL_CREATE_TABLE_GENRE);
         db.execSQL(SQL_CREATE_TABLE_MOVIE);
         db.execSQL(SQL_CREATE_INDEX_MOVIE_MOVIE_MOVIEDB_ID);

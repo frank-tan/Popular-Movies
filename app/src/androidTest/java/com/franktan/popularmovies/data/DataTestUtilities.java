@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 
+import com.franktan.popularmovies.data.favorite.FavoriteColumns;
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
@@ -62,6 +63,14 @@ public class DataTestUtilities {
         ContentValues testValues = new ContentValues();
         testValues.put(MovieGenreColumns.MOVIE_ID,   movieId);
         testValues.put(MovieGenreColumns.GENRE_ID,   genreId);
+
+        return testValues;
+    }
+
+    public static ContentValues createFavoriteEntry(long movieDBId, long testDate) {
+        ContentValues testValues = new ContentValues();
+        testValues.put(FavoriteColumns.FAVORITE_MOVIEDB_ID,   movieDBId);
+        testValues.put(FavoriteColumns.CREATED,   testDate);
 
         return testValues;
     }

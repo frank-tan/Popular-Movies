@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.franktan.popularmovies.BuildConfig;
 import com.franktan.popularmovies.data.base.BaseContentProvider;
+import com.franktan.popularmovies.data.favorite.FavoriteColumns;
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
@@ -29,26 +30,31 @@ public class MovieProvider extends BaseContentProvider {
     public static final String AUTHORITY = "com.franktan.popularmovies";
     public static final String CONTENT_URI_BASE = "content://" + AUTHORITY;
 
-    private static final int URI_TYPE_GENRE = 0;
-    private static final int URI_TYPE_GENRE_ID = 1;
+    private static final int URI_TYPE_FAVORITE = 0;
+    private static final int URI_TYPE_FAVORITE_ID = 1;
 
-    private static final int URI_TYPE_MOVIE = 2;
-    private static final int URI_TYPE_MOVIE_ID = 3;
+    private static final int URI_TYPE_GENRE = 2;
+    private static final int URI_TYPE_GENRE_ID = 3;
 
-    private static final int URI_TYPE_MOVIE_GENRE = 4;
-    private static final int URI_TYPE_MOVIE_GENRE_ID = 5;
+    private static final int URI_TYPE_MOVIE = 4;
+    private static final int URI_TYPE_MOVIE_ID = 5;
 
-    private static final int URI_TYPE_REVIEW = 6;
-    private static final int URI_TYPE_REVIEW_ID = 7;
+    private static final int URI_TYPE_MOVIE_GENRE = 6;
+    private static final int URI_TYPE_MOVIE_GENRE_ID = 7;
 
-    private static final int URI_TYPE_TRAILER = 8;
-    private static final int URI_TYPE_TRAILER_ID = 9;
+    private static final int URI_TYPE_REVIEW = 8;
+    private static final int URI_TYPE_REVIEW_ID = 9;
 
-    private static final int URI_TYPE_MOVIEDB_ID = 10;
+    private static final int URI_TYPE_TRAILER = 10;
+    private static final int URI_TYPE_TRAILER_ID = 11;
+
+    private static final int URI_TYPE_MOVIEDB_ID = 12;
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
+        URI_MATCHER.addURI(AUTHORITY, FavoriteColumns.TABLE_NAME, URI_TYPE_FAVORITE);
+        URI_MATCHER.addURI(AUTHORITY, FavoriteColumns.TABLE_NAME + "/#", URI_TYPE_FAVORITE_ID);
         URI_MATCHER.addURI(AUTHORITY, GenreColumns.TABLE_NAME, URI_TYPE_GENRE);
         URI_MATCHER.addURI(AUTHORITY, GenreColumns.TABLE_NAME + "/#", URI_TYPE_GENRE_ID);
         URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME, URI_TYPE_MOVIE);
@@ -77,6 +83,11 @@ public class MovieProvider extends BaseContentProvider {
         int match = URI_MATCHER.match(uri);
         Log.i(Constants.APP_NAME,"match number is "+ match);
         switch (match) {
+            case URI_TYPE_FAVORITE:
+                return TYPE_CURSOR_DIR + FavoriteColumns.TABLE_NAME;
+            case URI_TYPE_FAVORITE_ID:
+                return TYPE_CURSOR_ITEM + FavoriteColumns.TABLE_NAME;
+
             case URI_TYPE_GENRE:
                 return TYPE_CURSOR_DIR + GenreColumns.TABLE_NAME;
             case URI_TYPE_GENRE_ID:
@@ -138,8 +149,7 @@ public class MovieProvider extends BaseContentProvider {
         if (DEBUG)
             Log.d(TAG, "query uri=" + uri + " selection=" + selection + " selectionArgs=" + Arrays.toString(selectionArgs) + " sortOrder=" + sortOrder
                     + " groupBy=" + uri.getQueryParameter(QUERY_GROUP_BY) + " having=" + uri.getQueryParameter(QUERY_HAVING) + " limit=" + uri.getQueryParameter(QUERY_LIMIT));
-        Cursor cursor = super.query(uri, projection, selection, selectionArgs, sortOrder);
-        return cursor;
+        return super.query(uri, projection, selection, selectionArgs, sortOrder);
     }
 
     @Override
@@ -148,6 +158,17 @@ public class MovieProvider extends BaseContentProvider {
         String id = null;
         int matchedId = URI_MATCHER.match(uri);
         switch (matchedId) {
+            case URI_TYPE_FAVORITE:
+            case URI_TYPE_FAVORITE_ID:
+                res.table = FavoriteColumns.TABLE_NAME;
+                res.idColumn = FavoriteColumns._ID;
+                res.tablesWithJoins = FavoriteColumns.TABLE_NAME;
+                if (MovieColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + MovieColumns.TABLE_NAME + " AS " + FavoriteColumns.PREFIX_MOVIE + " ON " + FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.FAVORITE_MOVIEDB_ID + "=" + FavoriteColumns.PREFIX_MOVIE + "." + MovieColumns.MOVIE_MOVIEDB_ID;
+                }
+                res.orderBy = FavoriteColumns.DEFAULT_ORDER;
+                break;
+
             case URI_TYPE_GENRE:
             case URI_TYPE_GENRE_ID:
                 res.table = GenreColumns.TABLE_NAME;
@@ -218,6 +239,7 @@ public class MovieProvider extends BaseContentProvider {
         }
 
         switch (matchedId) {
+            case URI_TYPE_FAVORITE_ID:
             case URI_TYPE_GENRE_ID:
             case URI_TYPE_MOVIE_ID:
             case URI_TYPE_MOVIE_GENRE_ID:
