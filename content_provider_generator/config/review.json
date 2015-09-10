@@ -35,5 +35,11 @@
         "onDelete": "CASCADE"
       }
   }
- ]
+ ],
+  "constraints": [
+    {
+      "name": "unique_reivew_url",
+      "definition": "UNIQUE (url) ON CONFLICT IGNORE"
+        }
+    ]
 }

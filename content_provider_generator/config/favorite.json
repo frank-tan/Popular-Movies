@@ -1,0 +1,28 @@
+{
+  "documentation": "favorite movie",
+  "fields": [
+    {
+      "documentation": "the moviedb id of the favorite movie",
+      "name": "favorite_moviedb_id",
+      "type": "Long",
+      "nullable": false,
+      "foreignKey": {
+        "table": "movie",
+        "onDelete": "NO ACTION"
+      }
+  },
+    {
+      "documentation": "the date and time when user favorites this movie",
+      "name": "created",
+      "type": "Long",
+      "nullable": true,
+      "index": false
+  }
+ ],
+  "constraints": [
+    {
+      "name": "unique_moviedb_id",
+      "definition": "UNIQUE (favorite_moviedb_id) ON CONFLICT REPLACE"
+        }
+    ]
+}

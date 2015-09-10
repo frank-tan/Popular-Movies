@@ -35,5 +35,11 @@
         "onDelete": "CASCADE"
       }
   }
- ]
+ ],
+  "constraints": [
+    {
+      "name": "unique_trailer_source",
+      "definition": "UNIQUE (source) ON CONFLICT IGNORE"
+        }
+    ]
 }
