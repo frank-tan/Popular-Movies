@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.favorite.FavoriteColumns;
@@ -110,10 +111,12 @@ public class MovieGridAdapter extends CursorAdapter {
                     favoriteContentValues.putFavoriteMoviedbId(movieDBId);
                     favoriteContentValues.putCreated(Utilities.getCurrentTimeInMillis());
                     mContext.getContentResolver().insert(FavoriteColumns.CONTENT_URI, favoriteContentValues.values());
+                    Toast.makeText(mContext, "Added to favourite", Toast.LENGTH_SHORT).show();
                 } else {
                     FavoriteSelection selection = new FavoriteSelection();
                     selection.favoriteMoviedbId(movieDBId);
                     mContext.getContentResolver().delete(FavoriteColumns.CONTENT_URI, selection.sel(), selection.args());
+                    Toast.makeText(mContext, "Removed from favourite", Toast.LENGTH_SHORT).show();
                 }
                 mContext.getApplicationContext().getContentResolver().notifyChange(Uri.withAppendedPath(MovieColumns.CONTENT_URI, "with_favorite"), null);
             }
