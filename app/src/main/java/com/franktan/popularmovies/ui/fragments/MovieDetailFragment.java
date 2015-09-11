@@ -50,7 +50,7 @@ public class MovieDetailFragment
     TrailerPagerAdapter mTrailerPagerAdapter = null;
     PagerIndicator mPagerIndicator = null;
 
-    ImageView mMovieTrailer;
+    ImageView mMovieBackdrop;
     ImageView mMoviePoster;
     TextView mMovieTitle;
     TextView mMovieReleaseDate;
@@ -89,7 +89,7 @@ public class MovieDetailFragment
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-        mMovieTrailer       = (ImageView)   view.findViewById(R.id.movie_trailer);
+        mMovieBackdrop = (ImageView)   view.findViewById(R.id.movie_backdrop);
         mMoviePoster        = (ImageView)   view.findViewById(R.id.movie_poster);
         mMovieTitle         = (TextView)    view.findViewById(R.id.movie_title);
         mMovieReleaseDate   = (TextView)    view.findViewById(R.id.release_date);
@@ -176,7 +176,7 @@ public class MovieDetailFragment
                 .error(R.drawable.backdrop_failed_placeholder)
                 .fit()
                 .centerCrop()
-                .into(mMovieTrailer);
+                .into(mMovieBackdrop);
         Picasso.with(getActivity())
                 .load(posterPath)
                 .placeholder(R.drawable.poster_loading_placeholder)

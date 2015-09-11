@@ -10,6 +10,7 @@
     <string name="movie_title">Title</string>
     <string name="rating_example">7.8/10</string>
     <string name="movie_trailer_text">Movie Trailer</string>
+    <string name="movie_backdrop_image_text">Movie Backdrop Image</string>
     <string name="rating">Rating</string>
     <string name="vote_count">Number of votes</string>
     <string name="vote_count_example">100 votes</string>

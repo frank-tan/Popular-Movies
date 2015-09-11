@@ -2,10 +2,10 @@
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
     </style>
 
-    <style name="AppTheme.ActionBar.Transparent" parent="AppTheme">
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="colorPrimary">@android:color/transparent</item>
+    <style name="AppTheme.ActionBar.Transparent" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/popularmovies_primary_dark</item>
+        <item name="colorPrimary">@color/popularmovies_primary</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="AppTheme.ActionBar" parent="AppTheme">
