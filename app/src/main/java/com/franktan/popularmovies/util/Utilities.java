@@ -7,6 +7,9 @@ import android.util.DisplayMetrics;
 
 import com.franktan.popularmovies.R;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 /**
  * Created by tan on 23/08/2015.
  */
@@ -30,5 +33,10 @@ public class Utilities {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         float fpixels = metrics.density * dp;
         return (int) (fpixels + 0.5f);
+    }
+
+    public static Long getCurrentTimeInMillis() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        return cal.getTimeInMillis();
     }
 }

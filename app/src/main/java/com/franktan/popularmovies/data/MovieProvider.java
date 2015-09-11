@@ -49,6 +49,7 @@ public class MovieProvider extends BaseContentProvider {
     private static final int URI_TYPE_TRAILER_ID = 11;
 
     private static final int URI_TYPE_MOVIEDB_ID = 12;
+    private static final int URI_TYPE_MOVIE_WITH_FAVORITE = 13;
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -58,6 +59,7 @@ public class MovieProvider extends BaseContentProvider {
         URI_MATCHER.addURI(AUTHORITY, GenreColumns.TABLE_NAME, URI_TYPE_GENRE);
         URI_MATCHER.addURI(AUTHORITY, GenreColumns.TABLE_NAME + "/#", URI_TYPE_GENRE_ID);
         URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME, URI_TYPE_MOVIE);
+        URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME + "/with_favorite", URI_TYPE_MOVIE_WITH_FAVORITE);
         URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME + "/#", URI_TYPE_MOVIE_ID);
         URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME + "/moviedb/#", URI_TYPE_MOVIEDB_ID);
         URI_MATCHER.addURI(AUTHORITY, MovieGenreColumns.TABLE_NAME, URI_TYPE_MOVIE_GENRE);
@@ -115,6 +117,8 @@ public class MovieProvider extends BaseContentProvider {
 
             case URI_TYPE_MOVIEDB_ID:
                 return TYPE_CURSOR_ITEM + MovieColumns.TABLE_NAME;
+            case URI_TYPE_MOVIE_WITH_FAVORITE:
+                return TYPE_CURSOR_DIR + MovieColumns.TABLE_NAME;
 
         }
         return null;
@@ -194,6 +198,16 @@ public class MovieProvider extends BaseContentProvider {
                 }
                 if (TrailerColumns.hasColumns(projection)) {
                     res.tablesWithJoins += " LEFT OUTER JOIN " + TrailerColumns.TABLE_NAME + " ON " + MovieColumns.TABLE_NAME + "." + MovieColumns._ID + "=" + TrailerColumns.TABLE_NAME + "." + TrailerColumns.MOVIE_ID;
+                }
+                res.orderBy = MovieColumns.DEFAULT_ORDER;
+                break;
+
+            case URI_TYPE_MOVIE_WITH_FAVORITE:
+                res.table = MovieColumns.TABLE_NAME;
+                res.idColumn = MovieColumns._ID;
+                res.tablesWithJoins = MovieColumns.TABLE_NAME;
+                if (FavoriteColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + FavoriteColumns.TABLE_NAME + " ON " + MovieColumns.TABLE_NAME + "." + MovieColumns.MOVIE_MOVIEDB_ID + "=" + FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.FAVORITE_MOVIEDB_ID;
                 }
                 res.orderBy = MovieColumns.DEFAULT_ORDER;
                 break;
