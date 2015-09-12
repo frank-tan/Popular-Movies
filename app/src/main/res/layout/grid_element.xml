@@ -1,20 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <com.franktan.popularmovies.ui.views.PosterImageView
-        android:id="@+id/poster_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-    <CheckBox
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/favorite_checkbox"
-        android:button="@drawable/favorite_checkbox_selector"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        />
-</RelativeLayout>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true"
+    android:background="@color/white"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/poster_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <CheckBox
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/favorite_checkbox"
+            android:button="@drawable/favorite_checkbox_selector"
+            android:layout_below="@id/poster_image"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Movie Genres"
+            android:id="@+id/movie_genres"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_below="@id/poster_image"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"/>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

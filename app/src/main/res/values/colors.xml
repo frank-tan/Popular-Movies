@@ -5,6 +5,6 @@
     <color name="grey_700">#646464</color>
     <color name="black">#000000</color>
     <color name="popularmovies_light">#CFD8DC</color>
-    <color name="popularmovies_primary">#455A64</color>
-    <color name="popularmovies_primary_dark">#37474F</color>
+    <color name="popularmovies_primary">#0277BD</color>
+    <color name="popularmovies_primary_dark">#01579B</color>
 </resources>

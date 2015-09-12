@@ -1,13 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.franktan.popularmovies.ui.fragments.MoviesGridFragment">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.franktan.popularmovies.ui.fragments.MoviesGridFragment">
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/moviesgridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:verticalSpacing="0dp"
-        android:horizontalSpacing="0dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:stretchMode="columnWidth"
         android:numColumns="2"
         style="@style/MovieGridStyle"
