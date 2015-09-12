@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:text="@string/review_text_placeholder"
         android:id="@+id/review_text"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         />
 
     <TextView
@@ -21,7 +22,8 @@
         android:id="@+id/review_author"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:singleLine="true"
         android:textStyle="bold|italic"
         />

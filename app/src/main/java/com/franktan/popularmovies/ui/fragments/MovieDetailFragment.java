@@ -30,6 +30,7 @@ import com.franktan.popularmovies.service.MovieDetailsIntentService;
 import com.franktan.popularmovies.ui.views.PagerIndicator;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
+import com.franktan.popularmovies.util.Utilities;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -214,7 +215,11 @@ public class MovieDetailFragment
             trailerTitle.setText(getString(R.string.trailers_title));
 
             LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textViewLayoutParams.setMargins(30, 10, 0, 20);
+            textViewLayoutParams.setMargins(
+                    Utilities.pixelSizeFromDp(getActivity(),25),
+                    0,
+                    0,
+                    Utilities.pixelSizeFromDp(getActivity(),10));
             trailerTitle.setLayoutParams(textViewLayoutParams);
             trailerTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
 
@@ -236,7 +241,11 @@ public class MovieDetailFragment
             trailerNAText.setText(getString(R.string.no_trailers_available));
 
             LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textViewLayoutParams.setMargins(30,10,0,10);
+            textViewLayoutParams.setMargins(
+                    Utilities.pixelSizeFromDp(getActivity(),25),
+                    0,
+                    0,
+                    0);
             trailerNAText.setLayoutParams(textViewLayoutParams);
 
             mTrailerSection.addView(trailerNAText);
@@ -259,7 +268,8 @@ public class MovieDetailFragment
         if(mReviewSection.getChildCount() > 0) {
             TextView reviewTitle = new TextView(getActivity());
             reviewTitle.setText(getString(R.string.reviews_title));
-            ViewGroup.LayoutParams textViewLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textViewLayoutParams.setMargins(Utilities.pixelSizeFromDp(getActivity(),15), 0, 0, Utilities.pixelSizeFromDp(getActivity(),10));
             reviewTitle.setLayoutParams(textViewLayoutParams);
             reviewTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
 
@@ -267,7 +277,12 @@ public class MovieDetailFragment
         } else {
             TextView reviewNAText = new TextView(getActivity());
             reviewNAText.setText(getString(R.string.no_reviews_available));
-            ViewGroup.LayoutParams textViewLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textViewLayoutParams.setMargins(
+                    Utilities.pixelSizeFromDp(getActivity(), 15),
+                    0,
+                    0,
+                    Utilities.pixelSizeFromDp(getActivity(), 20));
             reviewNAText.setLayoutParams(textViewLayoutParams);
 
             mReviewSection.addView(reviewNAText);
