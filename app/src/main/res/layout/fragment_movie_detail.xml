@@ -63,14 +63,6 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="5dp"
                 android:paddingRight="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/movie_title"
-                    android:id="@+id/movie_title"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"/>
 
                 <CheckBox
                     android:layout_width="30dp"
@@ -84,6 +76,19 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/movie_title"
+                    android:id="@+id/movie_title"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/favorite_checkbox"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"/>
+
             </RelativeLayout>
 
             <LinearLayout
