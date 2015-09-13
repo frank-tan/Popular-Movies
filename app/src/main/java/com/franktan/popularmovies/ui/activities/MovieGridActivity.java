@@ -11,7 +11,7 @@ import com.franktan.popularmovies.sync.MovieSyncAdapter;
 import com.franktan.popularmovies.ui.fragments.MovieDetailFragment;
 import com.franktan.popularmovies.ui.fragments.MoviesGridFragment;
 
-public class MainActivity extends AppCompatActivity
+public class MovieGridActivity extends AppCompatActivity
         implements MoviesGridFragment.OnFragmentInteractionListener {
 
     private boolean mTwoPaneMode;
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_movie_grid);
 
         MovieSyncAdapter.initialize(this);
 

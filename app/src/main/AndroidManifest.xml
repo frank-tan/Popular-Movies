@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme.ActionBar" >
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activities.MovieGridActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
@@ -26,19 +26,19 @@
         <activity
             android:name=".ui.activities.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:parentActivityName=".ui.activities.MainActivity"
+            android:parentActivityName=".ui.activities.MovieGridActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
+                android:value=".ui.activities.MovieGridActivity" />
         </activity>
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.activities.MainActivity" >
+            android:parentActivityName=".ui.activities.MovieGridActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
+                android:value=".ui.activities.MovieGridActivity" />
         </activity>
 
         <provider
