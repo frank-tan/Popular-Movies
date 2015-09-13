@@ -199,6 +199,9 @@ public class MovieProvider extends BaseContentProvider {
                 if (TrailerColumns.hasColumns(projection)) {
                     res.tablesWithJoins += " LEFT OUTER JOIN " + TrailerColumns.TABLE_NAME + " ON " + MovieColumns.TABLE_NAME + "." + MovieColumns._ID + "=" + TrailerColumns.TABLE_NAME + "." + TrailerColumns.MOVIE_ID;
                 }
+                if (FavoriteColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + FavoriteColumns.TABLE_NAME + " ON " + MovieColumns.TABLE_NAME + "." + MovieColumns.MOVIE_MOVIEDB_ID + "=" + FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.FAVORITE_MOVIEDB_ID;
+                }
                 res.orderBy = MovieColumns.DEFAULT_ORDER;
                 break;
 

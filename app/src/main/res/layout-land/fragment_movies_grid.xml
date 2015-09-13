@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
+        android:stretchMode="columnWidth"
         android:numColumns="3"
         style="@style/MovieGridStyle"
         android:background="@drawable/touch_selector"

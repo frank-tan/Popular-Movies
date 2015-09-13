@@ -15,11 +15,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.franktan.popularmovies.R;
+import com.franktan.popularmovies.data.favorite.FavoriteColumns;
+import com.franktan.popularmovies.data.favorite.FavoriteContentValues;
+import com.franktan.popularmovies.data.favorite.FavoriteCursor;
+import com.franktan.popularmovies.data.favorite.FavoriteSelection;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.data.review.ReviewColumns;
@@ -62,6 +68,8 @@ public class MovieDetailFragment
     LinearLayout mReviewSection;
     LinearLayout mTrailerSection;
     ViewPager mTrailerPager;
+    CheckBox mFavoriteCheckbox;
+    Context mContext;
 
     private static final String[] MOVIE_COLUMNS = {
             MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
@@ -79,7 +87,9 @@ public class MovieDetailFragment
             TrailerColumns.TABLE_NAME + "." + TrailerColumns.TYPE,
             TrailerColumns.TABLE_NAME + "." + TrailerColumns.NAME,
             TrailerColumns.TABLE_NAME + "." + TrailerColumns.SIZE,
-            TrailerColumns.TABLE_NAME + "." + TrailerColumns.SOURCE
+            TrailerColumns.TABLE_NAME + "." + TrailerColumns.SOURCE,
+            FavoriteColumns.TABLE_NAME + "." + FavoriteColumns._ID,
+            FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.CREATED
     };
 
     public MovieDetailFragment() {
@@ -100,6 +110,7 @@ public class MovieDetailFragment
         mOverview           = (TextView)    view.findViewById(R.id.overview);
         mReviewSection      = (LinearLayout)view.findViewById(R.id.review_section);
         mTrailerSection     = (LinearLayout)view.findViewById(R.id.trailer_section);
+        mFavoriteCheckbox = (CheckBox)    view.findViewById(R.id.favorite_checkbox);
 
         return view;
     }
@@ -113,8 +124,16 @@ public class MovieDetailFragment
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+
+        Activity activity;
+        if (context instanceof Activity){
+            activity = (Activity) context;
+        } else {
+            activity = getActivity();
+        }
 
         Intent intent = activity.getIntent();
         mMovieDBId = intent.getLongExtra(Constants.MOVIEDB_ID,-1);
@@ -153,7 +172,7 @@ public class MovieDetailFragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.i(Constants.APP_NAME,"loader finished");
+        Log.i(Constants.APP_NAME, "loader finished");
         if (cursor != null && !cursor.moveToFirst()){
             Log.i(Constants.APP_NAME,"loader finished: no records returned");
             return;
@@ -192,11 +211,38 @@ public class MovieDetailFragment
         mVoteCount.setText(String.valueOf(voteCount) + " votes");
         mOverview.setText(overview);
 
+        FavoriteCursor favoriteCursor = new FavoriteCursor(cursor);
+        setFavoriteCheckbox(favoriteCursor);
+
+        mFavoriteCheckbox.setTag(mMovieDBId);
+        setFavoriteCheckboxOnClick();
+
         ReviewCursor reviewCursor = new ReviewCursor(cursor);
         showAllReviewRecords(reviewCursor);
 
         TrailerCursor trailerCursor = new TrailerCursor(cursor);
         showAllTrailerRecords(trailerCursor);
+    }
+
+    private void setFavoriteCheckbox (FavoriteCursor favoriteCursor) {
+        boolean checked = false;
+        favoriteCursor.moveToFirst();
+
+        do {
+            try {
+                if(favoriteCursor.getId() >= 0) {
+                    checked = true;
+                    break;
+                }
+            } catch (NullPointerException e) {}
+
+        } while (favoriteCursor.moveToNext());
+
+        mFavoriteCheckbox.setChecked(checked);
+    }
+
+    private void setFavoriteCheckboxOnClick () {
+        mFavoriteCheckbox.setOnClickListener(createFavoriteCheckboxOnClickListener());
     }
 
     private void showAllTrailerRecords(TrailerCursor trailerCursor) {
@@ -269,7 +315,7 @@ public class MovieDetailFragment
             TextView reviewTitle = new TextView(getActivity());
             reviewTitle.setText(getString(R.string.reviews_title));
             LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textViewLayoutParams.setMargins(Utilities.pixelSizeFromDp(getActivity(),15), 0, 0, Utilities.pixelSizeFromDp(getActivity(),10));
+            textViewLayoutParams.setMargins(Utilities.pixelSizeFromDp(getActivity(), 15), 0, 0, Utilities.pixelSizeFromDp(getActivity(), 10));
             reviewTitle.setLayoutParams(textViewLayoutParams);
             reviewTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
 
@@ -338,5 +384,29 @@ public class MovieDetailFragment
         int actualPage = (page - 1) >= 0 ? page - 1 : 0 ;
         if(mTrailerPager.getCurrentItem() != actualPage)
             mTrailerPager.setCurrentItem(actualPage);
+    }
+
+    private View.OnClickListener createFavoriteCheckboxOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long movieDBId = (long) v.getTag();
+                CheckBox favoriteCheckbox = (CheckBox) v;
+
+                if (favoriteCheckbox.isChecked()) {
+                    FavoriteContentValues favoriteContentValues = new FavoriteContentValues();
+                    favoriteContentValues.putFavoriteMoviedbId(movieDBId);
+                    favoriteContentValues.putCreated(Utilities.getCurrentTimeInMillis());
+                    mContext.getContentResolver().insert(FavoriteColumns.CONTENT_URI, favoriteContentValues.values());
+                    Toast.makeText(mContext, "Added to favourite", Toast.LENGTH_SHORT).show();
+                } else {
+                    FavoriteSelection selection = new FavoriteSelection();
+                    selection.favoriteMoviedbId(movieDBId);
+                    mContext.getContentResolver().delete(FavoriteColumns.CONTENT_URI, selection.sel(), selection.args());
+                    Toast.makeText(mContext, "Removed from favourite", Toast.LENGTH_SHORT).show();
+                }
+                mContext.getApplicationContext().getContentResolver().notifyChange(Uri.withAppendedPath(MovieColumns.CONTENT_URI, "with_favorite"), null);
+            }
+        };
     }
 }
