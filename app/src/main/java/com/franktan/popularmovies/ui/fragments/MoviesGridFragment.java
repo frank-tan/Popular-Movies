@@ -1,9 +1,10 @@
 package com.franktan.popularmovies.ui.fragments;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -128,7 +129,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
                 }
                 MovieCursor movieCursor = new MovieCursor(cursor);
                 long movieDBId = movieCursor.getMovieMoviedbId();
-                Log.i(Constants.APP_NAME,"movieDBId onclick: "+movieDBId);
+                Log.i(Constants.APP_NAME, "movieDBId onclick: " + movieDBId);
                 if (mListener.isInTwoPaneMode()) {
                     mListener.onMovieItemSelected(movieDBId);
                 } else {
@@ -139,17 +140,21 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
             }
         });
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mGridView.setNestedScrollingEnabled(true);
+        }
+
         return view;
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new ClassCastException("activity must implement OnFragmentInteractionListener");
         }
     }
 
@@ -163,7 +168,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     public void onSaveInstanceState(Bundle outState) {
         // save the current active selection
         if(mSelection != GridView.INVALID_POSITION) {
-            outState.putInt(SELECTION,mSelection);
+            outState.putInt(SELECTION, mSelection);
         }
         super.onSaveInstanceState(outState);
     }

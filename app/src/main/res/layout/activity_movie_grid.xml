@@ -1,34 +1,40 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_height="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:id="@+id/movie_group_toolbar"
-        android:background="@color/popularmovies_primary"
-        android:elevation="2dp"
-        app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        android:layout_height="wrap_content">
 
-    <com.franktan.popularmovies.ui.lib.googleslidingtab.SlidingTabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="2dp"
+        <android.support.v7.widget.Toolbar
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:id="@+id/movie_group_toolbar"
+            android:background="@color/popularmovies_primary"
+            app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            />
 
-        android:background="@color/popularmovies_primary"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabTextColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorHeight="5dp"/>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/movie_grid_view_pager"
-
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        ></android.support.v4.view.ViewPager>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

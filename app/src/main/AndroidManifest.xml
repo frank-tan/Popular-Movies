@@ -12,7 +12,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.ActionBar.Transparent" >
+        android:theme="@style/AppTheme.ActionBar.WhiteText" >
         <activity
             android:name=".ui.activities.MovieGridActivity"
             android:label="@string/app_name"
@@ -27,7 +27,7 @@
             android:name=".ui.activities.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
             android:parentActivityName=".ui.activities.MovieGridActivity"
-            android:theme="@style/AppTheme.ActionBar.Transparent" >
+            android:theme="@style/AppTheme.ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MovieGridActivity" />
