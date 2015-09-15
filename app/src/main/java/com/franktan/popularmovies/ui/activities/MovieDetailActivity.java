@@ -34,7 +34,7 @@ public class MovieDetailActivity
         mObservableScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
 
         mToolbarView.setBackgroundColor(
-                ScrollUtils.getColorWithAlpha(0.2F, getResources().getColor(R.color.popularmovies_primary)));
+                ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.popularmovies_primary)));
         mObservableScrollView.setScrollViewCallbacks(this);
 
         mParallaxImageHeight = getResources().getDimensionPixelSize(
@@ -69,7 +69,7 @@ public class MovieDetailActivity
         int baseColor = getResources().getColor(R.color.popularmovies_primary);
         float alpha = (float) scrollY / mParallaxImageHeight;
         alpha = (alpha > 0.85F) ? 0.85F : alpha;
-        alpha = (alpha < 0.2F) ? 0.2F : alpha;
+        alpha = (alpha < 0) ? 0 : alpha;
         mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(alpha, baseColor));
         mBackdropImageView.setTranslationY(scrollY/2);
     }

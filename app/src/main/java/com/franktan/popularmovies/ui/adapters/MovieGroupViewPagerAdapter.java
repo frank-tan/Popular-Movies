@@ -6,28 +6,36 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.franktan.popularmovies.ui.fragments.MoviesGridFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by tan on 14/09/2015.
  */
 public class MovieGroupViewPagerAdapter extends FragmentPagerAdapter {
 
-    int mNumOfTabs;
-    CharSequence[] mTitles;
+    CharSequence[] mTitles = new CharSequence[10];
+    List<MoviesGridFragment> mMoviesGridFragment = new ArrayList<>();
 
-    public MovieGroupViewPagerAdapter(FragmentManager fm, int numOfTabs, CharSequence[] titles) {
+    public MovieGroupViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        mNumOfTabs = numOfTabs;
-        mTitles = titles;
+    }
+
+    public void addMoviesGridFragment (MoviesGridFragment moviesGridFragment, String title) {
+        int oldSize = mMoviesGridFragment.size();
+        mMoviesGridFragment.add(moviesGridFragment);
+        mTitles[oldSize] = title;
     }
 
     @Override
     public int getCount() {
-        return mNumOfTabs;
+        return mMoviesGridFragment.size();
     }
 
     @Override
     public Fragment getItem(int position) {
-        return MoviesGridFragment.newInstance(position);
+        //// TODO: 15/09/2015 refactor code to create fragment here 
+        return mMoviesGridFragment.get(position);
     }
 
     // This method return the titles for the Tabs in the Tab Strip

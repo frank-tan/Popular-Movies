@@ -21,6 +21,7 @@ import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.favorite.FavoriteColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
+import com.franktan.popularmovies.model.MovieGroup;
 import com.franktan.popularmovies.ui.activities.MovieDetailActivity;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Utilities;
@@ -53,7 +54,8 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     private OnFragmentInteractionListener mListener;
     private MovieGridAdapter mMovieGridAdapter;
-    GridView mGridView;
+    private GridView mGridView;
+    private MovieGroup mMovieGroup;
 
     /**
      * Use this factory method to create a new instance of
@@ -72,6 +74,10 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     public MoviesGridFragment() {
         // Required empty public constructor
+    }
+
+    public void setMovieGroup(MovieGroup movieGroup) {
+        mMovieGroup = movieGroup;
     }
 
     @Override
@@ -166,6 +172,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        //// TODO: 15/09/2015 save movie group for restoring state
         // save the current active selection
         if(mSelection != GridView.INVALID_POSITION) {
             outState.putInt(SELECTION, mSelection);
@@ -179,10 +186,18 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
         Uri movieUri = Uri.withAppendedPath(MovieColumns.CONTENT_URI, "with_favorite");
         String sortOrder;
-        if(mSortOrderPreference.equals("Rating")){
+//        if(mSortOrderPreference.equals("Rating")){
+//            sortOrder = MovieColumns.VOTE_AVERAGE + " DESC";
+//        } else {
+//            sortOrder = MovieColumns.POPULARITY + " DESC";
+//        }
+        if(mMovieGroup == MovieGroup.POPULAR) {
+            sortOrder = MovieColumns.POPULARITY + " DESC";
+        } else if(mMovieGroup == MovieGroup.TOP_RATED) {
             sortOrder = MovieColumns.VOTE_AVERAGE + " DESC";
         } else {
-            sortOrder = MovieColumns.POPULARITY + " DESC";
+            //// TODO: 15/09/2015 implement favorite
+            sortOrder = MovieColumns.VOTE_AVERAGE + " DESC";
         }
         return new CursorLoader(
                 getActivity(),

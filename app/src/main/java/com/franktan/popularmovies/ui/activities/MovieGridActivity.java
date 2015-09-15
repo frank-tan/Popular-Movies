@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.franktan.popularmovies.R;
+import com.franktan.popularmovies.model.MovieGroup;
 import com.franktan.popularmovies.sync.MovieSyncAdapter;
 import com.franktan.popularmovies.ui.adapters.MovieGroupViewPagerAdapter;
 import com.franktan.popularmovies.ui.fragments.MovieDetailFragment;
@@ -38,8 +39,23 @@ public class MovieGridActivity extends AppCompatActivity
 //        } else {
 //            mTwoPaneMode = false;
 //        }
+        MovieGroup popular = MovieGroup.POPULAR;
+        MovieGroup topRated = MovieGroup.TOP_RATED;
+        MovieGroup favorite = MovieGroup.FAVORITE;
 
-        mMovieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager(), mNumOfTabs, mTabTitles);
+        MoviesGridFragment popularFragment = new MoviesGridFragment();
+        popularFragment.setMovieGroup(popular);
+
+        MoviesGridFragment topRatedFragment = new MoviesGridFragment();
+        topRatedFragment.setMovieGroup(topRated);
+
+        MoviesGridFragment favoriteFragment = new MoviesGridFragment();
+        favoriteFragment.setMovieGroup(favorite);
+
+        mMovieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager());
+        mMovieGroupViewAdapter.addMoviesGridFragment(popularFragment,popular.getTitle());
+        mMovieGroupViewAdapter.addMoviesGridFragment(topRatedFragment,topRated.getTitle());
+        mMovieGroupViewAdapter.addMoviesGridFragment(favoriteFragment,favorite.getTitle());
 
         mMovieGroupViewPager = (ViewPager) findViewById(R.id.movie_grid_view_pager);
         mMovieGroupViewPager.setAdapter(mMovieGroupViewAdapter);
