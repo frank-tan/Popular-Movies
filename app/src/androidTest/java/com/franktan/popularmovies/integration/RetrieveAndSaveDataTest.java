@@ -33,7 +33,7 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
     public void testMovieDBAPIReturn () {
         MovieListAPIService movieListAPIService = MovieListAPIService.getDbSyncService();
         //retrieve movies released after 1/1/2015 order by popularity
-        String jsonReturn = movieListAPIService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), SortCriterion.POPULARITY, 1420070400000L,1);
+        String jsonReturn = movieListAPIService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), SortCriterion.POPULARITY, 1420070400000L,1435708800000L,1);
         assertNotNull("API should return something", jsonReturn);
         assertFalse("Returned Json should not be an empty string", jsonReturn.equals(""));
     }
@@ -43,8 +43,8 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
         deleteAllRecordsFromProvider();
 
         MovieListAPIService mockService = mock(MovieListAPIService.class);
-        when(mockService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), SortCriterion.POPULARITY, 1435708800000L,1)).thenReturn(getTestingMovieJson());
-        assertEquals("retrieveAndSaveMovieData should return 20", 20, MovieSyncAdapter.retrieveAndSaveMovieData(getInstrumentation().getTargetContext(), mockService, SortCriterion.POPULARITY, 1435708800000L, 1));
+        when(mockService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), SortCriterion.POPULARITY, 1420070400000L, 1435708800000L,1)).thenReturn(getTestingMovieJson());
+        assertEquals("retrieveAndSaveMovieData should return 20", 20, MovieSyncAdapter.retrieveAndSaveMovieData(getInstrumentation().getTargetContext(), mockService, SortCriterion.POPULARITY, 1420070400000L, 1435708800000L, 1));
 
         MovieSelection where = new MovieSelection();
         MovieCursor movieCursor = where.query(getInstrumentation().getTargetContext().getContentResolver());

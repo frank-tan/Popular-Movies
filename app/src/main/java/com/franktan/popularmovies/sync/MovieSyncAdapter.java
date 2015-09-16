@@ -87,8 +87,8 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param page
      * @return
      */
-    public static int retrieveAndSaveMovieData(Context context, MovieListAPIService movieListAPIService, SortCriterion sortBy, Long releaseDateFrom, int page) {
-        String movieJsonString = movieListAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, page);
+    public static int retrieveAndSaveMovieData(Context context, MovieListAPIService movieListAPIService, SortCriterion sortBy, long releaseDateFrom, long releaseDateTo, int page) {
+        String movieJsonString = movieListAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, releaseDateTo, page);
         List<Movie> movieList;
         try {
             movieList = Parser.parseJson(movieJsonString);
@@ -133,17 +133,23 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         // We leave to the cursor adapter to sort all movies from database
 
         // get movies from within 6 months ago
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, -6);
-        Date halfYearAgo = cal.getTime();
+        Calendar calFrom = Calendar.getInstance();
+        calFrom.add(Calendar.MONTH, -6);
+        Date halfYearAgo = calFrom.getTime();
         long dateFrom = halfYearAgo.getTime();
 
+        // get movies from within 3 months in the future
+        Calendar calTo = Calendar.getInstance();
+        calTo.add(Calendar.MONTH, 3);
+        Date future = calTo.getTime();
+        long dateTo = future.getTime();
+
         for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
-            retrieveAndSaveMovieData(getContext(), movieListAPIService, SortCriterion.POPULARITY, dateFrom, page);
+            retrieveAndSaveMovieData(getContext(), movieListAPIService, SortCriterion.POPULARITY, dateFrom, dateTo, page);
         }
 
         for(int page = 1; page <= Constants.PAGES_NEEDED; page ++) {
-            retrieveAndSaveMovieData(getContext(), movieListAPIService, SortCriterion.RATING, dateFrom, page);
+            retrieveAndSaveMovieData(getContext(), movieListAPIService, SortCriterion.RATING, dateFrom, dateTo, page);
         }
     }
 

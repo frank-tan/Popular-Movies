@@ -19,25 +19,30 @@ import java.net.URL;
  */
 public class MovieListAPIService {
 
-    public String getMovieInfoFromAPI(Context context, SortCriterion sortBy, long releaseDateFrom, int page) {
+    public String getMovieInfoFromAPI(Context context, SortCriterion sortBy, long releaseDateFrom, long releaseDateTo, int page) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
         String formattedDateFrom = Parser.movieDbDateStringFromMiliseconds(releaseDateFrom);
+        String formattedDateTo = Parser.movieDbDateStringFromMiliseconds(releaseDateTo);
 
         final String MOVIEDB_BASE_URL =
                 "http://api.themoviedb.org/3/discover/movie?";
         final String API_KEY = "api_key";
         final String SORT_BY = "sort_by";
         final String PAGE = "page";
-        final String RELEASE_BEFORE = "primary_release_date.gte";
+        final String VOTE_COUNT_GREATER_THAN = "vote_count.gte";
+        final String RELEASE_FROM = "primary_release_date.gte";
+        final String RELEASE_TO = "primary_release_date.lte";
 
         try {
             Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
                     .appendQueryParameter(API_KEY, Utilities.getMovieDBApiKey(context))
                     .appendQueryParameter(SORT_BY, sortBy.getValue())
                     .appendQueryParameter(PAGE, String.valueOf(page))
-                    .appendQueryParameter(RELEASE_BEFORE, formattedDateFrom)
+                    .appendQueryParameter(RELEASE_FROM, formattedDateFrom)
+                    .appendQueryParameter(RELEASE_TO, formattedDateTo)
+                    .appendQueryParameter(VOTE_COUNT_GREATER_THAN, "10")
                     .build();
 
             URL url = new URL(builtUri.toString());
