@@ -39,23 +39,11 @@ public class MovieGridActivity extends AppCompatActivity
 //        } else {
 //            mTwoPaneMode = false;
 //        }
-        MovieGroup popular = MovieGroup.POPULAR;
-        MovieGroup topRated = MovieGroup.TOP_RATED;
-        MovieGroup favorite = MovieGroup.FAVORITE;
-
-        MoviesGridFragment popularFragment = new MoviesGridFragment();
-        popularFragment.setMovieGroup(popular);
-
-        MoviesGridFragment topRatedFragment = new MoviesGridFragment();
-        topRatedFragment.setMovieGroup(topRated);
-
-        MoviesGridFragment favoriteFragment = new MoviesGridFragment();
-        favoriteFragment.setMovieGroup(favorite);
 
         mMovieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager());
-        mMovieGroupViewAdapter.addMoviesGridFragment(popularFragment,popular.getTitle());
-        mMovieGroupViewAdapter.addMoviesGridFragment(topRatedFragment,topRated.getTitle());
-        mMovieGroupViewAdapter.addMoviesGridFragment(favoriteFragment,favorite.getTitle());
+        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.POPULAR);
+        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.TOP_RATED);
+        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.FAVORITE);
 
         mMovieGroupViewPager = (ViewPager) findViewById(R.id.movie_grid_view_pager);
         mMovieGroupViewPager.setAdapter(mMovieGroupViewAdapter);

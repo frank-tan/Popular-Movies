@@ -49,13 +49,14 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String SELECTION = "selection";
+    private static final String GROUP = "group";
 
     private int mSelection;
+    private MovieGroup mMovieGroup;
 
     private OnFragmentInteractionListener mListener;
     private MovieGridAdapter mMovieGridAdapter;
     private GridView mGridView;
-    private MovieGroup mMovieGroup;
 
     /**
      * Use this factory method to create a new instance of
@@ -64,10 +65,11 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
      * @param selection the active selection.
      * @return A new instance of fragment MoviesGridFragment.
      */
-    public static MoviesGridFragment newInstance(int selection) {
+    public static MoviesGridFragment newInstance(int selection, MovieGroup movieGroup) {
         MoviesGridFragment fragment = new MoviesGridFragment();
         Bundle args = new Bundle();
         args.putInt(SELECTION, selection);
+        args.putString(GROUP, movieGroup.toString());
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,20 +78,27 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         // Required empty public constructor
     }
 
-    public void setMovieGroup(MovieGroup movieGroup) {
-        mMovieGroup = movieGroup;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int savedPosition;
+        String movieGroupString;
+
         if(savedInstanceState != null && savedInstanceState.containsKey(SELECTION)) {
-            int savedPosition = savedInstanceState.getInt(SELECTION);
-            if(savedPosition >= 0) {
-                mSelection = savedPosition;
-            }
+            savedPosition = savedInstanceState.getInt(SELECTION);
+            movieGroupString = savedInstanceState.getString(GROUP);
+
+        } else {
+            savedPosition = getArguments().getInt(SELECTION);
+            movieGroupString = getArguments().getString(GROUP);
         }
+
+        if(savedPosition >= 0)
+            mSelection = savedPosition;
+
+        if(movieGroupString != null && movieGroupString.length() > 0)
+            mMovieGroup = MovieGroup.valueOf(movieGroupString);
 
     }
 
@@ -177,6 +186,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         if(mSelection != GridView.INVALID_POSITION) {
             outState.putInt(SELECTION, mSelection);
         }
+        outState.putString(GROUP,mMovieGroup.toString());
         super.onSaveInstanceState(outState);
     }
 
