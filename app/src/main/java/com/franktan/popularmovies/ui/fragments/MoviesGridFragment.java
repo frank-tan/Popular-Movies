@@ -24,7 +24,6 @@ import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.model.MovieGroup;
 import com.franktan.popularmovies.ui.activities.MovieDetailActivity;
 import com.franktan.popularmovies.util.Constants;
-import com.franktan.popularmovies.util.Utilities;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +44,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     };
 
     private static final int MOVIE_LOADER_ID = 0;
-    private static String mSortOrderPreference;
+//    private static String mSortOrderPreference;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String SELECTION = "selection";
@@ -106,12 +105,12 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     public void onResume() {
         super.onResume();
 
-        String newSortOrderPref = Utilities.getSortOrderPreference(getActivity());
-        if(!newSortOrderPref.equals(mSortOrderPreference)) {
-            mSortOrderPreference = newSortOrderPref;
-            getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
-            goToSelectedMovie(0);
-        }
+//        String newSortOrderPref = Utilities.getSortOrderPreference(getActivity());
+//        if(!newSortOrderPref.equals(mSortOrderPreference)) {
+//            mSortOrderPreference = newSortOrderPref;
+//            getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
+//            goToSelectedMovie(0);
+//        }
     }
 
     @Override
@@ -192,7 +191,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        mSortOrderPreference = Utilities.getSortOrderPreference(getActivity());
+//        mSortOrderPreference = Utilities.getSortOrderPreference(getActivity());
 
         Uri movieUri = Uri.withAppendedPath(MovieColumns.CONTENT_URI, "with_favorite");
         String sortOrder;
@@ -201,22 +200,42 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 //        } else {
 //            sortOrder = MovieColumns.POPULARITY + " DESC";
 //        }
+
         if(mMovieGroup == MovieGroup.POPULAR) {
             sortOrder = MovieColumns.POPULARITY + " DESC";
+
+            return new CursorLoader(
+                    getActivity(),
+                    movieUri,
+                    MOVIE_COLUMNS,
+                    null,
+                    null,
+                    sortOrder
+            );
         } else if(mMovieGroup == MovieGroup.TOP_RATED) {
             sortOrder = MovieColumns.VOTE_AVERAGE + " DESC";
+
+            return new CursorLoader(
+                    getActivity(),
+                    movieUri,
+                    MOVIE_COLUMNS,
+                    null,
+                    null,
+                    sortOrder
+            );
         } else {
             //// TODO: 15/09/2015 implement favorite
-            sortOrder = MovieColumns.VOTE_AVERAGE + " DESC";
+            sortOrder = FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.CREATED + " DESC";
+
+            return new CursorLoader(
+                    getActivity(),
+                    movieUri,
+                    MOVIE_COLUMNS,
+                    FavoriteColumns.TABLE_NAME + "." + FavoriteColumns._ID + " is not null",
+                    null,
+                    sortOrder
+            );
         }
-        return new CursorLoader(
-                getActivity(),
-                movieUri,
-                MOVIE_COLUMNS,
-                null,
-                null,
-                sortOrder
-        );
     }
 
     @Override
