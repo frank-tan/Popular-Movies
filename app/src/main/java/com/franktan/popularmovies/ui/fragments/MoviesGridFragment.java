@@ -89,8 +89,14 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
             movieGroupString = savedInstanceState.getString(GROUP);
 
         } else {
-            savedPosition = getArguments().getInt(SELECTION);
-            movieGroupString = getArguments().getString(GROUP);
+            Bundle arguments = getArguments();
+            if(arguments != null) {
+                savedPosition = arguments.getInt(SELECTION);
+                movieGroupString = arguments.getString(GROUP);
+            } else {
+                savedPosition = -1;
+                movieGroupString = null;
+            }
         }
 
         if(savedPosition >= 0)
