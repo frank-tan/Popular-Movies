@@ -18,6 +18,7 @@ import com.franktan.popularmovies.model.Review;
 import com.franktan.popularmovies.model.Trailer;
 import com.franktan.popularmovies.rest.MovieDetailsAPIService;
 import com.franktan.popularmovies.util.Constants;
+import com.franktan.popularmovies.util.Utilities;
 
 /**
  * Created by tan on 29/08/2015.
@@ -33,6 +34,8 @@ public class MovieDetailsIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.i(Constants.APP_NAME,"MovieDetailsIntentService onHandleIntent");
+        if(!Utilities.isNetworkAvailable(getApplicationContext()))
+            return;
         long movieMovieDBId = intent.getLongExtra(Constants.MOVIEDB_ID, -1);
         if(movieMovieDBId == -1) return;
 
