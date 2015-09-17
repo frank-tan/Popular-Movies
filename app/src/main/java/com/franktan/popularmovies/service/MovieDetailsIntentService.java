@@ -37,7 +37,13 @@ public class MovieDetailsIntentService extends IntentService {
         if(movieMovieDBId == -1) return;
 
         Log.i(Constants.APP_NAME,"MovieDetailsIntentService retrieving movie details");
-        Movie movie = MovieDetailsAPIService.retrieveMovieDetails(this, movieMovieDBId, null);
+        Movie movie = null;
+        try {
+            movie = MovieDetailsAPIService.retrieveMovieDetails(this, movieMovieDBId, null);
+        } catch (retrofit.RetrofitError e) {
+            Log.w(Constants.APP_NAME,"Retrieving movie details REST call failed with " + e.toString());
+            return;
+        }
 
         Log.i(Constants.APP_NAME,"MovieDetailsIntentService REST returned");
         MovieSelection movieSelection = new MovieSelection();
