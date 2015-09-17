@@ -344,14 +344,14 @@ public class MovieDetailFragment
         mReviewSection.removeAllViews();
 
         Set<String> reviewSet = new HashSet<>();
-        while(reviewCursor.moveToNext())
-        {
+        reviewCursor.moveToFirst();
+        do {
             try {
                 String reviewUrl = reviewCursor.getUrl();
                 if(reviewUrl != null && reviewSet.add(reviewUrl))
                     showCurrentReviewRecord(reviewCursor);
             } catch (NullPointerException e){}
-        };
+        } while (reviewCursor.moveToNext());
 
         if(mReviewSection.getChildCount() > 0) {
             TextView reviewTitle = new TextView(getActivity());
