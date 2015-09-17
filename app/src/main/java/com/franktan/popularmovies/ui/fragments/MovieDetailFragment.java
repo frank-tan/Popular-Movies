@@ -37,6 +37,8 @@ import com.franktan.popularmovies.ui.views.PagerIndicator;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
 import com.franktan.popularmovies.util.Utilities;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -181,29 +183,69 @@ public class MovieDetailFragment
 
         MovieCursor movieCursor = new MovieCursor(cursor);
         movieCursor.moveToFirst();
-        String backdropPath = Constants.BACKDROP_BASE_PATH + movieCursor.getBackdropPath();
-        String posterPath   = Constants.POSTER_BASE_PATH + movieCursor.getPosterPath();
+        final String backdropPath = Constants.BACKDROP_BASE_PATH + movieCursor.getBackdropPath();
+        final String posterPath   = Constants.POSTER_BASE_PATH + movieCursor.getPosterPath();
         String title        = movieCursor.getTitle();
         long releaseDate    = movieCursor.getReleaseDate();
         String language     = movieCursor.getOriginalLan();
         Double voteAverage  = movieCursor.getVoteAverage();
         int voteCount       = movieCursor.getVoteCount();
         String overview     = movieCursor.getOverview();
-        
-        Picasso.with(getActivity())
+        final Context context = getActivity();
+
+        // force picasso to load image from cache first. If failed, try loading from network.
+        Picasso.with(context)
                 .load(backdropPath)
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .placeholder(R.drawable.backdrop_loading_placeholder)
                 .error(R.drawable.backdrop_failed_placeholder)
                 .fit()
                 .centerCrop()
-                .into(mMovieBackdrop);
-        Picasso.with(getActivity())
+                .into(mMovieBackdrop, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                        if(Utilities.isNetworkAvailable(context)) {
+                            Picasso.with(context)
+                                    .load(backdropPath)
+                                    .placeholder(R.drawable.backdrop_loading_placeholder)
+                                    .error(R.drawable.backdrop_failed_placeholder)
+                                    .fit()
+                                    .centerCrop()
+                                    .into(mMovieBackdrop);
+                        }
+                    }
+                });
+
+        // force picasso to load image from cache first. If failed, try loading from network.
+        Picasso.with(context)
                 .load(posterPath)
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .placeholder(R.drawable.poster_loading_placeholder)
                 .error(R.drawable.poster_failed_placeholder)
                 .fit()
                 .centerCrop()
-                .into(mMoviePoster);
+                .into(mMoviePoster, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                        if(Utilities.isNetworkAvailable(context)) {
+                            Picasso.with(context)
+                                    .load(posterPath)
+                                    .placeholder(R.drawable.poster_loading_placeholder)
+                                    .error(R.drawable.poster_failed_placeholder)
+                                    .fit()
+                                    .centerCrop()
+                                    .into(mMoviePoster);
+                        }
+                    }
+                });
         mMovieTitle.setText(title);
         mMovieReleaseDate.setText(Parser.humanDateStringFromMiliseconds(releaseDate));
         mOriginalLanguage.setText(language);

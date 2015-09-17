@@ -20,6 +20,8 @@ import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Utilities;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -43,11 +45,11 @@ public class MovieGridAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        ViewHolder viewHolder = (ViewHolder) view.getTag();
+    public void bindView(View view, final Context context, Cursor cursor) {
+        final ViewHolder viewHolder = (ViewHolder) view.getTag();
         MovieCursor movieCursor = new MovieCursor(cursor);
         String posterPath = movieCursor.getPosterPath();
-        String posterFullPath = Constants.POSTER_BASE_PATH + posterPath;
+        final String posterFullPath = Constants.POSTER_BASE_PATH + posterPath;
 
         FavoriteCursor favoriteCursor = new FavoriteCursor(cursor);
         boolean isFavorite = false;
@@ -61,12 +63,30 @@ public class MovieGridAdapter extends CursorAdapter {
         viewHolder.favoriteCheckbox.setTag(movieCursor.getMovieMoviedbId());
         viewHolder.favoriteCheckbox.setOnClickListener(createFavoriteCheckboxOnClickListener());
 
+        // force picasso to load image from cache first. If failed, try loading from network.
         Picasso.with(context)
                 .load(posterFullPath)
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .placeholder(R.drawable.poster_loading_placeholder)
                 .error(R.drawable.poster_failed_placeholder)
                 .fit()
-                .into(viewHolder.posterImage);
+                .into(viewHolder.posterImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                        if(Utilities.isNetworkAvailable(context)) {
+                            Picasso.with(context)
+                                    .load(posterFullPath)
+                                    .placeholder(R.drawable.poster_loading_placeholder)
+                                    .error(R.drawable.poster_failed_placeholder)
+                                    .fit()
+                                    .into(viewHolder.posterImage);
+                        }
+                    }
+                });
     }
 
     private static class ViewHolder {

@@ -95,10 +95,12 @@
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-1.2" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
     <orderEntry type="library" exported="" name="android-observablescrollview-1.5.2" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.0.1" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.9.0" level="project" />
     <orderEntry type="library" exported="" name="design-23.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-mockito-1.2" level="project" />

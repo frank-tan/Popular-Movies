@@ -3,6 +3,7 @@ package com.franktan.popularmovies.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.BuildConfig;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import com.franktan.popularmovies.sync.MovieSyncAdapter;
 import com.franktan.popularmovies.ui.adapters.MovieGroupViewPagerAdapter;
 import com.franktan.popularmovies.ui.fragments.MovieDetailFragment;
 import com.franktan.popularmovies.ui.fragments.MoviesGridFragment;
+import com.squareup.picasso.Picasso;
 
 public class MovieGridActivity extends AppCompatActivity
         implements MoviesGridFragment.OnFragmentInteractionListener {
@@ -39,6 +41,11 @@ public class MovieGridActivity extends AppCompatActivity
 //        } else {
 //            mTwoPaneMode = false;
 //        }
+
+        if (BuildConfig.DEBUG) {
+            Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
+            Picasso.with(getApplicationContext()).setLoggingEnabled(true);
+        }
 
         mMovieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager());
         mMovieGroupViewAdapter.addMovieGroup(MovieGroup.POPULAR);

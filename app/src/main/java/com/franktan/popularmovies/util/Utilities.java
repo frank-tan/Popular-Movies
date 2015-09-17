@@ -2,6 +2,8 @@ package com.franktan.popularmovies.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 
@@ -38,5 +40,12 @@ public class Utilities {
     public static Long getCurrentTimeInMillis() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         return cal.getTimeInMillis();
+    }
+
+    public static boolean isNetworkAvailable (Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
