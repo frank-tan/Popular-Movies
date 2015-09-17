@@ -34,14 +34,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MovieGridActivity" />
         </activity>
-        <activity
-            android:name=".ui.activities.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.activities.MovieGridActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MovieGridActivity" />
-        </activity>
 
         <provider
             android:name="com.franktan.popularmovies.data.MovieProvider"
