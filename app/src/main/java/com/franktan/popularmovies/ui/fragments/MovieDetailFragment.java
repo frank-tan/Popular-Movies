@@ -10,9 +10,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -73,6 +78,8 @@ public class MovieDetailFragment
     CheckBox mFavoriteCheckbox;
     Context mContext;
 
+    ShareActionProvider mShareActionProvider;
+
     private static final String[] MOVIE_COLUMNS = {
             MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
             MovieColumns.TABLE_NAME + "." + MovieColumns.BACKDROP_PATH,
@@ -95,6 +102,12 @@ public class MovieDetailFragment
     };
 
     public MovieDetailFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -152,6 +165,25 @@ public class MovieDetailFragment
             getLoaderManager().initLoader(DETAIL_LOADER, null, this);
         }
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+
+        // Set up ShareActionProvider's default share intent
+        MenuItem shareItem = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider)
+                MenuItemCompat.getActionProvider(shareItem);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private Intent getShareIntent(String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        return intent;
     }
 
     @Override
@@ -235,7 +267,7 @@ public class MovieDetailFragment
 
                     @Override
                     public void onError() {
-                        if(Utilities.isNetworkAvailable(context)) {
+                        if (Utilities.isNetworkAvailable(context)) {
                             Picasso.with(context)
                                     .load(posterPath)
                                     .placeholder(R.drawable.poster_loading_placeholder)
@@ -263,7 +295,16 @@ public class MovieDetailFragment
         showAllReviewRecords(reviewCursor);
 
         TrailerCursor trailerCursor = new TrailerCursor(cursor);
-        showAllTrailerRecords(trailerCursor);
+        String firstTrailerYoutubeId = showAllTrailerRecords(trailerCursor);
+
+        // Set the share intent
+        if(mShareActionProvider != null) {
+            String shareText = "Checkout this movie " + title;
+            if(firstTrailerYoutubeId != null)
+                shareText += ". " + Constants.YOUTUBE_URL + firstTrailerYoutubeId;
+
+            mShareActionProvider.setShareIntent(getShareIntent(shareText));
+        }
     }
 
     private void setFavoriteCheckbox (FavoriteCursor favoriteCursor) {
@@ -287,7 +328,7 @@ public class MovieDetailFragment
         mFavoriteCheckbox.setOnClickListener(createFavoriteCheckboxOnClickListener());
     }
 
-    private void showAllTrailerRecords(TrailerCursor trailerCursor) {
+    private String showAllTrailerRecords(TrailerCursor trailerCursor) {
         mTrailerSection.removeAllViews();
 
         Set<String> trailerSet = new LinkedHashSet<>();
@@ -338,6 +379,12 @@ public class MovieDetailFragment
 
             mTrailerSection.addView(trailerNAText);
         }
+
+        if(!trailerSet.isEmpty()) {
+            return trailerSet.iterator().next();
+        }
+
+        return null;
     }
 
     private void showAllReviewRecords(ReviewCursor reviewCursor) {

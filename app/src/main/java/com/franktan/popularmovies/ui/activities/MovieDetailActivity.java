@@ -3,7 +3,6 @@ package com.franktan.popularmovies.ui.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -49,11 +48,6 @@ public class MovieDetailActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         onScrollChanged(mObservableScrollView.getCurrentScrollY(), false, false);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
     }
 
     protected void setStatusBarTranslucent(boolean makeTranslucent) {
