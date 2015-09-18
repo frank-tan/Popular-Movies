@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.franktan.popularmovies.R;
@@ -63,6 +64,8 @@ public class MovieGridAdapter extends CursorAdapter {
         viewHolder.favoriteCheckbox.setTag(movieCursor.getMovieMoviedbId());
         viewHolder.favoriteCheckbox.setOnClickListener(createFavoriteCheckboxOnClickListener());
 
+        viewHolder.movieTitle.setText(movieCursor.getTitle());
+
         // force picasso to load image from cache first. If failed, try loading from network.
         Picasso.with(context)
                 .load(posterFullPath)
@@ -92,11 +95,13 @@ public class MovieGridAdapter extends CursorAdapter {
     private static class ViewHolder {
         public final ImageView posterImage;
         public final CheckBox favoriteCheckbox;
+        public final TextView movieTitle;
 
 
         public ViewHolder(View view) {
             posterImage = (ImageView) view.findViewById(R.id.poster_image);
             favoriteCheckbox = (CheckBox) view.findViewById(R.id.favorite_checkbox);
+            movieTitle = (TextView) view.findViewById(R.id.movie_name);
         }
     }
 

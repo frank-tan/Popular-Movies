@@ -39,6 +39,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
             MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
             MovieColumns.TABLE_NAME + "." + MovieColumns.MOVIE_MOVIEDB_ID,
             MovieColumns.TABLE_NAME + "." + MovieColumns.POSTER_PATH,
+            MovieColumns.TABLE_NAME + "." + MovieColumns.TITLE,
             FavoriteColumns.TABLE_NAME + "." + FavoriteColumns._ID,
             FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.CREATED
     };
