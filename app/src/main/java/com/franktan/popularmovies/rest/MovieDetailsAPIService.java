@@ -108,7 +108,7 @@ public class MovieDetailsAPIService {
      * @return
      */
     public static Map<String,String> movieDetailsURLParameters(Context context) {
-        Map<String, String> parameters = new HashMap<String, String>(2);
+        Map<String, String> parameters = new HashMap<>(2);
         parameters.put("api_key", Utilities.getMovieDBApiKey(context));
         parameters.put("append_to_response", "reviews,trailers");
         return parameters;
