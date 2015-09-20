@@ -21,7 +21,7 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = MovieSQLiteOpenHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "popular_movies.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     private static MovieSQLiteOpenHelper sInstance;
     private final Context mContext;
     private final MovieSQLiteOpenHelperCallbacks mOpenHelperCallbacks;

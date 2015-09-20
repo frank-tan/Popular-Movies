@@ -11,6 +11,7 @@ import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
 import com.franktan.popularmovies.data.review.ReviewColumns;
 import com.franktan.popularmovies.data.trailer.TrailerColumns;
+import com.franktan.popularmovies.sync.MovieSyncAdapter;
 
 /**
  * Implement your custom database creation or upgrade code here.
@@ -44,6 +45,8 @@ public class MovieSQLiteOpenHelperCallbacks {
             db.execSQL("DROP TABLE IF EXISTS " + MovieGenreColumns.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + GenreColumns.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + MovieColumns.TABLE_NAME);
+
+            MovieSyncAdapter.syncMovieDataNow(context);
         }
     }
 }
