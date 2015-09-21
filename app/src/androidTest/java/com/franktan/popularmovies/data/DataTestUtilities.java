@@ -59,10 +59,10 @@ public class DataTestUtilities {
         return testValues;
     }
 
-    static ContentValues createMovieGenreEntry(long movieId, long genreId) {
+    static ContentValues createMovieGenreEntry(long movieMovieDBId, long genreMovieDBId) {
         ContentValues testValues = new ContentValues();
-        testValues.put(MovieGenreColumns.MOVIE_ID,   movieId);
-        testValues.put(MovieGenreColumns.GENRE_ID,   genreId);
+        testValues.put(MovieGenreColumns.MOVIE_ID,   movieMovieDBId);
+        testValues.put(MovieGenreColumns.GENRE_ID,   genreMovieDBId);
 
         return testValues;
     }

@@ -221,10 +221,10 @@ public class MovieProvider extends BaseContentProvider {
                 res.idColumn = MovieGenreColumns._ID;
                 res.tablesWithJoins = MovieGenreColumns.TABLE_NAME;
                 if (MovieColumns.hasColumns(projection)) {
-                    res.tablesWithJoins += " LEFT OUTER JOIN " + MovieColumns.TABLE_NAME + " AS " + MovieGenreColumns.PREFIX_MOVIE + " ON " + MovieGenreColumns.TABLE_NAME + "." + MovieGenreColumns.MOVIE_ID + "=" + MovieGenreColumns.PREFIX_MOVIE + "." + MovieColumns._ID;
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + MovieColumns.TABLE_NAME + " AS " + MovieGenreColumns.PREFIX_MOVIE + " ON " + MovieGenreColumns.TABLE_NAME + "." + MovieGenreColumns.MOVIE_ID + "=" + MovieGenreColumns.PREFIX_MOVIE + "." + MovieColumns.MOVIE_MOVIEDB_ID;
                 }
                 if (GenreColumns.hasColumns(projection)) {
-                    res.tablesWithJoins += " LEFT OUTER JOIN " + GenreColumns.TABLE_NAME + " AS " + MovieGenreColumns.PREFIX_GENRE + " ON " + MovieGenreColumns.TABLE_NAME + "." + MovieGenreColumns.GENRE_ID + "=" + MovieGenreColumns.PREFIX_GENRE + "." + GenreColumns._ID;
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + GenreColumns.TABLE_NAME + " AS " + MovieGenreColumns.PREFIX_GENRE + " ON " + MovieGenreColumns.TABLE_NAME + "." + MovieGenreColumns.GENRE_ID + "=" + MovieGenreColumns.PREFIX_GENRE + "." + GenreColumns.GENRE_MOVIEDB_ID;
                 }
                 res.orderBy = MovieGenreColumns.DEFAULT_ORDER;
                 break;

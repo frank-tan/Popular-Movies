@@ -237,10 +237,10 @@ public class MovieProviderTest extends AndroidTestCase {
         tco2.waitForNotificationOrFail();
         contentResolver.unregisterContentObserver(tco2);
 
-        long movieRowId = ContentUris.parseId(movieUri);
-        long genreRowId = ContentUris.parseId(genreUri);
+        long movieMovieDBId = movieTestValues.getAsLong(MovieColumns.MOVIE_MOVIEDB_ID);
+        long genreMovieDBId = genreTestValues.getAsLong(GenreColumns.GENRE_MOVIEDB_ID);
 
-        ContentValues movieGenreTestValues = DataTestUtilities.createMovieGenreEntry(movieRowId, genreRowId);
+        ContentValues movieGenreTestValues = DataTestUtilities.createMovieGenreEntry(movieMovieDBId, genreMovieDBId);
 
         /*
             insert movie_genre intersection record
@@ -256,8 +256,8 @@ public class MovieProviderTest extends AndroidTestCase {
         /*
             Verify we got a movie, moviegenre, genre join row back.
           */
-        assertTrue("Valid row id should be returned from content provider movie insert", movieRowId != -1);
-        assertTrue("Valid row id should be returned from content provider genre insert", genreRowId != -1);
+        assertTrue("Valid row id should be returned from content provider movie insert", movieMovieDBId != -1);
+        assertTrue("Valid row id should be returned from content provider genre insert", genreMovieDBId != -1);
         assertTrue("Valid row id should be returned from content provider movie_genre insert", movieGenreRowId != -1);
 
         String[] projection = {
@@ -279,8 +279,8 @@ public class MovieProviderTest extends AndroidTestCase {
 
         assertTrue("movie record title should be correct", cursor.getMovieTitle().equals("Mad Max: Fury Road"));
         assertTrue("movie record backdroppath should be correct", cursor.getMovieBackdropPath().equals("/tbhdm8UJAb4ViCTsulYFL3lxMCd.jpg"));
-        assertEquals("intersection record movie id should be movie record's row id", movieRowId, cursor.getMovieId());
-        assertEquals("intersection record genre id should be genre record's row id", genreRowId, cursor.getGenreId());
+        assertEquals("intersection record movie id should be movie record's row id", movieMovieDBId, cursor.getMovieId());
+        assertEquals("intersection record genre id should be genre record's row id", genreMovieDBId, cursor.getGenreId());
         assertTrue("genre name should be correct", cursor.getGenreName().equals("Action"));
         assertEquals("genre moviedb id should be correct", 28, cursor.getGenreGenreMoviedbId());
 
