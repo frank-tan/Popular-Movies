@@ -21,7 +21,7 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = MovieSQLiteOpenHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "popular_movies.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 15;
     private static MovieSQLiteOpenHelper sInstance;
     private final Context mContext;
     private final MovieSQLiteOpenHelperCallbacks mOpenHelperCallbacks;
@@ -74,6 +74,7 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
             + MovieGenreColumns.GENRE_ID + " INTEGER NOT NULL "
             + ", CONSTRAINT fk_movie_id FOREIGN KEY (" + MovieGenreColumns.MOVIE_ID + ") REFERENCES movie (movie_moviedb_id) ON DELETE CASCADE"
             + ", CONSTRAINT fk_genre_id FOREIGN KEY (" + MovieGenreColumns.GENRE_ID + ") REFERENCES genre (genre_moviedb_id) ON DELETE CASCADE"
+            + ", CONSTRAINT unique_combined_key UNIQUE (movie_id,genre_id) ON CONFLICT IGNORE"
             + " );";
 
     public static final String SQL_CREATE_TABLE_REVIEW = "CREATE TABLE IF NOT EXISTS "

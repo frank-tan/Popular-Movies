@@ -19,10 +19,10 @@ public class ParserTest extends InstrumentationTestCase {
     static final long TEST_DATE = 1435708800000L;  // 2015-07-01 GMT
 
     /**
-     * Test parseJson method can correctly parse a typical movie json string
+     * Test jsonToMovieList method can correctly parse a typical movie json string
      */
     public void testParseJson () throws IOException, JSONException, ParseException {
-        List<Movie> movies = Parser.parseJson(getTestingMovieJson());
+        List<Movie> movies = Parser.jsonToMovieList(getTestingMovieJson());
         assertNotNull("json string should be parsed and not returns null", movies);
 //        Log.i("popularmovies", movies.get(0).toString());
 //        Log.i("popularmovies", TestingUtilities.createMovieNo1().toString());

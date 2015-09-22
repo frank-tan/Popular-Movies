@@ -4,8 +4,10 @@ import android.content.ContentValues;
 
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
 import com.franktan.popularmovies.model.Genre;
 import com.franktan.popularmovies.model.Movie;
+import com.franktan.popularmovies.model.MovieGenre;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +26,10 @@ import java.util.TimeZone;
  * Created by tan on 16/08/2015.
  */
 public class Parser {
-    public static List<Movie> parseJson(String movieJsonString) throws JSONException, ParseException {
+
+    public static List<Movie> jsonToMovieList (String movieJsonString)
+            throws JSONException, ParseException {
+
         JSONObject forecastJson = new JSONObject(movieJsonString);
         JSONArray movieArray = forecastJson.getJSONArray("results");
         int length = movieArray.length();
@@ -71,6 +76,40 @@ public class Parser {
         }
 
         return movieList;
+    }
+
+    public static List<MovieGenre> jsonToMovieGenreList (String movieJsonString)
+            throws JSONException, ParseException {
+
+        JSONObject forecastJson = new JSONObject(movieJsonString);
+        JSONArray movieArray = forecastJson.getJSONArray("results");
+        int length = movieArray.length();
+
+        List<MovieGenre> movieGenres = new ArrayList<>();
+
+        for (int i = 0; i < length; i++) {
+            JSONObject movieJsonObj = movieArray.getJSONObject(i);
+            JSONArray genreArray = movieJsonObj.getJSONArray("genre_ids");
+            for(int j = 0; j < genreArray.length(); j++) {
+                MovieGenre movieGenre = new MovieGenre(movieJsonObj.getLong("id"),genreArray.getLong(j));
+                movieGenres.add(movieGenre);
+            }
+        }
+        return movieGenres;
+    }
+
+    public static ContentValues[] contentValuesFromMovieGenreList (List<MovieGenre> movieGenreList) {
+        ContentValues[] movieGenreContentValues = new ContentValues[movieGenreList.size()];
+
+        for (int i = 0; i < movieGenreList.size(); i++) {
+            MovieGenre movieGenre = movieGenreList.get(i);
+            ContentValues movieGenreContentValue = new ContentValues();
+            movieGenreContentValue.put(MovieGenreColumns.MOVIE_ID, movieGenre.getMovieId());
+            movieGenreContentValue.put(MovieGenreColumns.GENRE_ID, movieGenre.getGenreId());
+            movieGenreContentValues[i] = movieGenreContentValue;
+        }
+
+        return movieGenreContentValues;
     }
 
     public static ContentValues[] contentValuesFromMovieList(List<Movie> movieList) {

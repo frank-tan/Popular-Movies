@@ -30,7 +30,7 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
     }
 
     // Test Retrieving data from Real Movie DB API
-    public void testMovieDBAPIReturn () {
+    public void testMovieDBAPIMovieListReturn() {
         MovieListAPIService movieListAPIService = MovieListAPIService.getDbSyncService();
         //retrieve movies released after 1/1/2015 order by popularity
         String jsonReturn = movieListAPIService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), SortCriterion.POPULARITY, 1420070400000L,1435708800000L,1);
@@ -39,8 +39,10 @@ public class RetrieveAndSaveDataTest extends InstrumentationTestCase {
     }
 
     // Test retrieving fake json from a mock service, parsing it and save to DB
-    public void testParsingAndSaving () throws IOException {
+    public void testMovieListParsingAndSaving() throws IOException {
         deleteAllRecordsFromProvider();
+
+        MovieSyncAdapter.retrieveAndSaveGenres(getInstrumentation().getTargetContext());
 
         MovieListAPIService mockService = mock(MovieListAPIService.class);
         when(mockService.getMovieInfoFromAPI(getInstrumentation().getTargetContext(), SortCriterion.POPULARITY, 1420070400000L, 1435708800000L,1)).thenReturn(getTestingMovieJson());

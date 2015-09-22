@@ -16,8 +16,10 @@ import android.util.Log;
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
 import com.franktan.popularmovies.model.Genre;
 import com.franktan.popularmovies.model.Movie;
+import com.franktan.popularmovies.model.MovieGenre;
 import com.franktan.popularmovies.model.SortCriterion;
 import com.franktan.popularmovies.rest.MovieGenreAPIService;
 import com.franktan.popularmovies.rest.MovieListAPIService;
@@ -93,8 +95,11 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     public static int retrieveAndSaveMovieData(Context context, MovieListAPIService movieListAPIService, SortCriterion sortBy, long releaseDateFrom, long releaseDateTo, int page) {
         String movieJsonString = movieListAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, releaseDateTo, page);
         List<Movie> movieList;
+        List<MovieGenre> movieGenreList;
+
         try {
-            movieList = Parser.parseJson(movieJsonString);
+            movieList = Parser.jsonToMovieList(movieJsonString);
+            movieGenreList = Parser.jsonToMovieGenreList(movieJsonString);
         } catch (JSONException e) {
             Log.e(Constants.APP_NAME,"JSONException: " + e.getMessage());
             return 0;
@@ -103,7 +108,12 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
             return 0;
         }
         ContentValues[] movieContentValues = Parser.contentValuesFromMovieList(movieList);
-        return context.getContentResolver().bulkInsert(MovieColumns.CONTENT_URI, movieContentValues);
+        int numMoviesInserted =  context.getContentResolver().bulkInsert(MovieColumns.CONTENT_URI, movieContentValues);
+
+        ContentValues[] movieGenreContentValues = Parser.contentValuesFromMovieGenreList(movieGenreList);
+        context.getContentResolver().bulkInsert(MovieGenreColumns.CONTENT_URI, movieGenreContentValues);
+
+        return numMoviesInserted;
     }
 
     public static int retrieveAndSaveGenres (Context context) {
