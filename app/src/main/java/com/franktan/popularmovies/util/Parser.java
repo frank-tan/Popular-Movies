@@ -2,7 +2,9 @@ package com.franktan.popularmovies.util;
 
 import android.content.ContentValues;
 
+import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.model.Genre;
 import com.franktan.popularmovies.model.Movie;
 
 import org.json.JSONArray;
@@ -112,5 +114,19 @@ public class Parser {
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date date = dateFormat.parse(movieDbDate);
         return date.getTime();
+    }
+
+    public static ContentValues[] contentValuesFromGenreList(List<Genre> genres) {
+        ContentValues[] genreContentValues = new ContentValues[genres.size()];
+
+        for (int i = 0; i < genres.size(); i++) {
+            Genre genre = genres.get(i);
+            ContentValues genreContentValue = new ContentValues();
+            genreContentValue.put(GenreColumns.GENRE_MOVIEDB_ID,genre.getId());
+            genreContentValue.put(GenreColumns.NAME,genre.getName());
+            genreContentValues[i] = genreContentValue;
+        }
+
+        return genreContentValues;
     }
 }

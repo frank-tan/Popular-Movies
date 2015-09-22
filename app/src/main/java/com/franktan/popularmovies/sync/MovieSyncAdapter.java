@@ -14,9 +14,12 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.franktan.popularmovies.R;
+import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
+import com.franktan.popularmovies.model.Genre;
 import com.franktan.popularmovies.model.Movie;
 import com.franktan.popularmovies.model.SortCriterion;
+import com.franktan.popularmovies.rest.MovieGenreAPIService;
 import com.franktan.popularmovies.rest.MovieListAPIService;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
@@ -103,6 +106,12 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         return context.getContentResolver().bulkInsert(MovieColumns.CONTENT_URI, movieContentValues);
     }
 
+    public static int retrieveAndSaveGenres (Context context) {
+        List<Genre> genres = MovieGenreAPIService.retrieveMovieGenres(context);
+        ContentValues[] genreContentValues = Parser.contentValuesFromGenreList(genres);
+        return context.getContentResolver().bulkInsert(GenreColumns.CONTENT_URI, genreContentValues);
+    }
+
     public MovieSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         mContentResolver = context.getContentResolver();
@@ -127,6 +136,10 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
      */
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        // First, retrieve movie genre information
+        retrieveAndSaveGenres(getContext());
+
+        // Second, retrieve movie list
         MovieListAPIService movieListAPIService = MovieListAPIService.getDbSyncService();
 
         // Here, we retrieve movies release 6 months ago onwards sort by both popularity and vote_average
