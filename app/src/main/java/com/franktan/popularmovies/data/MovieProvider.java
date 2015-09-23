@@ -212,6 +212,11 @@ public class MovieProvider extends BaseContentProvider {
                 if (FavoriteColumns.hasColumns(projection)) {
                     res.tablesWithJoins += " LEFT OUTER JOIN " + FavoriteColumns.TABLE_NAME + " ON " + MovieColumns.TABLE_NAME + "." + MovieColumns.MOVIE_MOVIEDB_ID + "=" + FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.FAVORITE_MOVIEDB_ID;
                 }
+                if (GenreColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN (" +
+                            " SELECT " + MovieGenreColumns.TABLE_NAME + "." + MovieGenreColumns.MOVIE_ID + " AS movie_id, group_concat(" + GenreColumns.TABLE_NAME + "." + GenreColumns.NAME + ") AS name FROM " + MovieGenreColumns.TABLE_NAME + " INNER JOIN " + GenreColumns.TABLE_NAME + " ON " + MovieGenreColumns.TABLE_NAME + "." + MovieGenreColumns.GENRE_ID + "=" + GenreColumns.TABLE_NAME + "." + GenreColumns.GENRE_MOVIEDB_ID +
+                            ") " + GenreColumns.TABLE_NAME + " ON " + MovieColumns.TABLE_NAME + "." + MovieColumns.MOVIE_MOVIEDB_ID + "=" + GenreColumns.TABLE_NAME + "." + MovieGenreColumns.MOVIE_ID;
+                }
                 res.orderBy = MovieColumns.DEFAULT_ORDER;
                 break;
 

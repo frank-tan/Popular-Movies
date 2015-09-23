@@ -19,6 +19,7 @@ import android.widget.GridView;
 
 import com.franktan.popularmovies.R;
 import com.franktan.popularmovies.data.favorite.FavoriteColumns;
+import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.model.MovieGroup;
@@ -41,7 +42,8 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
             MovieColumns.TABLE_NAME + "." + MovieColumns.POSTER_PATH,
             MovieColumns.TABLE_NAME + "." + MovieColumns.TITLE,
             FavoriteColumns.TABLE_NAME + "." + FavoriteColumns._ID,
-            FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.CREATED
+            FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.CREATED,
+            GenreColumns.TABLE_NAME + "." + GenreColumns.NAME
     };
 
     private static final int MOVIE_LOADER_ID = 0;
