@@ -26,7 +26,7 @@
             android:layout_below="@id/poster_image"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="5dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -34,17 +34,32 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/movie_name"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:layout_below="@id/poster_image"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@id/favorite_checkbox"
             android:gravity="center_vertical"
             android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textSize="12sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:id="@+id/movie_genres"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/movie_name"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="top"
             />
 
     </RelativeLayout>

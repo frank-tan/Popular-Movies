@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +92,7 @@ public class MovieGridAdapter extends CursorAdapter {
                 });
         String genres = cursor.getString(6);
         if(genres != null) {
-            Log.i(Constants.APP_NAME, genres);
+            viewHolder.movieGenres.setText(genres);
         }
     }
 
@@ -101,12 +100,13 @@ public class MovieGridAdapter extends CursorAdapter {
         public final ImageView posterImage;
         public final CheckBox favoriteCheckbox;
         public final TextView movieTitle;
-
+        public final TextView movieGenres;
 
         public ViewHolder(View view) {
             posterImage = (ImageView) view.findViewById(R.id.poster_image);
             favoriteCheckbox = (CheckBox) view.findViewById(R.id.favorite_checkbox);
             movieTitle = (TextView) view.findViewById(R.id.movie_name);
+            movieGenres = (TextView) view.findViewById(R.id.movie_genres);
         }
     }
 

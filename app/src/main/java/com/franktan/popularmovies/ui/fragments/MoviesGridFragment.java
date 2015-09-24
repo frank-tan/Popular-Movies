@@ -44,7 +44,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
             MovieColumns.TABLE_NAME + "." + MovieColumns.TITLE,
             FavoriteColumns.TABLE_NAME + "." + FavoriteColumns._ID,
             FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.CREATED,
-            "group_concat(" + GenreColumns.TABLE_NAME + "." + GenreColumns.NAME + ") as name"
+            "group_concat(" + GenreColumns.TABLE_NAME + "." + GenreColumns.NAME + ", ', ') as name"
     };
 
     private static final int MOVIE_LOADER_ID = 0;
