@@ -20,7 +20,6 @@ import com.franktan.popularmovies.data.favorite.FavoriteCursor;
 import com.franktan.popularmovies.data.favorite.FavoriteSelection;
 import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
-import com.franktan.popularmovies.data.moviegenre.MovieGenreCursor;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Utilities;
 import com.squareup.picasso.Callback;
@@ -82,7 +81,7 @@ public class MovieGridAdapter extends CursorAdapter {
 
                     @Override
                     public void onError() {
-                        if(Utilities.isNetworkAvailable(context)) {
+                        if (Utilities.isNetworkAvailable(context)) {
                             Picasso.with(context)
                                     .load(posterFullPath)
                                     .placeholder(R.drawable.poster_loading_placeholder)
@@ -92,6 +91,10 @@ public class MovieGridAdapter extends CursorAdapter {
                         }
                     }
                 });
+        String genres = cursor.getString(6);
+        if(genres != null) {
+            Log.i(Constants.APP_NAME, genres);
+        }
     }
 
     private static class ViewHolder {

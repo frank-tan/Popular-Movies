@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.franktan.popularmovies.R;
+import com.franktan.popularmovies.data.base.BaseContentProvider;
 import com.franktan.popularmovies.data.favorite.FavoriteColumns;
 import com.franktan.popularmovies.data.genre.GenreColumns;
 import com.franktan.popularmovies.data.movie.MovieColumns;
@@ -43,7 +44,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
             MovieColumns.TABLE_NAME + "." + MovieColumns.TITLE,
             FavoriteColumns.TABLE_NAME + "." + FavoriteColumns._ID,
             FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.CREATED,
-            GenreColumns.TABLE_NAME + "." + GenreColumns.NAME
+            "group_concat(" + GenreColumns.TABLE_NAME + "." + GenreColumns.NAME + ") as name"
     };
 
     private static final int MOVIE_LOADER_ID = 0;
@@ -201,9 +202,10 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 //        mSortOrderPreference = Utilities.getSortOrderPreference(getActivity());
-
-        Uri movieUri = Uri.withAppendedPath(MovieColumns.CONTENT_URI, "with_favorite");
+        String groupBy = MovieColumns.TABLE_NAME + "." + MovieColumns._ID;
+        Uri movieUri = BaseContentProvider.groupBy(Uri.withAppendedPath(MovieColumns.CONTENT_URI, "with_favorite"),groupBy);
         String sortOrder;
+
 //        if(mSortOrderPreference.equals("Rating")){
 //            sortOrder = MovieColumns.VOTE_AVERAGE + " DESC";
 //        } else {
