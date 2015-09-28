@@ -1,12 +1,14 @@
 package com.franktan.popularmovies.ui.activities;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.franktan.popularmovies.R;
+import com.franktan.popularmovies.util.Constants;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -33,14 +35,17 @@ public class MovieDetailActivity
         mObservableScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
 
         mToolbarView.setBackgroundColor(
-                ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.popularmovies_primary)));
+                ScrollUtils.getColorWithAlpha(0, ContextCompat.getColor(this, R.color.popularmovies_primary)));
         mObservableScrollView.setScrollViewCallbacks(this);
 
         mParallaxImageHeight = getResources().getDimensionPixelSize(
                 R.dimen.backdrop_parallax_image_height);
 
-//        setStatusBarTranslucent(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        try {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        } catch (NullPointerException e) {
+            Log.i(Constants.APP_NAME,"MovieDetailActivity: Cannot setDisplayShowTitleEnabled(false)");
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -50,17 +55,9 @@ public class MovieDetailActivity
         onScrollChanged(mObservableScrollView.getCurrentScrollY(), false, false);
     }
 
-    protected void setStatusBarTranslucent(boolean makeTranslucent) {
-        if (makeTranslucent) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        } else {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-    }
-
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        int baseColor = getResources().getColor(R.color.popularmovies_primary);
+        int baseColor = ContextCompat.getColor(this,R.color.popularmovies_primary);
         float alpha = (float) scrollY / mParallaxImageHeight;
         alpha = (alpha > 0.85F) ? 0.85F : alpha;
         alpha = (alpha < 0) ? 0 : alpha;

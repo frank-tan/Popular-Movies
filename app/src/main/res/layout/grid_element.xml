@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
-    android:background="@color/white"
     >
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -15,8 +14,9 @@
 
         <ImageView
             android:id="@+id/poster_image"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/movie_poster_image"
             />
         <CheckBox
             android:layout_width="30dp"

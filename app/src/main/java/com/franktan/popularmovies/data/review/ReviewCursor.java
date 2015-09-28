@@ -1,17 +1,16 @@
 package com.franktan.popularmovies.data.review;
 
-import java.util.Date;
-
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.franktan.popularmovies.data.base.AbstractCursor;
-import com.franktan.popularmovies.data.movie.*;
+import com.franktan.popularmovies.data.movie.MovieColumns;
 
 /**
  * Cursor wrapper for the {@code review} table.
  */
+@SuppressWarnings("UnnecessaryLocalVariable")
 public class ReviewCursor extends AbstractCursor implements ReviewModel {
     public ReviewCursor(Cursor cursor) {
         super(cursor);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.franktan.popularmovies" >
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +15,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.ActionBar" >
+        android:theme="@style/AppTheme.ActionBar"
+        tools:ignore="AllowBackup">
         <activity
             android:name=".ui.activities.MovieGridActivity"
             android:label="@string/app_name"
@@ -29,7 +31,8 @@
             android:name=".ui.activities.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
             android:parentActivityName=".ui.activities.MovieGridActivity"
-            android:theme="@style/AppTheme.ActionBar" >
+            android:theme="@style/AppTheme.ActionBar"
+            tools:ignore="UnusedAttribute">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MovieGridActivity" />

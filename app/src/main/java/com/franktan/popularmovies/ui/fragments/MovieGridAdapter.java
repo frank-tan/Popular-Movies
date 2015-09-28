@@ -28,8 +28,8 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by tan on 12/08/2015.
  */
-public class MovieGridAdapter extends CursorAdapter {
-    Context mContext;
+class MovieGridAdapter extends CursorAdapter {
+    private final Context mContext;
 
     public MovieGridAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);

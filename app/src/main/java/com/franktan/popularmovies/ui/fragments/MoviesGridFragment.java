@@ -112,18 +112,6 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-//        String newSortOrderPref = Utilities.getSortOrderPreference(getActivity());
-//        if(!newSortOrderPref.equals(mSortOrderPreference)) {
-//            mSortOrderPreference = newSortOrderPref;
-//            getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
-//            goToSelectedMovie(0);
-//        }
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(MOVIE_LOADER_ID, null, this);
 

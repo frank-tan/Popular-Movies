@@ -30,7 +30,6 @@
 
     <View style="@style/Divider"
         android:id="@+id/review_divider"
-        android:layout_below="@id/overview"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         />

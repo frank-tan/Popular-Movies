@@ -10,6 +10,7 @@ import com.franktan.popularmovies.data.movie.MovieColumns;
 /**
  * Cursor wrapper for the {@code favorite} table.
  */
+@SuppressWarnings("UnnecessaryLocalVariable")
 public class FavoriteCursor extends AbstractCursor implements FavoriteModel {
     public FavoriteCursor(Cursor cursor) {
         super(cursor);

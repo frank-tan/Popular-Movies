@@ -19,39 +19,37 @@ public class MovieGridActivity extends AppCompatActivity
         implements MoviesGridFragment.OnFragmentInteractionListener {
 
     private boolean mTwoPaneMode;
-    private ViewPager mMovieGroupViewPager;
-    private MovieGroupViewPagerAdapter mMovieGroupViewAdapter;
-    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ViewPager movieGroupViewPager;
+        MovieGroupViewPagerAdapter movieGroupViewAdapter;
+        TabLayout tabLayout;
+
         setContentView(R.layout.activity_movie_grid);
         setSupportActionBar((Toolbar) findViewById(R.id.movie_group_toolbar));
 
         MovieSyncAdapter.initialize(this);
 
-        if(findViewById(R.id.fragment_movie_details) != null) {
-            mTwoPaneMode = true;
-        } else {
-            mTwoPaneMode = false;
-        }
+        mTwoPaneMode = (findViewById(R.id.fragment_movie_details) != null) ? true : false;
 
         if (BuildConfig.DEBUG) {
             Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
             Picasso.with(getApplicationContext()).setLoggingEnabled(true);
         }
 
-        mMovieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager());
-        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.POPULAR);
-        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.TOP_RATED);
-        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.FAVORITE);
+        movieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager());
+        movieGroupViewAdapter.addMovieGroup(MovieGroup.POPULAR);
+        movieGroupViewAdapter.addMovieGroup(MovieGroup.TOP_RATED);
+        movieGroupViewAdapter.addMovieGroup(MovieGroup.FAVORITE);
 
-        mMovieGroupViewPager = (ViewPager) findViewById(R.id.movie_grid_view_pager);
-        mMovieGroupViewPager.setAdapter(mMovieGroupViewAdapter);
+        movieGroupViewPager = (ViewPager) findViewById(R.id.movie_grid_view_pager);
+        movieGroupViewPager.setAdapter(movieGroupViewAdapter);
 
-        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mTabLayout.setupWithViewPager(mMovieGroupViewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(movieGroupViewPager);
     }
 
     @Override

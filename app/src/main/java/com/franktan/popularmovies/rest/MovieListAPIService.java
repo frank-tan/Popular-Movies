@@ -20,8 +20,8 @@ import java.net.URL;
 public class MovieListAPIService {
 
     public String getMovieInfoFromAPI(Context context, SortCriterion sortBy, long releaseDateFrom, long releaseDateTo, int page) {
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
+        HttpURLConnection urlConnection;
+        BufferedReader reader;
 
         String formattedDateFrom = Parser.movieDbDateStringFromMiliseconds(releaseDateFrom);
         String formattedDateTo = Parser.movieDbDateStringFromMiliseconds(releaseDateTo);
@@ -62,7 +62,7 @@ public class MovieListAPIService {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             }
 
             if (buffer.length() == 0) {

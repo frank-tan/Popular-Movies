@@ -44,7 +44,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     // With 2 hours flexible time
     private static final long SYNC_FLEXTIME = (long) 4 * 60 * 60;
 
-    ContentResolver mContentResolver;
+    private ContentResolver mContentResolver;
 
     /**
      * Create or get existing sync account and schedule a periodic sync

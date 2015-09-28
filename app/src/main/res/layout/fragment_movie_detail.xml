@@ -96,7 +96,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rating_section"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -123,7 +124,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/count_section"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -150,7 +152,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/date_section"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -167,7 +170,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/release_date_example"
                     android:id="@+id/release_date"
-                    android:layout_centerVertical="true"
                     android:gravity="center" />
 
             </LinearLayout>
@@ -177,7 +179,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/language_section"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -223,7 +226,6 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/overview_title"
                     android:id="@+id/overview_title"
-                    android:layout_centerVertical="true"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"

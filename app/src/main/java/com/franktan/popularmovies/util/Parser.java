@@ -34,7 +34,7 @@ public class Parser {
         JSONArray movieArray = forecastJson.getJSONArray("results");
         int length = movieArray.length();
 
-        List<Movie> movieList = new ArrayList<Movie>(length);
+        List<Movie> movieList = new ArrayList<>(length);
 
         for(int i = 0; i < length; i++) {
             JSONObject movieJsonObj = movieArray.getJSONObject(i);
@@ -47,7 +47,6 @@ public class Parser {
             String posterPath = movieJsonObj.getString("poster_path");
             String popularityString = movieJsonObj.getString("popularity");
             String title = movieJsonObj.getString("title");
-            boolean video = movieJsonObj.getBoolean("video");
             double voteAverage = movieJsonObj.getDouble("vote_average");
             int voteCount = movieJsonObj.getInt("vote_count");
 

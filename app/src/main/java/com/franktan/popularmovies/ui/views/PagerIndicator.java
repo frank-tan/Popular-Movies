@@ -9,13 +9,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.franktan.popularmovies.R;
-import com.franktan.popularmovies.util.Utilities;
 
 /**
  * Created by tan on 8/09/2015.
  */
 public class PagerIndicator extends RadioGroup {
-    Context mContext;
+    final Context mContext;
     SetPage mPager;
 
     public PagerIndicator(Context context, AttributeSet attrs) {
@@ -28,6 +27,10 @@ public class PagerIndicator extends RadioGroup {
         setGravity(Gravity.CENTER);
     }
 
+    /**
+     * Create number of tab indicators (radio buttons) provided by size and set the first one as checked
+     * @param size number of tab indicators
+     */
     public void init (int size) {
 
         for (int i = 0; i < size; i++) {
@@ -35,12 +38,9 @@ public class PagerIndicator extends RadioGroup {
             radioButton.setId(i + 1);
             radioButton.setButtonDrawable(R.drawable.page_indicator_radiobutton_selector);
 
-            int pixels = Utilities.pixelSizeFromDp(mContext, 10f);
-
-//            radioButton.setWidth(pixels);
-//            radioButton.setHeight(pixels);
             addView(radioButton);
         }
+        //noinspection ResourceType
         check(1);
     }
 
@@ -56,6 +56,6 @@ public class PagerIndicator extends RadioGroup {
     }
 
     public interface SetPage {
-        public void setPage (int page);
+        void setPage (int page);
     }
 }

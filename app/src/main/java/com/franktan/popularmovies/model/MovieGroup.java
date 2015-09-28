@@ -8,7 +8,7 @@ public enum MovieGroup {
     TOP_RATED ("Top Rated"),
     FAVORITE ("Favourite");
 
-    String title;
+    final String title;
 
     MovieGroup(String title) {
         this.title = title;

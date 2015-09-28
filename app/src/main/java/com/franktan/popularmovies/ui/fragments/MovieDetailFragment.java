@@ -61,24 +61,24 @@ public class MovieDetailFragment
     private static final int DETAIL_LOADER = 0;
     private long mMovieDBId = -1;
 
-    TrailerPagerAdapter mTrailerPagerAdapter = null;
-    PagerIndicator mPagerIndicator = null;
+    private TrailerPagerAdapter mTrailerPagerAdapter = null;
+    private PagerIndicator mPagerIndicator = null;
 
-    ImageView mMovieBackdrop;
-    ImageView mMoviePoster;
-    TextView mMovieTitle;
-    TextView mMovieReleaseDate;
-    TextView mOriginalLanguage;
-    TextView mRatingText;
-    TextView mVoteCount;
-    TextView mOverview;
-    LinearLayout mReviewSection;
-    LinearLayout mTrailerSection;
-    ViewPager mTrailerPager;
-    CheckBox mFavoriteCheckbox;
-    Context mContext;
+    private ImageView mMovieBackdrop;
+    private ImageView mMoviePoster;
+    private TextView mMovieTitle;
+    private TextView mMovieReleaseDate;
+    private TextView mOriginalLanguage;
+    private TextView mRatingText;
+    private TextView mVoteCount;
+    private TextView mOverview;
+    private LinearLayout mReviewSection;
+    private LinearLayout mTrailerSection;
+    private ViewPager mTrailerPager;
+    private CheckBox mFavoriteCheckbox;
+    private Context mContext;
 
-    ShareActionProvider mShareActionProvider;
+    private ShareActionProvider mShareActionProvider;
 
     private static final String[] MOVIE_COLUMNS = {
             MovieColumns.TABLE_NAME + "." + MovieColumns._ID,
@@ -350,6 +350,7 @@ public class MovieDetailFragment
                     0,
                     Utilities.pixelSizeFromDp(getActivity(),10));
             trailerTitle.setLayoutParams(textViewLayoutParams);
+            //noinspection deprecation
             trailerTitle.setTextAppearance(getActivity(), android.R.style.TextAppearance_Large);
 
             mTrailerSection.addView(trailerTitle);
@@ -406,6 +407,7 @@ public class MovieDetailFragment
             LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textViewLayoutParams.setMargins(Utilities.pixelSizeFromDp(getActivity(), 15), 0, 0, Utilities.pixelSizeFromDp(getActivity(), 10));
             reviewTitle.setLayoutParams(textViewLayoutParams);
+            //noinspection deprecation
             reviewTitle.setTextAppearance(getActivity(), android.R.style.TextAppearance_Large);
 
             mReviewSection.addView(reviewTitle, 0);

@@ -1,18 +1,17 @@
 package com.franktan.popularmovies.data.moviegenre;
 
-import java.util.Date;
-
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.franktan.popularmovies.data.base.AbstractCursor;
-import com.franktan.popularmovies.data.movie.*;
-import com.franktan.popularmovies.data.genre.*;
+import com.franktan.popularmovies.data.genre.GenreColumns;
+import com.franktan.popularmovies.data.movie.MovieColumns;
 
 /**
  * Cursor wrapper for the {@code movie_genre} table.
  */
+@SuppressWarnings("UnnecessaryLocalVariable")
 public class MovieGenreCursor extends AbstractCursor implements MovieGenreModel {
     public MovieGenreCursor(Cursor cursor) {
         super(cursor);

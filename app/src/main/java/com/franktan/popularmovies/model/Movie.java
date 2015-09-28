@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * Created by tan on 16/08/2015.
  */
+@SuppressWarnings("SimplifiableIfStatement")
 public class Movie {
     private String backdropPath;
     private int id;

@@ -5,11 +5,9 @@
     <string name="sync_account_type">popularmovies.franktan.com</string>
     <string name="content_authority">com.franktan.popularmovies</string>
 
-    <string name="action_settings">Settings</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="movie_title">Title</string>
     <string name="rating_example">7.8/10</string>
-    <string name="movie_trailer_text">Movie Trailer</string>
     <string name="movie_backdrop_image_text">Movie Backdrop Image</string>
     <string name="rating">Rating</string>
     <string name="vote_count">Number of votes</string>
@@ -17,8 +15,6 @@
     <string name="release_date">Release Date</string>
     <string name="release_date_example">1 Jan 2015</string>
     <string name="original_language">Original Language</string>
-
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
     <string name="sort_order_key">sort_order</string>
@@ -31,15 +27,14 @@
     <string name="movie_poster_image">Movie poster image</string>
     <string name="author_placeholder">Author</string>
     <string name="review_text_placeholder">Review Text</string>
-    <string name="trailer_name_placeholder">Trailers</string>
-    <string name="trailer_type_placeholder">Trailer</string>
-    <string name="trailer_size_placeholder">HD</string>
     <string name="reviews_title">Reviews</string>
     <string name="trailers_title">Trailers</string>
     <string name="no_reviews_available">No reviews available for this movie.</string>
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="error_thumbnail_view"><![CDATA[<string name=\"error_thumbnail_view\">There was an error initializing the YouTubeThumbnailView (%1$s)]]></string>
     <string name="no_trailers_available">No trailers available for this movie.</string>
+    <string name="share_title">Share</string>
+    <string name="play_button">Trailer play button</string>
     <string-array name="sort_order_array">
         <item>Popularity</item>
         <item>Rating</item>

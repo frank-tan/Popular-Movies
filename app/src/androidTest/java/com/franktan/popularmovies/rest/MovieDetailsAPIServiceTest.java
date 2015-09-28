@@ -24,11 +24,6 @@ import retrofit.mime.TypedByteArray;
 public class MovieDetailsAPIServiceTest extends InstrumentationTestCase {
     private static final String MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie/76341?api_key=7c3904f53f503110b7c4be7fe34fd416&append_to_response=reviews,trailers";
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     /**
      * Test retrieveMovieDetails returns correct Movie object providing a mock json string
      */
@@ -45,7 +40,7 @@ public class MovieDetailsAPIServiceTest extends InstrumentationTestCase {
      * @return mock movie detail json string
      * @throws IOException
      */
-    public String getTestingMovieDetailsJson() throws IOException {
+    private String getTestingMovieDetailsJson() throws IOException {
         Resources res = getInstrumentation().getContext().getResources();
         InputStream in = res.getAssets().open("mock_movie_details.json");
         byte[] b  = new byte[(int) in.available()];
@@ -65,7 +60,7 @@ public class MovieDetailsAPIServiceTest extends InstrumentationTestCase {
     /**
      * A mock client which mocks MovieDB movie Details return
      */
-    public class MockClient implements Client {
+    private class MockClient implements Client {
 
         @Override
         public Response execute(Request request) throws IOException {

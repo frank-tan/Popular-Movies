@@ -11,11 +11,6 @@ import java.util.List;
  */
 public class MovieGenreAPIServiceTest extends AndroidTestCase {
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     public void testRetrieveMovieGenres() throws Exception {
         List<Genre> genres = MovieGenreAPIService.retrieveMovieGenres(mContext);
         assertNotNull("should return genre info",genres);

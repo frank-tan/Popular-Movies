@@ -41,13 +41,13 @@ public class MovieDetailsAPIService {
      */
     public interface MovieDetailsAPI {
         @GET("/3/movie/{id}")
-        public Movie retrieveMovieDetails(@Path("id")long id, @QueryMap Map<String, String> options);
+        Movie retrieveMovieDetails(@Path("id")long id, @QueryMap Map<String, String> options);
     }
 
     /**
      * A custom deserializer which deserialize movie details json to the Movie class object
      */
-    public static class MovieDeserializer implements JsonDeserializer<Movie> {
+    private static class MovieDeserializer implements JsonDeserializer<Movie> {
         @Override
         public Movie deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject jsonObject = json.getAsJsonObject();
@@ -56,7 +56,6 @@ public class MovieDetailsAPIService {
             JsonArray trailers = jsonObject.getAsJsonObject("trailers").getAsJsonArray("youtube");
             JsonArray genres = jsonObject.getAsJsonArray("genres");
 
-            Gson gson = new Gson();
             Type reviewListType = new TypeToken<List<Review>>() {}.getType();
             Type trailerListType = new TypeToken<List<Trailer>>() {}.getType();
             Type genresListType = new TypeToken<List<Genre>>() {}.getType();
@@ -79,7 +78,7 @@ public class MovieDetailsAPIService {
      * @param client allow caller injecting a custom client (for testing purpose). Leave it null for real API call.
      * @return
      */
-    public static RestAdapter createRestAdapter(Client client) {
+    private static RestAdapter createRestAdapter(Client client) {
 
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(Constants.MOVIEDB_BASE_URL)
@@ -95,7 +94,7 @@ public class MovieDetailsAPIService {
      * Create a custom gson with our custom deserializer
      * @return
      */
-    public static Gson movieDetailsCustomGson() {
+    private static Gson movieDetailsCustomGson() {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .registerTypeAdapter(Movie.class, new MovieDeserializer())
@@ -107,7 +106,7 @@ public class MovieDetailsAPIService {
      * @param context
      * @return
      */
-    public static Map<String,String> movieDetailsURLParameters(Context context) {
+    private static Map<String,String> movieDetailsURLParameters(Context context) {
         Map<String, String> parameters = new HashMap<>(2);
         parameters.put("api_key", Utilities.getMovieDBApiKey(context));
         parameters.put("append_to_response", "reviews,trailers");

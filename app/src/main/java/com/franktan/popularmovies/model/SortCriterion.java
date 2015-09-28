@@ -8,7 +8,7 @@ public enum SortCriterion {
     POPULARITY("popularity.desc"),
     RATING("rate_average.desc");
 
-    private String sortBy;
+    private final  String sortBy;
 
     SortCriterion (String sortBy) {
         this.sortBy = sortBy;

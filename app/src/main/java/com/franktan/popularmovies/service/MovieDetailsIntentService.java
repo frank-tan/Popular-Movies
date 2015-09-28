@@ -40,7 +40,7 @@ public class MovieDetailsIntentService extends IntentService {
         if(movieMovieDBId == -1) return;
 
         Log.i(Constants.APP_NAME,"MovieDetailsIntentService retrieving movie details");
-        Movie movie = null;
+        Movie movie;
         try {
             movie = MovieDetailsAPIService.retrieveMovieDetails(this, movieMovieDBId, null);
         } catch (retrofit.RetrofitError e) {

@@ -57,7 +57,7 @@ public class MovieDetailsIntentServiceTest extends ServiceTestCase<MovieDetailsI
         checkTrailerRecords(movieRowId);
     }
 
-    void checkReviewRecords(long movieRowId) {
+    private void checkReviewRecords(long movieRowId) {
         // Check review record
         ReviewSelection reviewSelection = new ReviewSelection();
         reviewSelection.movieId(movieRowId);
@@ -76,7 +76,7 @@ public class MovieDetailsIntentServiceTest extends ServiceTestCase<MovieDetailsI
         reviewCursor.close();
     }
 
-    void checkTrailerRecords(long movieRowId) {
+    private void checkTrailerRecords(long movieRowId) {
         // Check trailers record
         TrailerSelection trailerSelection = new TrailerSelection();
         trailerSelection.movieId(movieRowId);

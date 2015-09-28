@@ -1,17 +1,16 @@
 package com.franktan.popularmovies.data.trailer;
 
-import java.util.Date;
-
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.franktan.popularmovies.data.base.AbstractCursor;
-import com.franktan.popularmovies.data.movie.*;
+import com.franktan.popularmovies.data.movie.MovieColumns;
 
 /**
  * Cursor wrapper for the {@code trailer} table.
  */
+@SuppressWarnings("UnnecessaryLocalVariable")
 public class TrailerCursor extends AbstractCursor implements TrailerModel {
     public TrailerCursor(Cursor cursor) {
         super(cursor);

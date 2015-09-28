@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class MovieGroupViewPagerAdapter extends FragmentPagerAdapter {
 
-    List<MovieGroup> mMovieGroupList = new ArrayList<>();
+    private List<MovieGroup> mMovieGroupList = new ArrayList<>();
 
     public MovieGroupViewPagerAdapter(FragmentManager fm) {
         super(fm);

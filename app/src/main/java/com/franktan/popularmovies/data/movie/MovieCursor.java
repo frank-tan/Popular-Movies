@@ -1,7 +1,5 @@
 package com.franktan.popularmovies.data.movie;
 
-import java.util.Date;
-
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +9,7 @@ import com.franktan.popularmovies.data.base.AbstractCursor;
 /**
  * Cursor wrapper for the {@code movie} table.
  */
+@SuppressWarnings("UnnecessaryLocalVariable")
 public class MovieCursor extends AbstractCursor implements MovieModel {
     public MovieCursor(Cursor cursor) {
         super(cursor);

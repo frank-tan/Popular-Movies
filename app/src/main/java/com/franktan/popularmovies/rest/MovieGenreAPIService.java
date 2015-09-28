@@ -35,10 +35,10 @@ public class MovieGenreAPIService {
      */
     public interface MovieGenresAPI {
         @GET("/3/genre/movie/list")
-        public List<Genre> retrieveGenres(@QueryMap Map<String, String> options);
+        List<Genre> retrieveGenres(@QueryMap Map<String, String> options);
     }
 
-    public static class GenresDeserializer implements JsonDeserializer<List<Genre>> {
+    private static class GenresDeserializer implements JsonDeserializer<List<Genre>> {
         @Override
         public List<Genre> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject jsonObject = json.getAsJsonObject();
@@ -53,7 +53,7 @@ public class MovieGenreAPIService {
      * Create a custom gson with our custom deserializer
      * @return
      */
-    public static Gson genresCustomGson() {
+    private static Gson genresCustomGson() {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .registerTypeAdapter(List.class, new GenresDeserializer())

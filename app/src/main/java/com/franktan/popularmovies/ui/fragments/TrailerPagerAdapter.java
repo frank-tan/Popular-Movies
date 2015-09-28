@@ -27,12 +27,12 @@ import java.util.Map;
 /**
  * Created by tan on 5/09/2015.
  */
-public class TrailerPagerAdapter extends PagerAdapter {
+class TrailerPagerAdapter extends PagerAdapter {
 
-    private List<String> mTrailerYoutubeIds;
-    private Map<YouTubeThumbnailView, YouTubeThumbnailLoader> mThumbnailViewToLoaderMap;
-    private LayoutInflater mInflater;
-    private Context mContext;
+    private final List<String> mTrailerYoutubeIds;
+    private final Map<YouTubeThumbnailView, YouTubeThumbnailLoader> mThumbnailViewToLoaderMap;
+    private final LayoutInflater mInflater;
+    private final Context mContext;
 
     public TrailerPagerAdapter(Context context, List<String> mTrailerYoutubeIds) {
         this.mContext = context;

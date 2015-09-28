@@ -4,8 +4,8 @@ package com.franktan.popularmovies.model;
  * Created by tan on 22/09/2015.
  */
 public class MovieGenre {
-    long movieId;
-    long genreId;
+    private long movieId;
+    private long genreId;
 
     public MovieGenre (long movieId, long genreId) {
         this.movieId = movieId;
