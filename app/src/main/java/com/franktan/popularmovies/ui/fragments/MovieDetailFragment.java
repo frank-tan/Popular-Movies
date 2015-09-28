@@ -341,7 +341,7 @@ public class MovieDetailFragment
 
         if(trailerSet.size() > 0) {
             TextView trailerTitle = new TextView(getActivity());
-            trailerTitle.setText(getString(R.string.trailers_title));
+            trailerTitle.setText(R.string.trailers_title);
 
             LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textViewLayoutParams.setMargins(
@@ -350,7 +350,7 @@ public class MovieDetailFragment
                     0,
                     Utilities.pixelSizeFromDp(getActivity(),10));
             trailerTitle.setLayoutParams(textViewLayoutParams);
-            trailerTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
+            trailerTitle.setTextAppearance(getActivity(), android.R.style.TextAppearance_Large);
 
             mTrailerSection.addView(trailerTitle);
 
@@ -406,7 +406,7 @@ public class MovieDetailFragment
             LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textViewLayoutParams.setMargins(Utilities.pixelSizeFromDp(getActivity(), 15), 0, 0, Utilities.pixelSizeFromDp(getActivity(), 10));
             reviewTitle.setLayoutParams(textViewLayoutParams);
-            reviewTitle.setTextAppearance(getActivity(), R.style.Base_TextAppearance_AppCompat_Large);
+            reviewTitle.setTextAppearance(getActivity(), android.R.style.TextAppearance_Large);
 
             mReviewSection.addView(reviewTitle, 0);
         } else {

@@ -31,7 +31,7 @@
     <string name="movie_poster_image">Movie poster image</string>
     <string name="author_placeholder">Author</string>
     <string name="review_text_placeholder">Review Text</string>
-    <string name="trailer_name_placeholder">Trailer</string>
+    <string name="trailer_name_placeholder">Trailers</string>
     <string name="trailer_type_placeholder">Trailer</string>
     <string name="trailer_size_placeholder">HD</string>
     <string name="reviews_title">Reviews</string>

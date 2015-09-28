@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:id="@+id/movie_group_toolbar"
             android:background="@color/popularmovies_primary"
-            app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+            app:theme="@style/AppTheme.ActionBar.WhiteText"
             />
 
     </android.support.design.widget.AppBarLayout>
