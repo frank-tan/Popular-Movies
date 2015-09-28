@@ -23,10 +23,18 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
+ * A helper class for conversions
  * Created by tan on 16/08/2015.
  */
 public class Parser {
 
+    /**
+     * Convert the movieDB movie list json string to a list of Movies
+     * @param movieJsonString
+     * @return
+     * @throws JSONException
+     * @throws ParseException
+     */
     public static List<Movie> jsonToMovieList (String movieJsonString)
             throws JSONException, ParseException {
 
@@ -77,6 +85,13 @@ public class Parser {
         return movieList;
     }
 
+    /**
+     * Convert movie list json string to a list of movie genres
+     * @param movieJsonString
+     * @return
+     * @throws JSONException
+     * @throws ParseException
+     */
     public static List<MovieGenre> jsonToMovieGenreList (String movieJsonString)
             throws JSONException, ParseException {
 
@@ -97,6 +112,11 @@ public class Parser {
         return movieGenres;
     }
 
+    /**
+     * Convert a List of MovieGenre objects to an array of ContentValues
+     * @param movieGenreList
+     * @return
+     */
     public static ContentValues[] contentValuesFromMovieGenreList (List<MovieGenre> movieGenreList) {
         ContentValues[] movieGenreContentValues = new ContentValues[movieGenreList.size()];
 
@@ -111,6 +131,11 @@ public class Parser {
         return movieGenreContentValues;
     }
 
+    /**
+     * Convert a list of Movie objects to an array of content values
+     * @param movieList
+     * @return
+     */
     public static ContentValues[] contentValuesFromMovieList(List<Movie> movieList) {
         ContentValues[] movieContentValues = new ContentValues[movieList.size()];
 
@@ -133,20 +158,36 @@ public class Parser {
         return movieContentValues;
     }
 
-    public static String humanDateStringFromMiliseconds(long miliseconds) {
-        Date date = new Date(miliseconds);
+    /**
+     * Convert epoch milliseconds to a user friendly string
+     * @param milliseconds
+     * @return
+     */
+    public static String humanDateStringFromMilliseconds(long milliseconds) {
+        Date date = new Date(milliseconds);
         DateFormat format = new SimpleDateFormat("d MMM yyyy");
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
         return format.format(date);
     }
 
-    public static String movieDbDateStringFromMiliseconds(long miliseconds) {
-        Date date = new Date(miliseconds);
+    /**
+     * Convert epoch milliseconds to the date strings that movieDB uses
+     * @param milliseconds
+     * @return
+     */
+    public static String movieDbDateStringFromMilliseconds(long milliseconds) {
+        Date date = new Date(milliseconds);
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
         return format.format(date);
     }
 
+    /**
+     * Convert movieDB date string to epoch milliseconds
+     * @param movieDbDate
+     * @return
+     * @throws ParseException
+     */
     public static long epochFromMovieDbDateString (String movieDbDate) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -154,6 +195,11 @@ public class Parser {
         return date.getTime();
     }
 
+    /**
+     * Convert List of Genre objects to an array of content values
+     * @param genres
+     * @return
+     */
     public static ContentValues[] contentValuesFromGenreList(List<Genre> genres) {
         ContentValues[] genreContentValues = new ContentValues[genres.size()];
 

@@ -1,6 +1,7 @@
 package com.franktan.popularmovies.util;
 
 /**
+ * A list of constants used accross the application
  * Created by tan on 19/08/2015.
  */
 public class Constants {

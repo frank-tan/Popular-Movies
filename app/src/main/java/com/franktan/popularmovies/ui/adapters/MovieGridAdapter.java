@@ -1,4 +1,4 @@
-package com.franktan.popularmovies.ui.fragments;
+package com.franktan.popularmovies.ui.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -28,7 +28,7 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by tan on 12/08/2015.
  */
-class MovieGridAdapter extends CursorAdapter {
+public class MovieGridAdapter extends CursorAdapter {
     private final Context mContext;
 
     public MovieGridAdapter(Context context, Cursor c, int flags) {

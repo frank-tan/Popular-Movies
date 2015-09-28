@@ -31,7 +31,7 @@ public class ParserTest extends InstrumentationTestCase {
     }
 
     public void testHumanDateStringFromMiliseconds() throws Exception {
-        String result = Parser.humanDateStringFromMiliseconds(TEST_DATE);
+        String result = Parser.humanDateStringFromMilliseconds(TEST_DATE);
         assertTrue("Should be able to parse epoch miliseconds to human friendly format: result "+ result, result.equals("1 Jul 2015"));
     }
 
@@ -41,7 +41,7 @@ public class ParserTest extends InstrumentationTestCase {
     }
 
     public void testMovieDbDateStringFromMiliseconds() throws Exception {
-        String result = Parser.movieDbDateStringFromMiliseconds(TEST_DATE);
+        String result = Parser.movieDbDateStringFromMilliseconds(TEST_DATE);
         assertTrue("Should be able to parse epoch miliseconds to moviedb format: result "+ result, result.equals("2015-07-01"));
     }
 

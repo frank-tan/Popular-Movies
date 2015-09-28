@@ -28,6 +28,7 @@ import retrofit.http.QueryMap;
 
 /**
  * Created by tan on 20/09/2015.
+ * REST API call to retrieve a list of Genres
  */
 public class MovieGenreAPIService {
     /**

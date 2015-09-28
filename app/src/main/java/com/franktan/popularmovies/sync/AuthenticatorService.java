@@ -6,6 +6,7 @@ import android.os.IBinder;
 
 /**
  * Created by tan on 19/08/2015.
+ * For the sync adapter
  */
 public class AuthenticatorService extends Service {
 

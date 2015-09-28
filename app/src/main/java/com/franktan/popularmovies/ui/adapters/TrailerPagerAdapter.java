@@ -1,4 +1,4 @@
-package com.franktan.popularmovies.ui.fragments;
+package com.franktan.popularmovies.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Created by tan on 5/09/2015.
  */
-class TrailerPagerAdapter extends PagerAdapter {
+public class TrailerPagerAdapter extends PagerAdapter {
 
     private final List<String> mTrailerYoutubeIds;
     private final Map<YouTubeThumbnailView, YouTubeThumbnailLoader> mThumbnailViewToLoaderMap;

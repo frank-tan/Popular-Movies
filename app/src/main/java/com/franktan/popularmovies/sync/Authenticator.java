@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 /**
  * Created by tan on 19/08/2015.
+ * For the sync adapter
  */
 public class Authenticator extends AbstractAccountAuthenticator {
     public Authenticator(Context context) {

@@ -25,6 +25,7 @@ import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.movie.MovieCursor;
 import com.franktan.popularmovies.model.MovieGroup;
 import com.franktan.popularmovies.ui.activities.MovieDetailActivity;
+import com.franktan.popularmovies.ui.adapters.MovieGridAdapter;
 import com.franktan.popularmovies.util.Constants;
 
 /**
@@ -176,6 +177,10 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         mListener = null;
     }
 
+    /**
+     * Save the selection and movie group
+     * @param outState
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         // save the current active selection
@@ -186,6 +191,12 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Run different queries depending on the group of movies user is after
+     * @param id
+     * @param args
+     * @return
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String groupBy = MovieColumns.TABLE_NAME + "." + MovieColumns._ID;
@@ -243,6 +254,10 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         mMovieGridAdapter.swapCursor(null);
     }
 
+    /**
+     * Scroll to the selected movie. In two pane mode, also show the selected movie in the detail view
+     * @param selection
+     */
     private void goToSelectedMovie (int selection) {
         mSelection = selection;
         if(mSelection != GridView.INVALID_POSITION) {
@@ -261,10 +276,6 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
         boolean isInTwoPaneMode();

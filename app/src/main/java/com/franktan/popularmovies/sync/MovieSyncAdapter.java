@@ -86,11 +86,12 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Get movie data from MovieDB, parse the json return and save it into local database
      * @param context
-     * @param movieListAPIService
-     * @param sortBy
-     * @param releaseDateFrom
-     * @param page
-     * @return
+     * @param movieListAPIService an instance of movieListAPIService
+     * @param sortBy the sort criteria
+     * @param releaseDateFrom the from date after which the movie was released
+     * @param releaseDateTo the to date before which the movie was released
+     * @param page the page of movie list to retrieve
+     * @return number of movies inserted to the database
      */
     public static int retrieveAndSaveMovieData(Context context, MovieListAPIService movieListAPIService, SortCriterion sortBy, long releaseDateFrom, long releaseDateTo, int page) {
         String movieJsonString = movieListAPIService.getMovieInfoFromAPI(context,sortBy,releaseDateFrom, releaseDateTo, page);
@@ -116,6 +117,11 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         return numMoviesInserted;
     }
 
+    /**
+     * Retrieve and save the list of genres
+     * @param context
+     * @return the number of genre records saved to the database
+     */
     public static int retrieveAndSaveGenres (Context context) {
         List<Genre> genres = MovieGenreAPIService.retrieveMovieGenres(context);
         ContentValues[] genreContentValues = Parser.contentValuesFromGenreList(genres);

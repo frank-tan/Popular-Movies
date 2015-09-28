@@ -49,12 +49,22 @@ public class MovieDetailActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * Restore the state of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         onScrollChanged(mObservableScrollView.getCurrentScrollY(), false, false);
     }
 
+    /**
+     * Set the parallax image position and transparency of the tool bar
+     * @param scrollY
+     * @param firstScroll
+     * @param dragging
+     */
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         int baseColor = ContextCompat.getColor(this,R.color.popularmovies_primary);

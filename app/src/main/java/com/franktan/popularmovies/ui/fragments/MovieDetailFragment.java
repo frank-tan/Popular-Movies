@@ -39,6 +39,7 @@ import com.franktan.popularmovies.data.review.ReviewCursor;
 import com.franktan.popularmovies.data.trailer.TrailerColumns;
 import com.franktan.popularmovies.data.trailer.TrailerCursor;
 import com.franktan.popularmovies.service.MovieDetailsIntentService;
+import com.franktan.popularmovies.ui.adapters.TrailerPagerAdapter;
 import com.franktan.popularmovies.ui.views.PagerIndicator;
 import com.franktan.popularmovies.util.Constants;
 import com.franktan.popularmovies.util.Parser;
@@ -53,7 +54,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * A placeholder fragment containing a simple view.
+ * The fragment which shows movie details
  */
 public class MovieDetailFragment
         extends Fragment
@@ -134,7 +135,7 @@ public class MovieDetailFragment
             showDetailsByMovieDBId(mMovieDBId);
         }
     }
-    
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if(mMovieDBId != -1) {
@@ -237,6 +238,11 @@ public class MovieDetailFragment
         //nothing needed
     }
 
+    /**
+     * Populate the movie details when the database query finishes
+     * @param loader
+     * @param cursor
+     */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         Log.i(Constants.APP_NAME, "loader finished");
@@ -312,7 +318,7 @@ public class MovieDetailFragment
                     }
                 });
         mMovieTitle.setText(title);
-        mMovieReleaseDate.setText(Parser.humanDateStringFromMiliseconds(releaseDate));
+        mMovieReleaseDate.setText(Parser.humanDateStringFromMilliseconds(releaseDate));
         mOriginalLanguage.setText(language);
         mRatingText.setText(String.valueOf(voteAverage) + "/10");
         mVoteCount.setText(String.valueOf(voteCount) + " votes");
@@ -340,6 +346,10 @@ public class MovieDetailFragment
         }
     }
 
+    /**
+     * Set the favorite checkbox to the value stored in DB
+     * @param favoriteCursor
+     */
     private void setFavoriteCheckbox (FavoriteCursor favoriteCursor) {
         boolean checked = false;
         favoriteCursor.moveToFirst();
@@ -357,10 +367,18 @@ public class MovieDetailFragment
         mFavoriteCheckbox.setChecked(checked);
     }
 
+    /**
+     * Bind the checkbox on click event
+     */
     private void setFavoriteCheckboxOnClick () {
         mFavoriteCheckbox.setOnClickListener(createFavoriteCheckboxOnClickListener());
     }
 
+    /**
+     * Display trailers of the movie
+     * @param trailerCursor
+     * @return
+     */
     private String showAllTrailerRecords(TrailerCursor trailerCursor) {
         mTrailerSection.removeAllViews();
 
@@ -421,6 +439,10 @@ public class MovieDetailFragment
         return null;
     }
 
+    /**
+     * Display the reviews of the movie
+     * @param reviewCursor
+     */
     private void showAllReviewRecords(ReviewCursor reviewCursor) {
         mReviewSection.removeAllViews();
 
@@ -459,6 +481,10 @@ public class MovieDetailFragment
         }
     }
 
+    /**
+     * Display a review record
+     * @param reviewCursor
+     */
     private void showCurrentReviewRecord(ReviewCursor reviewCursor) {
         @SuppressLint("InflateParams") View reviewItemView = getActivity().getLayoutInflater().inflate(R.layout.review_item, null);
         TextView authorTextView = (TextView) reviewItemView.findViewById(R.id.review_author);
@@ -469,12 +495,19 @@ public class MovieDetailFragment
         contentTextView.setText(reviewCursor.getContent());
     }
 
+    /**
+     * Show the movie identified by movieDBId
+     * @param movieDBId
+     */
     public void showDetailsByMovieDBId(long movieDBId) {
         mMovieDBId = movieDBId;
         startMovieDetailsIntentService();
         getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
     }
 
+    /**
+     * Start the MovieDetailsIntentService to retrieve trailers and reviews
+     */
     private void startMovieDetailsIntentService () {
         Context appContext = getActivity().getApplicationContext();
         Intent intent = new Intent(appContext, MovieDetailsIntentService.class);
@@ -482,6 +515,10 @@ public class MovieDetailFragment
         appContext.startService(intent);
     }
 
+    /**
+     * Create a page changed listener for the trailers ViewPager
+     * @return
+     */
     private ViewPager.OnPageChangeListener createPageChangedListener() {
         return new ViewPager.OnPageChangeListener() {
             @Override
@@ -503,6 +540,10 @@ public class MovieDetailFragment
         };
     }
 
+    /**
+     * Set the page of the trailer ViewPager
+     * @param page
+     */
     @Override
     public void setPage(int page) {
         int actualPage = (page - 1) >= 0 ? page - 1 : 0 ;
@@ -510,6 +551,10 @@ public class MovieDetailFragment
             mTrailerPager.setCurrentItem(actualPage);
     }
 
+    /**
+     * Create a checkbox click listener
+     * @return
+     */
     private View.OnClickListener createFavoriteCheckboxOnClickListener() {
         return new View.OnClickListener() {
             @Override

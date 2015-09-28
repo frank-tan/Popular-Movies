@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import com.franktan.popularmovies.R;
 
 /**
+ * This custom view uses dots to indicate the number of pages in a viewpager and which page is currently active
  * Created by tan on 8/09/2015.
  */
 public class PagerIndicator extends RadioGroup {

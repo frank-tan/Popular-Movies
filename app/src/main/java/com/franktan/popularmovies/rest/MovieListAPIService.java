@@ -16,6 +16,7 @@ import java.net.URL;
 
 /**
  * Created by tan on 16/08/2015.
+ * REST API call to retrieve a list of movies
  */
 public class MovieListAPIService {
 
@@ -23,8 +24,8 @@ public class MovieListAPIService {
         HttpURLConnection urlConnection;
         BufferedReader reader;
 
-        String formattedDateFrom = Parser.movieDbDateStringFromMiliseconds(releaseDateFrom);
-        String formattedDateTo = Parser.movieDbDateStringFromMiliseconds(releaseDateTo);
+        String formattedDateFrom = Parser.movieDbDateStringFromMilliseconds(releaseDateFrom);
+        String formattedDateTo = Parser.movieDbDateStringFromMilliseconds(releaseDateTo);
 
         final String MOVIEDB_BASE_URL =
                 "http://api.themoviedb.org/3/discover/movie?";

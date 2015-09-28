@@ -22,6 +22,7 @@ import com.franktan.popularmovies.util.Utilities;
 
 /**
  * Created by tan on 29/08/2015.
+ * Intent service to retrieve and save trailers and reviews of a movie
  */
 public class MovieDetailsIntentService extends IntentService {
     public MovieDetailsIntentService() {
@@ -110,6 +111,4 @@ public class MovieDetailsIntentService extends IntentService {
         }
         return getContentResolver().bulkInsert(TrailerColumns.CONTENT_URI, trailers);
     }
-
-    //TODO: insertGenres
 }

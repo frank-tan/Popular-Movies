@@ -2,7 +2,6 @@ package com.franktan.popularmovies.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.BuildConfig;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +12,6 @@ import com.franktan.popularmovies.sync.MovieSyncAdapter;
 import com.franktan.popularmovies.ui.adapters.MovieGroupViewPagerAdapter;
 import com.franktan.popularmovies.ui.fragments.MovieDetailFragment;
 import com.franktan.popularmovies.ui.fragments.MoviesGridFragment;
-import com.squareup.picasso.Picasso;
 
 public class MovieGridActivity extends AppCompatActivity
         implements MoviesGridFragment.OnFragmentInteractionListener {
@@ -35,11 +33,7 @@ public class MovieGridActivity extends AppCompatActivity
 
         mTwoPaneMode = (findViewById(R.id.fragment_movie_details) != null) ? true : false;
 
-        if (BuildConfig.DEBUG) {
-            Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
-            Picasso.with(getApplicationContext()).setLoggingEnabled(true);
-        }
-
+        // Set up movie group tab layout
         mMovieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager());
         mMovieGroupViewAdapter.addMovieGroup(MovieGroup.POPULAR);
         mMovieGroupViewAdapter.addMovieGroup(MovieGroup.TOP_RATED);
@@ -52,17 +46,30 @@ public class MovieGridActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(mMovieGroupViewPager);
     }
 
+    /**
+     * Check if the app is running in two pane mode
+     * @return
+     */
     @Override
     public boolean isInTwoPaneMode() {
         return mTwoPaneMode;
     }
 
+    /**
+     * Ask the movie details fragment to use the movie identified by movieDBId
+     * @param movieDBId
+     */
     @Override
     public void onMovieItemSelected(long movieDBId) {
         MovieDetailFragment fragment = (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_movie_details);
         fragment.showDetailsByMovieDBId(movieDBId);
     }
 
+    /**
+     * Check if fragment is the active one the user is reading on screen
+     * @param fragment
+     * @return
+     */
     @Override
     public boolean isActiveFragment(MoviesGridFragment fragment) {
         int activePosition = mMovieGroupViewPager.getCurrentItem();
