@@ -19,13 +19,13 @@ public class MovieGridActivity extends AppCompatActivity
         implements MoviesGridFragment.OnFragmentInteractionListener {
 
     private boolean mTwoPaneMode;
+    ViewPager mMovieGroupViewPager;
+    MovieGroupViewPagerAdapter mMovieGroupViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewPager movieGroupViewPager;
-        MovieGroupViewPagerAdapter movieGroupViewAdapter;
         TabLayout tabLayout;
 
         setContentView(R.layout.activity_movie_grid);
@@ -40,16 +40,16 @@ public class MovieGridActivity extends AppCompatActivity
             Picasso.with(getApplicationContext()).setLoggingEnabled(true);
         }
 
-        movieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager());
-        movieGroupViewAdapter.addMovieGroup(MovieGroup.POPULAR);
-        movieGroupViewAdapter.addMovieGroup(MovieGroup.TOP_RATED);
-        movieGroupViewAdapter.addMovieGroup(MovieGroup.FAVORITE);
+        mMovieGroupViewAdapter = new MovieGroupViewPagerAdapter(getSupportFragmentManager());
+        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.POPULAR);
+        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.TOP_RATED);
+        mMovieGroupViewAdapter.addMovieGroup(MovieGroup.FAVORITE);
 
-        movieGroupViewPager = (ViewPager) findViewById(R.id.movie_grid_view_pager);
-        movieGroupViewPager.setAdapter(movieGroupViewAdapter);
+        mMovieGroupViewPager = (ViewPager) findViewById(R.id.movie_grid_view_pager);
+        mMovieGroupViewPager.setAdapter(mMovieGroupViewAdapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(movieGroupViewPager);
+        tabLayout.setupWithViewPager(mMovieGroupViewPager);
     }
 
     @Override
@@ -61,5 +61,13 @@ public class MovieGridActivity extends AppCompatActivity
     public void onMovieItemSelected(long movieDBId) {
         MovieDetailFragment fragment = (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_movie_details);
         fragment.showDetailsByMovieDBId(movieDBId);
+    }
+
+    @Override
+    public boolean isActiveFragment(MoviesGridFragment fragment) {
+        int activePosition = mMovieGroupViewPager.getCurrentItem();
+        MovieGroup activeMovieGroup = mMovieGroupViewAdapter.getMovieGroup(activePosition);
+        MovieGroup fragmentMovieGroup = fragment.getMovieGroup();
+        return (activeMovieGroup == fragmentMovieGroup);
     }
 }

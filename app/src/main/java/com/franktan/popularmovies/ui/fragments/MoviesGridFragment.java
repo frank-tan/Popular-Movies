@@ -182,22 +182,15 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         if(mSelection != GridView.INVALID_POSITION) {
             outState.putInt(SELECTION, mSelection);
         }
-        outState.putString(GROUP,mMovieGroup.toString());
+        outState.putString(GROUP, mMovieGroup.toString());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        mSortOrderPreference = Utilities.getSortOrderPreference(getActivity());
         String groupBy = MovieColumns.TABLE_NAME + "." + MovieColumns._ID;
         Uri movieUri = BaseContentProvider.groupBy(Uri.withAppendedPath(MovieColumns.CONTENT_URI, "with_favorite"),groupBy);
         String sortOrder;
-
-//        if(mSortOrderPreference.equals("Rating")){
-//            sortOrder = MovieColumns.VOTE_AVERAGE + " DESC";
-//        } else {
-//            sortOrder = MovieColumns.POPULARITY + " DESC";
-//        }
 
         if(mMovieGroup == MovieGroup.POPULAR) {
             sortOrder = MovieColumns.POPULARITY + " DESC";
@@ -240,7 +233,9 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         mMovieGridAdapter.swapCursor(cursor);
 
         //keep scrolling position, add code here
-        goToSelectedMovie(mSelection);
+        if(mListener.isActiveFragment(this)) {
+            goToSelectedMovie(mSelection);
+        }
     }
 
     @Override
@@ -257,6 +252,7 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
                 int movieDBId = (int) mMovieGridAdapter.getItemId(mSelection);
                 mListener.onMovieItemSelected(movieDBId);
             }
+
         }
     }
 
@@ -274,6 +270,11 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         boolean isInTwoPaneMode();
 
         void onMovieItemSelected(long movieDBId);
+
+        boolean isActiveFragment(MoviesGridFragment fragment);
     }
 
+    public MovieGroup getMovieGroup() {
+        return mMovieGroup;
+    }
 }

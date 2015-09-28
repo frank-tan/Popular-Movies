@@ -38,6 +38,10 @@ public class MovieGroupViewPagerAdapter extends FragmentPagerAdapter {
     // This method return the titles for the Tabs in the Tab Strip
     @Override
     public CharSequence getPageTitle(int position) {
-        return mMovieGroupList.get(position).getTitle();
+        return getMovieGroup(position).getTitle();
+    }
+
+    public MovieGroup getMovieGroup(int position) {
+        return mMovieGroupList.get(position);
     }
 }

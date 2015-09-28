@@ -61,6 +61,7 @@ public class MovieDetailFragment
 
     private static final int DETAIL_LOADER = 0;
     private long mMovieDBId = -1;
+    private static final String ACTIVE_MOVIE_ID = "ACTIVE_MOVIE_ID";
 
     private TrailerPagerAdapter mTrailerPagerAdapter = null;
     private PagerIndicator mPagerIndicator = null;
@@ -105,10 +106,41 @@ public class MovieDetailFragment
     public MovieDetailFragment() {
     }
 
+    public static MovieDetailFragment newInstance(int movieDBId) {
+        MovieDetailFragment fragment = new MovieDetailFragment();
+        Bundle args = new Bundle();
+        args.putLong(ACTIVE_MOVIE_ID,movieDBId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        long savedMovieId = -1L;
+
+        if(savedInstanceState != null && savedInstanceState.containsKey(ACTIVE_MOVIE_ID)) {
+            savedMovieId = savedInstanceState.getLong(ACTIVE_MOVIE_ID);
+        } else {
+            Bundle arguments = getArguments();
+            if (arguments != null && arguments.containsKey(ACTIVE_MOVIE_ID)) {
+                savedMovieId = arguments.getLong(ACTIVE_MOVIE_ID);
+            }
+        }
+
+        if(savedMovieId != -1) {
+            mMovieDBId = savedMovieId;
+            showDetailsByMovieDBId(mMovieDBId);
+        }
+    }
+    
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(mMovieDBId != -1) {
+            outState.putLong(ACTIVE_MOVIE_ID, mMovieDBId);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
