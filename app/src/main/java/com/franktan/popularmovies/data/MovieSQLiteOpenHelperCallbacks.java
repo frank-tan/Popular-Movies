@@ -38,7 +38,7 @@ public class MovieSQLiteOpenHelperCallbacks {
 
     public void onUpgrade(final Context context, final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
-        // Insert your upgrading code here.
+        // Drop all tables except favorite table
         if(newVersion > oldVersion) {
             db.execSQL("DROP TABLE IF EXISTS " + TrailerColumns.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + ReviewColumns.TABLE_NAME);

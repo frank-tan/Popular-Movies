@@ -30,8 +30,6 @@ public class ParserTest extends InstrumentationTestCase {
         assertTrue("20th movie should match", movies.get(19).equals(TestingUtilities.createMovieNo20()));
     }
 
-    //TODO write test for contentValuesFromMovieList method
-
     public void testHumanDateStringFromMiliseconds() throws Exception {
         String result = Parser.humanDateStringFromMiliseconds(TEST_DATE);
         assertTrue("Should be able to parse epoch miliseconds to human friendly format: result "+ result, result.equals("1 Jul 2015"));

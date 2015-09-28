@@ -134,7 +134,6 @@ class TrailerPagerAdapter extends PagerAdapter {
         @Override
         public void onThumbnailLoaded(YouTubeThumbnailView view, String videoId) {
             Log.i(Constants.APP_NAME, "TrailerPagerAdapter - onThumbnailLoaded");
-            //// TODO: 6/09/2015 show play button
         }
 
         @Override

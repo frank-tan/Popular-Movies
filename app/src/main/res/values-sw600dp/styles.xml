@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="MovieGridStyle">
-        <!-- TODO: haven't found why. but this line breaks mGridView.setSelection(mSelection) and mGridView.setItemChecked(mSelection, true); -->
         <!--<item name="android:choiceMode">singleChoice</item>-->
     </style>
 </resources>

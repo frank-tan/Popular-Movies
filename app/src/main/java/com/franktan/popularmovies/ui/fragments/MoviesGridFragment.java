@@ -178,7 +178,6 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        //// TODO: 15/09/2015 save movie group for restoring state
         // save the current active selection
         if(mSelection != GridView.INVALID_POSITION) {
             outState.putInt(SELECTION, mSelection);
@@ -223,7 +222,6 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
                     sortOrder
             );
         } else {
-            //// TODO: 15/09/2015 implement favorite
             sortOrder = FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.CREATED + " DESC";
 
             return new CursorLoader(
