@@ -1,27 +1,39 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/coordinatorLayout"
+        <android.support.v7.widget.Toolbar
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:id="@+id/movie_group_toolbar"
+            android:background="@color/popularmovies_primary"
+            app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+            />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.Toolbar
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"
-                android:id="@+id/movie_group_toolbar"
-                android:background="@color/popularmovies_primary"
-                app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
-                app:layout_scrollFlags="scroll|enterAlways"
-                />
-
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
@@ -29,34 +41,27 @@
                 app:tabTextColor="@android:color/white"
                 app:tabSelectedTextColor="@android:color/white"
                 app:tabIndicatorColor="@android:color/white"
+                android:background="@color/popularmovies_primary"
                 app:tabIndicatorHeight="5dp"/>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/movie_grid_view_pager"
                 android:layout_height="match_parent"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:layout_weight="1"
                 />
-
-            <fragment
-                android:id="@+id/fragment_movie_details"
-                android:name="com.franktan.popularmovies.ui.fragments.MovieDetailFragment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
-
         </LinearLayout>
 
-    </android.support.design.widget.CoordinatorLayout>
+        <fragment
+            android:id="@+id/fragment_movie_details"
+            android:name="com.franktan.popularmovies.ui.fragments.MovieDetailFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
 
 
