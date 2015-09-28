@@ -1,5 +1,6 @@
 package com.franktan.popularmovies.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -427,7 +428,7 @@ public class MovieDetailFragment
     }
 
     private void showCurrentReviewRecord(ReviewCursor reviewCursor) {
-        View reviewItemView = getActivity().getLayoutInflater().inflate(R.layout.review_item, null);
+        @SuppressLint("InflateParams") View reviewItemView = getActivity().getLayoutInflater().inflate(R.layout.review_item, null);
         TextView authorTextView = (TextView) reviewItemView.findViewById(R.id.review_author);
         TextView contentTextView = (TextView) reviewItemView.findViewById(R.id.review_text);
         mReviewSection.addView(reviewItemView);
