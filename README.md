@@ -6,9 +6,6 @@ For details about the app functionality and screenshots, please visit [Frank's P
 
 The app is developed for [Udacity Android Developer Nanodegree](https://www.udacity.com/course/android-developer-nanodegree--nd801).
 
-## CI Report
-[![Circle CI](https://circleci.com/gh/frank-tan/Popular-Movies/tree/master.svg?style=svg)](https://circleci.com/gh/frank-tan/Popular-Movies/tree/master)
-
 ## Data
 This app uses SyncAdapter to fetch data periodically and uses a content provider to save and retrieve data in a SQLite database.
 
