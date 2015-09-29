@@ -52,6 +52,7 @@ public class MovieGridActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
+                // when switching page, restore the selected movie on that page
                 mMovieGroupViewAdapter.checkAllFragmentsForViewPageChange();
             }
 
