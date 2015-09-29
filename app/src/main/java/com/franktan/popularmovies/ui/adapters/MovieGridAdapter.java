@@ -26,6 +26,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 /**
+ * Takes a cursor to a list of movies and spits views for a grid layout
  * Created by tan on 12/08/2015.
  */
 public class MovieGridAdapter extends CursorAdapter {
@@ -110,14 +111,11 @@ public class MovieGridAdapter extends CursorAdapter {
         }
     }
 
-//    public int getCount() {
-//        return 10;
-//    }
-
-//    public Object getItem(int position) {
-//        return ;
-//    }
-
+    /**
+     * Take a position from the grid and returns the movieDB id of the movie
+     * @param position
+     * @return
+     */
     public long getItemId(int position) {
         if(mCursor != null) {
             if(mCursor.moveToPosition(position)) {
@@ -128,6 +126,10 @@ public class MovieGridAdapter extends CursorAdapter {
         return 0;
     }
 
+    /**
+     * Create a listener for checkbox click event
+     * @return
+     */
     private View.OnClickListener createFavoriteCheckboxOnClickListener() {
         return new View.OnClickListener() {
             @Override

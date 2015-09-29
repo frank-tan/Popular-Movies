@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Takes a list of youtube ids and spits items for the movie trailer view pager
  * Created by tan on 5/09/2015.
  */
 public class TrailerPagerAdapter extends PagerAdapter {
@@ -34,6 +35,11 @@ public class TrailerPagerAdapter extends PagerAdapter {
     private final LayoutInflater mInflater;
     private final Context mContext;
 
+    /**
+     * Takes a list of youtube ids
+     * @param context
+     * @param mTrailerYoutubeIds
+     */
     public TrailerPagerAdapter(Context context, List<String> mTrailerYoutubeIds) {
         this.mContext = context;
         this.mTrailerYoutubeIds = mTrailerYoutubeIds;
@@ -57,6 +63,12 @@ public class TrailerPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    /**
+     * Retrieve the youtube thumbnail
+     * @param container
+     * @param position
+     * @return
+     */
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Log.i(Constants.APP_NAME,"instantiateItem called - position: "+position);
@@ -127,7 +139,7 @@ public class TrailerPagerAdapter extends PagerAdapter {
         public void onInitializationFailure(
                 YouTubeThumbnailView view, YouTubeInitializationResult loader) {
             Log.i(Constants.APP_NAME,"TrailerPagerAdapter - onInitializationFailure");
-            //// TODO: 5/09/2015: load backdrop image
+            //// TODO: 5/09/2015: load backdrop image or place holder image?
             //view.setImageResource(R.drawable.no_thumbnail);
         }
 
@@ -139,7 +151,7 @@ public class TrailerPagerAdapter extends PagerAdapter {
         @Override
         public void onThumbnailError(YouTubeThumbnailView view, YouTubeThumbnailLoader.ErrorReason errorReason) {
             Log.i(Constants.APP_NAME,"TrailerPagerAdapter - onThumbnailError");
-            //// TODO: 5/09/2015: load backdrop image
+            //// TODO: 5/09/2015: load backdrop image or place holder image?
             //view.setImageResource(R.drawable.no_thumbnail);
         }
     }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Takes a list of movie groups and spits the fragments for the fragment view pager
  * Created by tan on 14/09/2015.
  */
 public class MovieGroupViewPagerAdapter extends FragmentPagerAdapter {
@@ -21,6 +22,10 @@ public class MovieGroupViewPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+    /**
+     * Add new page for the view pager
+     * @param movieGroup
+     */
     public void addMovieGroup (MovieGroup movieGroup) {
         mMovieGroupList.add(movieGroup);
     }

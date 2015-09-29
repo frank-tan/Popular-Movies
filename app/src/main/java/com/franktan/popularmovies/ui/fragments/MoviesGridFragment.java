@@ -29,12 +29,7 @@ import com.franktan.popularmovies.ui.adapters.MovieGridAdapter;
 import com.franktan.popularmovies.util.Constants;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MoviesGridFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MoviesGridFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment showing a group of movies in a grid layout
  */
 public class MoviesGridFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 

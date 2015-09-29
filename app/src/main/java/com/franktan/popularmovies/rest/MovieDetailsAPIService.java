@@ -33,7 +33,7 @@ import retrofit.http.QueryMap;
 
 /**
  * Created by tan on 28/08/2015.
- * REST API call to retrieve details of a particular movie
+ * REST API call to retrieve reviews and trailers of a particular movie
  */
 public class MovieDetailsAPIService {
 
