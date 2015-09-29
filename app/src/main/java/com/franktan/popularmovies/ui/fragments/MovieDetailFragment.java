@@ -245,12 +245,10 @@ public class MovieDetailFragment
      */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.i(Constants.APP_NAME, "loader finished");
         if (cursor != null && !cursor.moveToFirst()){
             Log.i(Constants.APP_NAME,"loader finished: no records returned");
             return;
         }
-        Log.i(Constants.APP_NAME, String.valueOf(cursor.getCount()) + "  records returned");
 
         MovieCursor movieCursor = new MovieCursor(cursor);
         movieCursor.moveToFirst();

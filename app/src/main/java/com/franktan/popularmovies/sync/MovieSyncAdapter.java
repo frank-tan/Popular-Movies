@@ -77,7 +77,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.i(Constants.APP_NAME,"failed to add new account");
             }
             //account added successfully, set periodical sync
-            Log.i(Constants.APP_NAME, "add new account successful");
+            Log.i(Constants.APP_NAME, "add new account successfully");
             setPeriodicSync(context, account);
             syncMovieDataNow(context);
         }

@@ -44,7 +44,6 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
     };
 
     private static final int MOVIE_LOADER_ID = 0;
-//    private static String mSortOrderPreference;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String SELECTION = "selection";

@@ -71,7 +71,6 @@ public class TrailerPagerAdapter extends PagerAdapter {
      */
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        Log.i(Constants.APP_NAME,"instantiateItem called - position: "+position);
         // inflate a new page
         View view = mInflater.inflate(R.layout.trailer_item,container,false);
         String youtubeId = mTrailerYoutubeIds.get(position);
@@ -138,7 +137,7 @@ public class TrailerPagerAdapter extends PagerAdapter {
         @Override
         public void onInitializationFailure(
                 YouTubeThumbnailView view, YouTubeInitializationResult loader) {
-            Log.i(Constants.APP_NAME,"TrailerPagerAdapter - onInitializationFailure");
+            Log.w(Constants.APP_NAME,"TrailerPagerAdapter - onInitializationFailure");
             //// TODO: 5/09/2015: load backdrop image or place holder image?
             //view.setImageResource(R.drawable.no_thumbnail);
         }
@@ -150,7 +149,7 @@ public class TrailerPagerAdapter extends PagerAdapter {
 
         @Override
         public void onThumbnailError(YouTubeThumbnailView view, YouTubeThumbnailLoader.ErrorReason errorReason) {
-            Log.i(Constants.APP_NAME,"TrailerPagerAdapter - onThumbnailError");
+            Log.w(Constants.APP_NAME,"TrailerPagerAdapter - onThumbnailError");
             //// TODO: 5/09/2015: load backdrop image or place holder image?
             //view.setImageResource(R.drawable.no_thumbnail);
         }

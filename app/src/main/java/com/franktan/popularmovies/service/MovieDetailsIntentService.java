@@ -34,13 +34,11 @@ public class MovieDetailsIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(Constants.APP_NAME,"MovieDetailsIntentService onHandleIntent");
         if(!Utilities.isNetworkAvailable(getApplicationContext()))
             return;
         long movieMovieDBId = intent.getLongExtra(Constants.MOVIEDB_ID, -1);
         if(movieMovieDBId == -1) return;
 
-        Log.i(Constants.APP_NAME,"MovieDetailsIntentService retrieving movie details");
         Movie movie;
         try {
             movie = MovieDetailsAPIService.retrieveMovieDetails(this, movieMovieDBId, null);
@@ -49,7 +47,6 @@ public class MovieDetailsIntentService extends IntentService {
             return;
         }
 
-        Log.i(Constants.APP_NAME,"MovieDetailsIntentService REST returned");
         MovieSelection movieSelection = new MovieSelection();
         movieSelection.movieMoviedbId(movieMovieDBId);
         MovieCursor movieCursor = movieSelection.query(getContentResolver());
@@ -60,15 +57,11 @@ public class MovieDetailsIntentService extends IntentService {
         }
         long movieRowId = movieCursor.getId();
         movieCursor.close();
-        Log.i(Constants.APP_NAME, "MovieDetailsIntentService movie record found");
 
         int reviewsInserted = insertReviews(movie, movieRowId);
-        Log.i(Constants.APP_NAME, "MovieDetailsIntentService reviews inserted");
         int trailersInserted = insertTrailers(movie, movieRowId);
-        Log.i(Constants.APP_NAME, "MovieDetailsIntentService trailers inserted");
 
         // if new reviews or trailers are inserted into database notify cursor loader
-        Log.i(Constants.APP_NAME,"total records inserted: " + String.valueOf(reviewsInserted + trailersInserted));
         if(reviewsInserted + trailersInserted > 0) {
             getApplicationContext().getContentResolver().notifyChange(Uri.withAppendedPath(MovieColumns.CONTENT_URI, "moviedb/" + String.valueOf(movieMovieDBId)), null);
         }

@@ -15,7 +15,6 @@ import com.franktan.popularmovies.data.movie.MovieColumns;
 import com.franktan.popularmovies.data.moviegenre.MovieGenreColumns;
 import com.franktan.popularmovies.data.review.ReviewColumns;
 import com.franktan.popularmovies.data.trailer.TrailerColumns;
-import com.franktan.popularmovies.util.Constants;
 
 import java.util.Arrays;
 
@@ -83,7 +82,6 @@ public class MovieProvider extends BaseContentProvider {
     @Override
     public String getType(Uri uri) {
         int match = URI_MATCHER.match(uri);
-        Log.i(Constants.APP_NAME,"match number is "+ match);
         switch (match) {
             case URI_TYPE_FAVORITE:
                 return TYPE_CURSOR_DIR + FavoriteColumns.TABLE_NAME;

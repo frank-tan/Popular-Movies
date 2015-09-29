@@ -81,7 +81,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/movie_title"
                     android:id="@+id/movie_title"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
@@ -113,7 +112,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/rating_example"
                     android:id="@+id/rating_text"
                     android:gravity="center" />
 
@@ -141,7 +139,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/vote_count_example"
                     android:id="@+id/vote_count"
                     android:gravity="center" />
 
@@ -168,7 +165,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/release_date_example"
                     android:id="@+id/release_date"
                     android:gravity="center" />
 
@@ -195,7 +191,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/original_language_example"
                     android:id="@+id/original_language"
                     android:gravity="center" />
 
@@ -224,8 +219,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/overview_title"
                     android:id="@+id/overview_title"
+                    android:text="@string/overview_title"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
@@ -235,7 +230,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/overview_example"
                     android:id="@+id/overview"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
