@@ -44,6 +44,21 @@ public class MovieGridActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(mMovieGroupViewPager);
+
+        mMovieGroupViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mMovieGroupViewAdapter.checkAllFragmentsForViewPageChange();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     /**

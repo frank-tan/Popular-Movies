@@ -17,9 +17,11 @@ import java.util.List;
 public class MovieGroupViewPagerAdapter extends FragmentPagerAdapter {
 
     private List<MovieGroup> mMovieGroupList = new ArrayList<>();
+    FragmentManager mFragmentManager;
 
     public MovieGroupViewPagerAdapter(FragmentManager fm) {
         super(fm);
+        mFragmentManager = fm;
     }
 
     /**
@@ -48,5 +50,14 @@ public class MovieGroupViewPagerAdapter extends FragmentPagerAdapter {
 
     public MovieGroup getMovieGroup(int position) {
         return mMovieGroupList.get(position);
+    }
+
+    public void checkAllFragmentsForViewPageChange () {
+        List<Fragment> fragments = mFragmentManager.getFragments();
+        for(Fragment fragment: fragments) {
+            if(fragment instanceof MoviesGridFragment && ((MoviesGridFragment) fragment).checkFragmentActive()) {
+                break;
+            }
+        }
     }
 }

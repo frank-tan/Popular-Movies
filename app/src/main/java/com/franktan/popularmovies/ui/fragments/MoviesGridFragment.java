@@ -265,6 +265,14 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
         }
     }
 
+    public boolean checkFragmentActive() {
+        if(mListener.isActiveFragment(this)) {
+            goToSelectedMovie(mSelection);
+            return true;
+        }
+        return false;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
