@@ -14,7 +14,7 @@ Movie poster images, backdrop images and trailer thumbnail images are retrieved 
 
 ## Caching and Offline Use
 
-The App saves movie details, genres, trailer address, reviews and favourites in the SQLite database on the device. Movie poster image and backdrop image are cached on the device using OKHttp. So as long as the data are retrieved once, the app can still show saved/cached data and work in an offline mode.
+The app saves movie details, genres, trailer address, reviews and favourites in the SQLite database on the device. Movie poster image and backdrop image are cached on the device using OKHttp. So as long as the data are retrieved once, the app can still show saved/cached data and work in an offline mode.
 
 ## Playing Trailers
 
@@ -22,7 +22,7 @@ When Youtube Android app is installed on the device, the app uses [Youtube Andro
 
 ## Data Schema
 
-The diagram shows how the schema of the SQLite database.
+The diagram shows the data schema of the app's SQLite database.
 
 ![Alt text](content_provider_generator/popular-movies-db.png?raw=true "Database Schema")
 
