@@ -1,83 +1,83 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Popular Movies by frank-tan</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Popular Movies</h1>
-      <h2 class="project-tagline">Discovering the latest popular and top rated movies on your Android devices</h2>
-      <a href="https://github.com/frank-tan/Popular-Movies" class="btn">View on GitHub</a>
-      <a href="https://github.com/frank-tan/Popular-Movies/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/frank-tan/Popular-Movies/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
 
-    <section class="main-content">
-      <h1>
+<head>
+  <meta charset="UTF-8">
+  <title>Popular Movies by frank-tan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+</head>
+
+<body>
+  <section class="page-header">
+    <h1 class="project-name">Popular Movies</h1>
+    <h2 class="project-tagline">Discovering the latest popular and top rated movies on your Android devices</h2>
+    <a href="https://github.com/frank-tan/Popular-Movies" class="btn">View on GitHub</a>
+    <a href="https://github.com/frank-tan/Popular-Movies/zipball/master" class="btn">Download .zip</a>
+    <a href="https://github.com/frank-tan/Popular-Movies/tarball/master" class="btn">Download .tar.gz</a>
+  </section>
+
+  <section class="main-content">
+    <h1>
 <a id="popular-movies-android-app" class="anchor" href="#popular-movies-android-app" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://frank-tan.github.io/Popular-Movies/">Popular Movies Android App</a>
 </h1>
 
-<p><code>Popular Movies</code> is an Android app which helps you to discover the latest popular and top rated movies. You can flip through movie posters, check movie details, watch movie trailers, read other people's reviews and create a list of your favourite movies. It is designed and optimised for both Android phones and tablets. </p>
+    <p><code>Popular Movies</code> is an Android app which helps you to discover the latest popular and top rated movies. You can flip through movie posters, check movie details, watch movie trailers, read other people's reviews and create a list of your favourite movies. It is designed and optimised for both Android phones and tablets. </p>
 
-<h2>
+    <h2>
 <a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screenshots</h2>
 
-<p><img src="https://lh3.googleusercontent.com/3q5YQj9YcHxXh6jLl-itWCmhoMbqZDGH6EIh0KZuhMrpk4uejjQ=w557-h941-no" alt="screen"></p>
+    <p><img src="https://lh3.googleusercontent.com/3q5YQj9YcHxXh6jLl-itWCmhoMbqZDGH6EIh0KZuhMrpk4uejjQ=w557-h941-no" alt="Phone Grid Screen"></p>
 
-<p><img src="https://lh3.googleusercontent.com/fjVdzXcmGHuJ3UTcHMXtsTJgffisrfvcWyaeEonYgcsJwwMXrkY=w557-h941-no" alt="screen"></p>
+    <p><img src="https://lh3.googleusercontent.com/fjVdzXcmGHuJ3UTcHMXtsTJgffisrfvcWyaeEonYgcsJwwMXrkY=w557-h941-no" alt="Phone Detail Screen"></p>
 
-<p><img src="https://lh3.googleusercontent.com/HspBt0JAWCsAH0nH_vfyfdsP93d0FrKRm2c6V6_WBzPKKB6eGak=w1161-h844-no" alt="screen"></p>
+    <p><img src="https://lh3.googleusercontent.com/HspBt0JAWCsAH0nH_vfyfdsP93d0FrKRm2c6V6_WBzPKKB6eGak=w1161-h844-no" alt="Tablet Screen"></p>
 
-<h2>
+    <h2>
 <a id="build" class="anchor" href="#build" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build</h2>
 
-<p>The app retrieves movie data from MovieDB and Youtube vedio thumbnail using Youtube API for Android. To build the project, please add the following API key to the environment variable on your build machine.</p>
+    <p>The app retrieves movie data from MovieDB and Youtube vedio thumbnail using Youtube API for Android. To build the project, please add the following API key to the environment variable on your build machine.</p>
 
-<p>MOVIEDB_API_KEY
-GOOGLE_API_KEY</p>
+    <p>MOVIEDB_API_KEY GOOGLE_API_KEY
+    </p>
 
-<h2>
+    <h2>
 <a id="data-retrieval-logic" class="anchor" href="#data-retrieval-logic" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Retrieval Logic</h2>
 
-<p>This app retrieves a Movie list using a SyncAdapter. The SyncAdapter performs an immediate synchronisation when the user opens the app for the first time and when a new version of this app with data schema changes is installed and opened. It performs subsequent synchronisation every 24 hours in the background. The synchronisation retrieves a full genre list and a movie list by popularity and by rating. The movie list retrieved includes movie details such as title, language, poster path, backdrop path, vote count, vote average, genres, etc. </p>
+    <p>This app retrieves a Movie list using a SyncAdapter. The SyncAdapter performs an immediate synchronisation when the user opens the app for the first time and when a new version of this app with data schema changes is installed and opened. It performs subsequent synchronisation every 24 hours in the background. The synchronisation retrieves a full genre list and a movie list by popularity and by rating. The movie list retrieved includes movie details such as title, language, poster path, backdrop path, vote count, vote average, genres, etc. </p>
 
-<p>Movie trailer addresses and reviews are retrieved using an IntentService when movie detail fragment is loaded. </p>
+    <p>Movie trailer addresses and reviews are retrieved using an IntentService when movie detail fragment is loaded. </p>
 
-<p>Movie poster images, backdrop images and trailer thumbnail images are retrieved when the corresponding fragment is loaded. Poster images and backdrop images are retrieved using <a href="http://square.github.io/picasso/">Picasso</a> and trailer thumbnail is retrieved using <a href="https://developers.google.com/youtube/android/player/">Youtube Android API</a>. </p>
+    <p>Movie poster images, backdrop images and trailer thumbnail images are retrieved when the corresponding fragment is loaded. Poster images and backdrop images are retrieved using <a href="http://square.github.io/picasso/">Picasso</a> and trailer thumbnail is retrieved using <a href="https://developers.google.com/youtube/android/player/">Youtube Android API</a>. </p>
 
-<h2>
+    <h2>
 <a id="caching-and-offline-use" class="anchor" href="#caching-and-offline-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>Caching and Offline Use</h2>
 
-<p>The app saves movie details, genres, trailer address, reviews and favourites in the SQLite database on the device. Movie poster image and backdrop image are cached on the device using OKHttp. So as long as the data are retrieved once, the app can still show saved/cached data and work in an offline mode.</p>
+    <p>The app saves movie details, genres, trailer address, reviews and favourites in the SQLite database on the device. Movie poster image and backdrop image are cached on the device using OKHttp. So as long as the data are retrieved once, the app can still show saved/cached data and work in an offline mode.</p>
 
-<h2>
+    <h2>
 <a id="playing-trailers" class="anchor" href="#playing-trailers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Playing Trailers</h2>
 
-<p>When Youtube Android app is installed on the device, the app uses <a href="https://developers.google.com/youtube/android/player/">Youtube Android API</a> to invoke Youtube app for playing trailers. If the Youtube app is not available on the device, the app loads the Youtube video URL in a web browser.</p>
+    <p>When Youtube Android app is installed on the device, the app uses <a href="https://developers.google.com/youtube/android/player/">Youtube Android API</a> to invoke Youtube app for playing trailers. If the Youtube app is not available on the device, the app loads the Youtube video URL in a web browser.</p>
 
-<h2>
+    <h2>
 <a id="data-schema" class="anchor" href="#data-schema" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Schema</h2>
 
-<p>The diagram shows the data schema of the app's SQLite database.</p>
+    <p>The diagram shows the data schema of the app's SQLite database.</p>
 
-<p><img src="content_provider_generator/popular-movies-db.png?raw=true" alt="Alt text" title="Database Schema"></p>
+    <p><img src="https://raw.githubusercontent.com/frank-tan/Popular-Movies/master/content_provider_generator/popular-movies-db.png" alt="Database Schema" title="Database Schema"></p>
 
-<p>The app is developed for <a href="https://www.udacity.com/course/android-developer-nanodegree--nd801">Udacity Android Developer Nanodegree</a>.</p>
+    <footer class="site-footer">
+      <span class="site-footer-owner"><a href="https://github.com/frank-tan/Popular-Movies">Popular Movies</a> is developed by <a href="https://github.com/frank-tan">Frank Tan</a> for <a href="https://www.udacity.com/course/android-developer-nanodegree--nd801">Udacity Android Developer Nanodegree</a>.</span>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/frank-tan/Popular-Movies">Popular Movies</a> is maintained by <a href="https://github.com/frank-tan">frank-tan</a>.</span>
+    </footer>
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+  </section>
 
-    </section>
 
-  
-  </body>
+</body>
+
 </html>
