@@ -74,6 +74,7 @@ public class MovieGridAdapter extends CursorAdapter {
                 .placeholder(R.drawable.poster_loading_placeholder)
                 .error(R.drawable.poster_failed_placeholder)
                 .fit()
+                .centerCrop()
                 .into(viewHolder.posterImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -87,6 +88,7 @@ public class MovieGridAdapter extends CursorAdapter {
                                     .placeholder(R.drawable.poster_loading_placeholder)
                                     .error(R.drawable.poster_failed_placeholder)
                                     .fit()
+                                    .centerCrop()
                                     .into(viewHolder.posterImage);
                         }
                     }
