@@ -14,7 +14,7 @@
 <body>
   <section class="page-header">
     <h1 class="project-name">Popular Movies</h1>
-    <h2 class="project-tagline">Discovering the latest popular and top rated movies on your Android devices</h2>
+    <h2 class="project-tagline">Discover the latest popular and top rated movies on your Android devices</h2>
     <a href="https://github.com/frank-tan/Popular-Movies" class="btn">View on GitHub</a>
     <a href="https://github.com/frank-tan/Popular-Movies/zipball/master" class="btn">Download .zip</a>
     <a href="https://github.com/frank-tan/Popular-Movies/tarball/master" class="btn">Download .tar.gz</a>
@@ -25,10 +25,10 @@
 <a id="popular-movies-android-app" class="anchor" href="#popular-movies-android-app" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://frank-tan.github.io/Popular-Movies/">Popular Movies Android App</a>
 </h1>
 
-    <p><code>Popular Movies</code> is an Android app which helps you to discover the latest popular and top rated movies. You can flip through movie posters, check movie details, watch movie trailers, read other people's reviews and create a list of your favourite movies. It is designed and optimised for both Android phones and tablets. </p>
+    <p>Popular Movies is an Android app which helps you to discover the latest popular and top rated movies. You can flip through movie posters, check movie details, watch movie trailers, read other people's reviews and create a list of your favourite movies. It is designed and optimised for both Android phones and tablets. </p>
 
     <h2>
-<a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screenshots</h2>
+<a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screen Design</h2>
 
     <p><img src="https://lh3.googleusercontent.com/3q5YQj9YcHxXh6jLl-itWCmhoMbqZDGH6EIh0KZuhMrpk4uejjQ=w557-h941-no" alt="Phone Grid Screen"></p>
 
@@ -39,10 +39,14 @@
     <h2>
 <a id="build" class="anchor" href="#build" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build</h2>
 
-    <p>The app retrieves movie data from MovieDB and Youtube vedio thumbnail using Youtube API for Android. To build the project, please add the following API key to the environment variable on your build machine.</p>
+    <p>Popular Movies retrieves movie data from <a href="https://www.themoviedb.org/">The Movie Database</a> and Youtube video thumbnails using <a href="https://developers.google.com/youtube/android/player/">Youtube Android API</a> (if Youtube app is available on the device). To build the project, please add the following API keys to the environment variables on your build machine.</p>
 
-    <p>MOVIEDB_API_KEY GOOGLE_API_KEY
-    </p>
+    <ul>
+      <li>MOVIEDB_API_KEY</li>
+      <li>GOOGLE_API_KEY</li>
+    </ul>
+
+    <p>You can get MovieDB API key from <a href="https://www.themoviedb.org/documentation/api">themoviedb.org</a> and Google API key from <a href="https://console.developers.google.com">Google Developers Console</a>.</p>
 
     <h2>
 <a id="data-retrieval-logic" class="anchor" href="#data-retrieval-logic" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Retrieval Logic</h2>
