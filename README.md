@@ -4,15 +4,15 @@
 
 ## Screenshots
 
-![screen](https://lh3.googleusercontent.com/3q5YQj9YcHxXh6jLl-itWCmhoMbqZDGH6EIh0KZuhMrpk4uejjQ=w557-h941-no)
+![Movie Grid Screen](https://github.com/frank-tan/Popular-Movies/blob/gh-pages/images/pm_phone_grid.png?raw=true)
 
-![screen](https://lh3.googleusercontent.com/fjVdzXcmGHuJ3UTcHMXtsTJgffisrfvcWyaeEonYgcsJwwMXrkY=w557-h941-no)
+![Movie Details Screen](https://github.com/frank-tan/Popular-Movies/blob/gh-pages/images/pm_phone_detail.png?raw=true)
 
-![screen](https://lh3.googleusercontent.com/HspBt0JAWCsAH0nH_vfyfdsP93d0FrKRm2c6V6_WBzPKKB6eGak=w1161-h844-no)
+![Tablet Screen](https://github.com/frank-tan/Popular-Movies/blob/gh-pages/images/pm_tablet_land.png?raw=true)
 
 ## Build
 
-The app retrieves movie data from MovieDB and Youtube vedio thumbnail using Youtube API for Android. To build the project, please add the following API key to the environment variable on your build machine.
+The app retrieves movie data from MovieDB and Youtube video thumbnail using Youtube API for Android. To build the project, please add the following API key to the environment variable on your build machine.
 
 MOVIEDB_API_KEY
 GOOGLE_API_KEY
