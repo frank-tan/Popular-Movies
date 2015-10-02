@@ -1,8 +1,21 @@
-# Popular Movies Android App
+# [Popular Movies Android App](http://frank-tan.github.io/Popular-Movies/)
 
 `Popular Movies` is an Android app which helps you to discover the latest popular and top rated movies. You can flip through movie posters, check movie details, watch movie trailers, read other people's reviews and create a list of your favourite movies. It is designed and optimised for both Android phones and tablets. 
 
-This pages documented the technical design of the app. For the functioanl details and screenshots, please visit [Frank's Popular Movies app](http://frank-tan.github.io/Popular-Movies/).
+## Screenshots
+
+![screen](https://lh3.googleusercontent.com/3q5YQj9YcHxXh6jLl-itWCmhoMbqZDGH6EIh0KZuhMrpk4uejjQ=w557-h941-no)
+
+![screen](https://lh3.googleusercontent.com/fjVdzXcmGHuJ3UTcHMXtsTJgffisrfvcWyaeEonYgcsJwwMXrkY=w557-h941-no)
+
+![screen](https://lh3.googleusercontent.com/HspBt0JAWCsAH0nH_vfyfdsP93d0FrKRm2c6V6_WBzPKKB6eGak=w1161-h844-no)
+
+## Build
+
+The app retrieves movie data from MovieDB and Youtube vedio thumbnail using Youtube API for Android. To build the project, please add the following API key to the environment variable on your build machine.
+
+MOVIEDB_API_KEY
+GOOGLE_API_KEY
 
 ## Data Retrieval Logic
 
