@@ -351,3 +351,14 @@ a:hover {
     font-size: 0.9rem;
   }
 }
+
+img.phone-max-width {
+  width: 100%;
+  max-width: 400px;
+}
+
+img.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
