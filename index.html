@@ -5,14 +5,16 @@
   <meta charset="UTF-8">
   <title>Popular Movies by frank-tan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-blue.min.css" />
   <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
   <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
 </head>
 
-<body>
-  <section class="page-header">
+<body class="mdl-color--grey-100">
+  <section class="page-header" data-scroll-speed="4">
     <h1 class="project-name">Popular Movies</h1>
     <h2 class="project-tagline">Discover the latest popular and top rated movies on your Android devices</h2>
     <a href="https://github.com/frank-tan/Popular-Movies" class="btn">View on GitHub</a>
@@ -20,7 +22,7 @@
     <a href="https://github.com/frank-tan/Popular-Movies/tarball/master" class="btn">Download .tar.gz</a>
   </section>
 
-  <section class="main-content">
+  <section class="mdl-card mdl-shadow--4dp main-content card-offset-y">
     <h1>
 <a id="popular-movies-android-app" class="anchor" href="#popular-movies-android-app" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://frank-tan.github.io/Popular-Movies/">Popular Movies Android App</a>
 </h1>
@@ -30,11 +32,14 @@
     <h2>
 <a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screen Design</h2>
 
-    <p><img class="phone-max-width center" src="images/pm_phone_grid.png" alt="Phone Grid Screen"></p>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-phone"><img class="phone-max-width center" src="images/pm_phone_grid.png" alt="Phone Grid Screen"></div>
 
-    <p><img class="phone-max-width center" src="images/pm_phone_detail.png" alt="Phone Detail Screen"></p>
-
-    <p><img class="center" src="images/pm_tablet_land.png" alt="Tablet Screen"></p>
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-phone"><img class="phone-max-width center" src="images/pm_phone_detail.png" alt="Phone Detail Screen"></div>
+    </div>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col"><img class="center" src="images/pm_tablet_land.png" alt="Tablet Screen"></div>
+    </div>
 
     <h2>
 <a id="build" class="anchor" href="#build" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build</h2>
@@ -74,14 +79,18 @@
 
     <p><img class="center" src="https://raw.githubusercontent.com/frank-tan/Popular-Movies/master/content_provider_generator/popular-movies-db.png" alt="Database Schema" title="Database Schema"></p>
 
-    <footer class="site-footer">
-      <span class="site-footer-owner"><a href="https://github.com/frank-tan/Popular-Movies">Popular Movies</a> is developed by <a href="https://github.com/frank-tan">Frank Tan</a> for <a href="https://www.udacity.com/course/android-developer-nanodegree--nd801">Udacity Android Developer Nanodegree</a>.</span>
-
-    </footer>
-
   </section>
 
+  <footer class="mdl-mini-footer ft-footer">
+    <div class="center-section">
+      <a href="https://github.com/frank-tan/Popular-Movies">Popular Movies</a> is developed by <a href="https://github.com/frank-tan">Frank Tan</a> for <a href="https://www.udacity.com/course/android-developer-nanodegree--nd801">Udacity Android Developer Nanodegree</a>
+    </div>
 
+  </footer>
+
+  <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="js/ft-paralax-header.js"></script>
 </body>
 
 </html>
