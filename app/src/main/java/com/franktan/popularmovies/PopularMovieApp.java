@@ -2,16 +2,19 @@ package com.franktan.popularmovies;
 
 import android.app.Application;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 /**
  * Created by tan on 17/09/2015.
  */
-public class Global extends Application {
+public class PopularMovieApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LeakCanary.install(this);
 
         // config Picasso to use OkHttp for image caching
         // This will speed up image loading time and allow offline usage of the app

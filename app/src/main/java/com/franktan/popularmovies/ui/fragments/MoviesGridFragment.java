@@ -1,11 +1,13 @@
 package com.franktan.popularmovies.ui.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -140,9 +142,17 @@ public class MoviesGridFragment extends Fragment implements LoaderManager.Loader
                 if (mListener.isInTwoPaneMode()) {
                     mListener.onMovieItemSelected(movieDBId);
                 } else {
-                    Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                    Activity activity = getActivity();
+                    Intent intent = new Intent(activity, MovieDetailActivity.class);
                     intent.putExtra(Constants.MOVIEDB_ID, movieDBId);
-                    startActivity(intent);
+
+                    if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        ActivityOptionsCompat options = ActivityOptionsCompat.
+                                makeSceneTransitionAnimation(activity, v, activity.getString(R.string.poster_transition_element));
+                        activity.startActivity(intent, options.toBundle());
+                    } else {
+                        activity.startActivity(intent);
+                    }
                 }
             }
         });

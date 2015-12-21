@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/movie_poster_image"
+            android:transitionName="@string/poster_transition_element"
             />
         <CheckBox
             android:layout_width="30dp"

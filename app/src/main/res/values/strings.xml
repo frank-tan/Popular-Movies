@@ -32,5 +32,6 @@
     <string name="no_trailers_available">No trailers available for this movie.</string>
     <string name="share_title">Share</string>
     <string name="play_button">Trailer play button</string>
+    <string name="poster_transition_element">movie_poster_transition_element</string>
 
 </resources>

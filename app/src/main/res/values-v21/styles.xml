@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.ActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/popularmovies_primary_dark</item>
+        <item name="colorPrimary">@color/popularmovies_primary</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+</resources>
