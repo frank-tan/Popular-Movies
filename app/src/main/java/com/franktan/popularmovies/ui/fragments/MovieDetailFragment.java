@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -14,6 +15,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.ShareActionProvider;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -149,7 +151,7 @@ public class MovieDetailFragment
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-        mMovieBackdrop = (ImageView)   view.findViewById(R.id.movie_backdrop);
+        mMovieBackdrop      = (ImageView)   view.findViewById(R.id.movie_backdrop);
         mMoviePoster        = (ImageView)   view.findViewById(R.id.movie_poster);
         mMovieTitle         = (TextView)    view.findViewById(R.id.movie_title);
         mMovieReleaseDate   = (TextView)    view.findViewById(R.id.release_date);
@@ -159,7 +161,38 @@ public class MovieDetailFragment
         mOverview           = (TextView)    view.findViewById(R.id.overview);
         mReviewSection      = (LinearLayout)view.findViewById(R.id.review_section);
         mTrailerSection     = (LinearLayout)view.findViewById(R.id.trailer_section);
-        mFavoriteCheckbox = (CheckBox)    view.findViewById(R.id.favorite_checkbox);
+        mFavoriteCheckbox   = (CheckBox)    view.findViewById(R.id.favorite_checkbox);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    Log.i(Constants.APP_NAME,"onTransitionEnd");
+                    mReviewSection.setVisibility(View.VISIBLE);
+                    mTrailerSection.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onTransitionCancel(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionPause(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionResume(Transition transition) {
+
+                }
+            });
+        }
 
         return view;
     }
