@@ -14,7 +14,7 @@ public class PopularMovieApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
 
         // config Picasso to use OkHttp for image caching
         // This will speed up image loading time and allow offline usage of the app
